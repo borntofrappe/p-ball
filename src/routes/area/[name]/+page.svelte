@@ -11,7 +11,7 @@
 <ul>
   {#each data.catches as pokemon}
     <li>
-      <p>{pokemon.name}</p>
+      <p><a href="/pokemon/{pokemon.name}">{pokemon.name}</a></p>
       <img src={pokemon.src} alt="" width="46" height="30" />
     </li>
   {/each}
