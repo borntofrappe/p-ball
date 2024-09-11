@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 import { DB_PATH } from "$env/static/private";
-import type { Entry, Pokemon, Area, CatchArea, CatchEntry } from "./types";
+import type { Entry, Pokemon, Area, Catch, Location } from "./types";
 
 const db = new Database(DB_PATH);
 
@@ -23,7 +23,7 @@ export const getSearchNames = (): string[] => {
     .all() as string[];
 };
 
-export const getEntryByName = (name: string): Entry => {
+export const getEntry = (name: string): Entry => {
   const entryDB = db
     .prepare(
       `
@@ -87,10 +87,10 @@ export const getEntryOfTheDay = (): Entry => {
     .pluck()
     .get(day) as string;
 
-  return getEntryByName(name);
+  return getEntry(name);
 };
 
-export const getPokemonByName = (name: string): Pokemon | null => {
+export const getPokemon = (name: string): Pokemon | null => {
   const pokemonDB = db
     .prepare(
       `
@@ -114,8 +114,32 @@ export const getPokemonByName = (name: string): Pokemon | null => {
   };
 };
 
-export const getCatchesByEntryName = (entryName: string): CatchArea[] => {
-  const catchAreasDB = db
+export const getArea = (name: string): Area | null => {
+  const areaDB = db
+    .prepare(
+      `
+      SELECT 
+        "name", "img" 
+      FROM 
+        "area" 
+      WHERE 
+        "name" LIKE ?;
+      `
+    )
+    .get(name) as { name: string; img: ArrayBuffer };
+
+  if (areaDB === undefined) {
+    return null;
+  }
+
+  return {
+    name: areaDB.name,
+    src: getImgSrc(areaDB.img),
+  };
+};
+
+export const getLocations = (pokemonName: string): Location[] => {
+  const catchesDB = db
     .prepare(
       `
       SELECT 
@@ -128,14 +152,14 @@ export const getCatchesByEntryName = (entryName: string): CatchArea[] => {
         "entry" = ?;
       `
     )
-    .all(entryName) as Array<{
+    .all(pokemonName) as Array<{
     name: string;
     version: string;
     img: ArrayBuffer;
   }>;
 
-  return catchAreasDB.map((catchAreaDB) => {
-    const { img, name, version } = catchAreaDB;
+  return catchesDB.map((catchDB) => {
+    const { img, name, version } = catchDB;
     return {
       name,
       version,
@@ -144,8 +168,8 @@ export const getCatchesByEntryName = (entryName: string): CatchArea[] => {
   });
 };
 
-export const getLineageByEntryName = (entryName: string): Pokemon[] => {
-  const pokemonDB = db
+export const getLineage = (pokemonName: string): Pokemon[] => {
+  const connections = db
     .prepare(
       `
       SELECT 
@@ -170,10 +194,10 @@ export const getLineageByEntryName = (entryName: string): Pokemon[] => {
         );
       `
     )
-    .all({ name: entryName }) as Array<{ name: string; img: ArrayBuffer }>;
+    .all({ name: pokemonName }) as Array<{ name: string; img: ArrayBuffer }>;
 
-  return pokemonDB.map((pokemonDB) => {
-    const { img, name } = pokemonDB;
+  return connections.map((connection) => {
+    const { img, name } = connection;
     return {
       name,
       src: getImgSrc(img),
@@ -181,32 +205,8 @@ export const getLineageByEntryName = (entryName: string): Pokemon[] => {
   });
 };
 
-export const getAreaByName = (name: string): Area | null => {
-  const areaDB = db
-    .prepare(
-      `
-      SELECT 
-        "name", "img" 
-      FROM 
-        "area" 
-      WHERE 
-        "name" LIKE ?;
-      `
-    )
-    .get(name) as { name: string; img: ArrayBuffer };
-
-  if (areaDB === undefined) {
-    return null;
-  }
-
-  return {
-    name: areaDB.name,
-    src: getImgSrc(areaDB.img),
-  };
-};
-
-export const getCatchesByAreaName = (areaName: string): CatchEntry[] => {
-  const catchEntriesDB = db
+export const getCatches = (areaName: string): Catch[] => {
+  const catchesDB = db
     .prepare(
       `
       SELECT
@@ -224,8 +224,8 @@ export const getCatchesByAreaName = (areaName: string): CatchEntry[] => {
     img: ArrayBuffer;
   }>;
 
-  return catchEntriesDB.map((catchEntryDB) => {
-    const { img, name, version } = catchEntryDB;
+  return catchesDB.map((catchDB) => {
+    const { img, name, version } = catchDB;
     return {
       name,
       version,

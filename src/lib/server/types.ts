@@ -18,13 +18,13 @@ export type Area = {
   src: string;
 };
 
-export type CatchEntry = {
+export type Catch = {
   name: string;
   version: string;
   src: string;
 };
 
-export type CatchArea = {
+export type Location = {
   name: string;
   version: string;
   src: string;

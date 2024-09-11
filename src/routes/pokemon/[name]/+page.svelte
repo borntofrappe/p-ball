@@ -9,20 +9,20 @@
 
 <h2>Areas</h2>
 <ul>
-  {#each data.areas as area}
+  {#each data.locations as location}
     <li>
-      <p><a href="/area/{area.name}">{area.name}</a></p>
-      <img src={area.src} alt="" width="46" height="30" />
+      <p><a href="/area/{location.name}">{location.name}</a></p>
+      <img src={location.src} alt="" width="46" height="30" />
     </li>
   {/each}
 </ul>
 
 <h2>Lineage</h2>
 <ul>
-  {#each data.lineage as relation}
+  {#each data.lineage as connection}
     <li>
-      <p><a href="/pokemon/{relation.name}">{relation.name}</a></p>
-      <img src={relation.src} alt="" width="46" height="30" />
+      <p><a href="/pokemon/{connection.name}">{connection.name}</a></p>
+      <img src={connection.src} alt="" width="46" height="30" />
     </li>
   {/each}
 </ul>
