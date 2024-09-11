@@ -12,7 +12,7 @@
   <ul>
     {#each catches as pokemon}
       <li>
-        <p><a href="/area/{pokemon.name}">{pokemon.name}</a></p>
+        <p><a href="/pokemon/{pokemon.name}">{pokemon.name}</a></p>
         <img src={pokemon.src} alt="" width="46" height="30" />
       </li>
     {/each}
