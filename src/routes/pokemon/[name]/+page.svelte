@@ -8,14 +8,18 @@
 <img src={data.pokemon.src} alt="" width="46" height="30" />
 
 <h2>Areas</h2>
-<ul>
-  {#each data.locations as location}
-    <li>
-      <p><a href="/area/{location.name}">{location.name}</a></p>
-      <img src={location.src} alt="" width="46" height="30" />
-    </li>
-  {/each}
-</ul>
+
+{#each data.versions as [version, areas]}
+  <h3>{version}</h3>
+  <ul>
+    {#each areas as area}
+      <li>
+        <p><a href="/area/{area.name}">{area.name}</a></p>
+        <img src={area.src} alt="" width="46" height="30" />
+      </li>
+    {/each}
+  </ul>
+{/each}
 
 <h2>Lineage</h2>
 <ul>
