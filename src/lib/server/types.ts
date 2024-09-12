@@ -1,3 +1,5 @@
+export type SearchParam = "pokemon" | "area";
+
 export type Entry = {
   no: string;
   name: string;

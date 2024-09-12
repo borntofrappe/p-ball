@@ -1,6 +1,13 @@
 import Database from "better-sqlite3";
 import { DB_PATH } from "$env/static/private";
-import type { Entry, Pokemon, Area, Catch, Location } from "./types";
+import type {
+  SearchParam,
+  Entry,
+  Pokemon,
+  Area,
+  Catch,
+  Location,
+} from "./types";
 
 const db = new Database(DB_PATH);
 
@@ -8,19 +15,32 @@ const getImgSrc = (arrayBuffer: ArrayBuffer): string => {
   return `data:image/png;base64,${Buffer.from(arrayBuffer).toString("base64")}`;
 };
 
-export const getSearchNames = (): string[] => {
-  return db
+export const getSearchNames = () => {
+  const searchNames = db
     .prepare(
       `
       SELECT 
-        "name" FROM "entry"
+        "name", 'pokemon' AS "param" 
+      FROM 
+        "entry"
       UNION
       SELECT 
-        "name" FROM "area";
+        "name", 'area' AS "param" 
+      FROM 
+        "area";
       `
     )
-    .pluck()
-    .all() as string[];
+    .all() as Array<{ name: string; param: SearchParam }>;
+
+  return Object.entries(
+    searchNames.reduce(
+      (acc, { param, name }) => {
+        acc[param].push(name);
+        return acc;
+      },
+      { pokemon: [] as string[], area: [] as string[] }
+    )
+  ) as [SearchParam, string[]][];
 };
 
 export const getEntry = (name: string): Entry => {
