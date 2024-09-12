@@ -9,7 +9,7 @@
 
 <h2>Areas</h2>
 
-{#each data.versions as [version, areas]}
+{#each data.locations as [version, areas]}
   <h3>{version}</h3>
   <ul>
     {#each areas as area}

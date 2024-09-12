@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 import { DB_PATH } from "$env/static/private";
 import type {
   SearchParam,
+  Version,
   Entry,
   Pokemon,
   Area,
@@ -158,7 +159,7 @@ export const getArea = (name: string): Area | null => {
   };
 };
 
-export const getLocations = (pokemonName: string): Location[] => {
+export const getLocations = (pokemonName: string) => {
   const catchesDB = db
     .prepare(
       `
@@ -174,11 +175,11 @@ export const getLocations = (pokemonName: string): Location[] => {
     )
     .all(pokemonName) as Array<{
     name: string;
-    version: string;
+    version: Version;
     img: ArrayBuffer;
   }>;
 
-  return catchesDB.map((catchDB) => {
+  const locations: Location[] = catchesDB.map((catchDB) => {
     const { img, name, version } = catchDB;
     return {
       name,
@@ -186,6 +187,17 @@ export const getLocations = (pokemonName: string): Location[] => {
       src: getImgSrc(img),
     };
   });
+
+  return Object.entries(
+    locations.reduce(
+      (acc, curr) => {
+        const { version, name, src } = curr;
+        acc[version].push({ name, src });
+        return acc;
+      },
+      { Red: [] as Area[], Blue: [] as Area[] }
+    )
+  ) as [Version, Area[]][];
 };
 
 export const getLineage = (pokemonName: string): Pokemon[] => {
@@ -225,7 +237,7 @@ export const getLineage = (pokemonName: string): Pokemon[] => {
   });
 };
 
-export const getCatches = (areaName: string): Catch[] => {
+export const getCatches = (areaName: string) => {
   const catchesDB = db
     .prepare(
       `
@@ -240,11 +252,11 @@ export const getCatches = (areaName: string): Catch[] => {
     )
     .all(areaName) as Array<{
     name: string;
-    version: string;
+    version: Version;
     img: ArrayBuffer;
   }>;
 
-  return catchesDB.map((catchDB) => {
+  const catches: Catch[] = catchesDB.map((catchDB) => {
     const { img, name, version } = catchDB;
     return {
       name,
@@ -252,4 +264,15 @@ export const getCatches = (areaName: string): Catch[] => {
       src: getImgSrc(img),
     };
   });
+
+  return Object.entries(
+    catches.reduce(
+      (acc, curr) => {
+        const { version, name, src } = curr;
+        acc[version].push({ name, src });
+        return acc;
+      },
+      { Red: [] as Pokemon[], Blue: [] as Pokemon[] }
+    )
+  ) as [Version, Pokemon[]][];
 };

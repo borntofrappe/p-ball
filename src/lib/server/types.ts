@@ -1,5 +1,7 @@
 export type SearchParam = "pokemon" | "area";
 
+export type Version = "Red" | "Blue";
+
 export type Entry = {
   no: string;
   name: string;
@@ -22,12 +24,12 @@ export type Area = {
 
 export type Catch = {
   name: string;
-  version: string;
+  version: Version;
   src: string;
 };
 
 export type Location = {
   name: string;
-  version: string;
+  version: Version;
   src: string;
 };
