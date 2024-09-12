@@ -34,7 +34,7 @@
     padding: var(--space-s) var(--space-s);
     border-block-end: var(--border);
     display: grid;
-    grid-template-columns: 1fr minmax(auto, 48ch) 1fr;
+    grid-template-columns: 1fr minmax(auto, var(--size-wrapper)) 1fr;
   }
 
   nav > * {

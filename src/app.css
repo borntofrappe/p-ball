@@ -52,6 +52,7 @@
   --size-nav: clamp(2rem, 1.9322rem + 0.339vi, 2.25rem);
   --size-footer: clamp(3rem, 2.5932rem + 2.0339vw, 4.5rem);
   --size-ribbon: clamp(3rem, 2.8983rem + 0.5085vw, 3.375rem);
+  --size-wrapper: 48ch;
 }
 
 .visually-hidden:not(:focus):not(:active) {
@@ -105,6 +106,14 @@ a:focus-visible {
 b {
   font-weight: 700;
   text-transform: uppercase;
+}
+
+b[data-version="red" i] {
+  color: var(--red);
+}
+
+b[data-version="blue" i] {
+  color: var(--blue);
 }
 
 ::selection {
