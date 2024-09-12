@@ -119,3 +119,196 @@ b[data-version="blue" i] {
 ::selection {
   background: var(--color-selection);
 }
+
+.layout {
+  min-block-size: 100svb;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+nav {
+  color: var(--color-text);
+  background: var(--color-primary);
+  padding: var(--space-s) var(--space-s);
+  border-block-end: var(--border);
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, var(--size-wrapper)) 1fr;
+}
+
+nav > * {
+  grid-column: 2;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav > a > svg {
+  display: block;
+  max-block-size: var(--size-nav);
+  inline-size: auto;
+}
+
+footer {
+  color: var(--color-text);
+  background: var(--color-primary);
+  text-align: center;
+  padding: var(--space-l) var(--space-s);
+  border-block: var(--border);
+}
+
+footer > * + * {
+  margin-block-start: var(--space-s);
+}
+
+footer > svg {
+  display: block;
+  max-block-size: var(--size-footer);
+  margin-inline: auto;
+}
+
+footer > p {
+  max-inline-size: 55ch;
+  margin-inline: auto;
+  font-size: var(--size-step-1);
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+footer {
+  position: relative;
+  border-block-start: var(--border);
+  padding-block-start: calc(var(--space-l) + var(--size-ribbon));
+}
+
+footer::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  inline-size: 100%;
+  block-size: var(--size-ribbon);
+  background: var(--color-primary);
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 1">\<defs><symbol id="banner-outline" viewBox="-46 -46 92 92" x="-0.5" y="-0.5" width="1" height="1"><path fill="currentColor" d="M 23.5 0 24.5 0 A 21 21 0 0 0 3.5 -21 19 19 0 0 1 22.5 0 Z M 31 0 32.5 0 A 29 29 0 0 0 3.5 -29 26 26 0 0 1 29.5 0 Z M 38.5 0 40.5 0 A 37 37 0 0 0 3.5 -37 33 33 0 0 1 36.5 0 ZM -23.5 0 -24.5 0 A 21 21 0 0 0 -3.5 21 19 19 0 0 1 -22.5 0 Z M -31 0 -32.5 0 A 29 29 0 0 0 -3.5 29 26 26 0 0 1 -29.5 0 Z M -38.5 0 -40.5 0 A 37 37 0 0 0 -3.5 37 33 33 0 0 1 -36.5 0 Z" /><path fill="none" stroke="currentColor" stroke-width="3" d="M -44.5 0 A 44.5 44.5 0 0 1 44.5 0 44.5 44.5 0 0 1 -44.5 0 L -16 0 A 16 16 0 0 0 16 0 A 16 16 0 0 0 -16 0 M -10 0 A 10 10 0 0 0 10 0 A 10 10 0 0 0 -10 0 M 16 0 L 44.5 0" /></symbol><pattern id="pattern" viewBox="-0.5 -0.5 2 1" width="2" height="1" patternUnits="userSpaceOnUse"><g style="color: hsl(0 0% 100%)"><use transform="scale(0.8) rotate(50)" href="%23banner-outline" /><use transform="translate(1 0) scale(-1 1) scale(0.8) rotate(50)" href="%23banner-outline" /></g></pattern></defs><rect fill="url(%23pattern)" width="9" height="1" /></svg>'),
+    var(--color-primary);
+  background-position: 50% 50%;
+  background-repeat: repeat-x;
+}
+
+img {
+  display: block;
+  inline-size: 92px;
+  block-size: 60px;
+  inline-size: calc(var(--img-scale, 2) * 46px);
+  block-size: calc(var(--img-scale, 2) * 30px);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+main {
+  max-inline-size: var(--size-wrapper);
+  margin-inline: auto;
+  padding: var(--space-l) var(--space-s);
+}
+
+main > * + * {
+  margin-block-start: var(--space-s);
+}
+
+main > div:not(:first-of-type) {
+  margin-block-start: var(--space-xl);
+}
+
+main header {
+  --img-scale: 5;
+}
+
+main header > img {
+  display: block;
+  margin-inline: auto;
+}
+
+main div > * + * {
+  margin-block-start: var(--gap, var(--space-m));
+}
+
+main div > article {
+  --gap: var(--space-l);
+}
+
+article {
+  --color-text: #3f1f17;
+  --color-primary: #f9b422;
+  --color-background: #f5e99d;
+  --border: 0.2rem solid var(--color-primary);
+  --color-selection: #e3d9ab;
+}
+
+article ::selection {
+  background: var(--color-selection);
+}
+
+article[data-version="red" i] {
+  --color-text: #3f1f17;
+  --color-background: #f5e99d;
+  --color-primary: #e9270d;
+  --color-text-label: #0e0706;
+  --color-selection: #f8c281;
+}
+
+article[data-version="blue" i] {
+  --color-text: #3f1f17;
+  --color-background: #f5e99d;
+  --color-primary: #2c1d5c;
+  --color-text-label: #f0d5f0;
+  --color-selection: #d5d2ad;
+}
+
+article {
+  color: var(--color-text);
+  background: var(--color-background);
+  padding: var(--space-xl) var(--space-l);
+  border: 3px solid var(--color-primary);
+}
+
+article ul {
+  list-style: none;
+  display: flex;
+  gap: var(--space-m);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+article ul li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  text-align: center;
+}
+
+article ul li img {
+  display: block;
+  margin-inline: auto;
+}
+
+article ul li p {
+  max-inline-size: 12ch;
+}
+
+article {
+  position: relative;
+}
+
+article :is(h2, h3) {
+  font-size: var(--size-step-1);
+  position: absolute;
+  inset-inline-start: 5%;
+  inset-block-start: 0;
+  translate: 0 -50%;
+  color: var(--color-text-label, var(--color-text));
+  background: var(--color-primary);
+  padding: var(--space-3xs) var(--space-2xs);
+  line-height: 1;
+}
