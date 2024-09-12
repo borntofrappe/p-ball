@@ -33,6 +33,7 @@
   --white: #ffffff;
   --red: #e9270d;
   --blue: #0e0706;
+  --border: 0.1rem solid var(--white);
   --size-step-0: clamp(1rem, 0.9661rem + 0.1695vi, 1.125rem);
   --size-step-1: clamp(1.125rem, 1.0243rem + 0.5034vi, 1.4963rem);
   --size-step-2: clamp(1.2656rem, 1.0692rem + 0.9822vi, 1.99rem);
@@ -48,6 +49,7 @@
   --space-xl: clamp(3rem, 2.8983rem + 0.5085vi, 3.375rem);
   --space-m-xl: clamp(1.5rem, 0.9915rem + 2.5424vi, 3.375rem);
   --size-header: clamp(4rem, 2.6441rem + 6.7797vw, 9rem);
+  --size-nav: clamp(2rem, 1.9322rem + 0.339vi, 2.25rem);
   --size-footer: clamp(3rem, 2.5932rem + 2.0339vw, 4.5rem);
   --size-ribbon: clamp(3rem, 2.8983rem + 0.5085vw, 3.375rem);
 }
