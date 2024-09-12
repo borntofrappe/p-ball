@@ -126,6 +126,32 @@ b[data-version="blue" i] {
   grid-template-rows: auto 1fr auto;
 }
 
+.layout > header {
+  color: var(--color-text);
+  background: var(--color-primary);
+  text-align: center;
+  padding: var(--space-xl) var(--space-m);
+  border-block-end: var(--border);
+}
+
+.layout > header > * + * {
+  margin-block-start: var(--space-m);
+}
+
+.layout > header > svg {
+  display: block;
+  max-block-size: var(--size-header);
+  margin-inline: auto;
+}
+
+.layout > header p {
+  max-inline-size: 55ch;
+  margin-inline: auto;
+  text-wrap: balance;
+  font-weight: 700;
+  font-size: var(--size-step-2);
+}
+
 nav {
   color: var(--color-text);
   background: var(--color-primary);
