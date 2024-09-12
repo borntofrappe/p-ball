@@ -3,8 +3,13 @@ import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import type { Area } from "$lib/server/types";
 
-export const load: PageServerLoad = ({ params }) => {
-  const pokemon = getPokemon(params.name);
+export const load: PageServerLoad = ({ url }) => {
+  const name = url.searchParams.get("name");
+  if (name === null) {
+    throw error(400, "Search by name");
+  }
+
+  const pokemon = getPokemon(name);
 
   if (pokemon === null) {
     throw error(404, "Pokémon not found");

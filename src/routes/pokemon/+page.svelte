@@ -14,7 +14,7 @@
   <ul>
     {#each areas as area}
       <li>
-        <p><a href="/area/{area.name}">{area.name}</a></p>
+        <p><a href="/area?name={area.name}">{area.name}</a></p>
         <img src={area.src} alt="" width="46" height="30" />
       </li>
     {/each}
@@ -25,7 +25,7 @@
 <ul>
   {#each data.lineage as connection}
     <li>
-      <p><a href="/pokemon/{connection.name}">{connection.name}</a></p>
+      <p><a href="/pokemon?name={connection.name}">{connection.name}</a></p>
       <img src={connection.src} alt="" width="46" height="30" />
     </li>
   {/each}
