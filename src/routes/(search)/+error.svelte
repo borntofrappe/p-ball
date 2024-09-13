@@ -23,3 +23,96 @@
     <p>{@html $page.error?.message}</p>
   </div>
 </div>
+
+<style>
+  .layout {
+    padding-block: var(--space-xl);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .layout > svg {
+    display: block;
+    max-inline-size: 150px;
+    block-size: auto;
+    align-self: end;
+  }
+
+  .layout > div {
+    flex-basis: 0;
+    min-inline-size: 20ch;
+    flex-grow: 999;
+  }
+
+  h1 {
+    font-size: var(--size-step-3);
+    font-family: Kanit, sans-serif;
+    font-weight: 700;
+    display: inline-block;
+    padding-inline: 0.75em var(--space-l);
+    position: relative;
+    z-index: 0;
+  }
+
+  h1::before {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-46 -46 92 92"><g transform="rotate(120)"><path fill="%23f7f7f7" d="M -44.5 0 A 44.5 44.5 0 0 0 44.5 0" /><path fill="%23f20d0d" d="M -44.5 0 A 44.5 44.5 0 0 1 44.5 0" /><circle fill="%23b3b3b3" r="16"/><circle fill="%23f2f2f2" r="10"/><g fill="%23333333"><path d="M 0 0 0 -5 -2 -5 -5 -2 -5 0 Z" /><path opacity="0.3" d="M 23.5 0 24.5 0 A 21 21 0 0 0 3.5 -21 19 19 0 0 1 22.5 0 Z M 31 0 32.5 0 A 29 29 0 0 0 3.5 -29 26 26 0 0 1 29.5 0 Z M 38.5 0 40.5 0 A 37 37 0 0 0 3.5 -37 33 33 0 0 1 36.5 0 ZM -23.5 0 -24.5 0 A 21 21 0 0 0 -3.5 21 19 19 0 0 1 -22.5 0 Z M -31 0 -32.5 0 A 29 29 0 0 0 -3.5 29 26 26 0 0 1 -29.5 0 Z M -38.5 0 -40.5 0 A 37 37 0 0 0 -3.5 37 33 33 0 0 1 -36.5 0 Z" /></g><path fill="none" stroke="%23333333" stroke-width="3" d="M -44.5 0 A 44.5 44.5 0 0 1 44.5 0 44.5 44.5 0 0 1 -44.5 0 L -16 0 A 16 16 0 0 0 16 0 A 16 16 0 0 0 -16 0 M -10 0 A 10 10 0 0 0 10 0 A 10 10 0 0 0 -10 0 M 16 0 L 44.5 0" /></g></svg>');
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 50%;
+    translate: -40% -50%;
+    block-size: 0.9em;
+    inline-size: 0.9em;
+  }
+
+  h1::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-primary);
+    background: oklch(
+      from var(--color-primary) calc(l - 0.03) calc(c + 0.18) h
+    );
+    clip-path: polygon(
+      0% 0%,
+      100% 0%,
+      calc(100% - var(--space-s)) 20%,
+      100% 32%,
+      calc(100% - var(--space-s)) 50%,
+      100% 65%,
+      calc(100% - var(--space-s)) 78%,
+      100% 100%,
+      0% 100%
+    );
+    z-index: -1;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  svg > g {
+    animation: translate 4.2s 0.05s forwards step-start;
+  }
+
+  @keyframes translate {
+    0% {
+      translate: -32px 0px;
+    }
+    20% {
+      translate: 0px 0px;
+    }
+    40% {
+      translate: -32px 0px;
+    }
+    60% {
+      translate: 0px 0px;
+    }
+    87% {
+      translate: -32px 0px;
+    }
+    100% {
+      translate: -64px 0px;
+    }
+  }
+</style>
