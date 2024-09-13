@@ -28,7 +28,7 @@
             <li>
               <img src={pokemon.src} alt="" width="46" height="30" />
               <p>
-                <a href="/pokemon?name={pokemon.name}">{@html pokemon.name}</a>
+                <a href="/pokemon?name={pokemon.name}">{pokemon.name}</a>
               </p>
             </li>
           {/each}

@@ -6,7 +6,7 @@
 
 <div class="flow-l">
   <header class="header-data">
-    <h1 class="visually-hidden">{@html data.pokemon.name}</h1>
+    <h1 class="visually-hidden">{data.pokemon.name}</h1>
     <img src={data.pokemon.src} alt="" width="46" height="30" />
   </header>
 
@@ -14,7 +14,7 @@
     <h2 class="visually-hidden">Locations</h2>
     <div class="flow-l">
       <p>
-        You may catch <b>{@html data.pokemon.name}</b> in the {@html data.locations
+        You may catch <b>{data.pokemon.name}</b> in the {@html data.locations
           .filter(([, areas]) => areas.length > 0)
           .map(([version]) => `<b data-version=${version}>${version}</b>`)
           .join(" and ")} version.
@@ -40,7 +40,7 @@
     <h2 class="visually-hidden">Evolutions</h2>
     <div class="flow-l">
       <p>
-        Remember that <b>{@html data.pokemon.name}</b> is not alone in the dex.
+        Remember that <b>{data.pokemon.name}</b> is not alone in the dex.
       </p>
       <article class="panel-data">
         <h3>EVO</h3>
