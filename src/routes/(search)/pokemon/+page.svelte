@@ -4,13 +4,13 @@
   let { data } = $props();
 </script>
 
-<header>
+<header class="header-data">
   <h1 class="visually-hidden">{@html data.pokemon.name}</h1>
   <img src={data.pokemon.src} alt="" width="46" height="30" />
 </header>
 
 {#if data.locations.filter(([, areas]) => areas.length > 0).length > 0}
-  <div>
+  <div class="flow-l">
     <h2 class="visually-hidden">Locations</h2>
     <p>
       You may catch <b>{@html data.pokemon.name}</b> in the {@html data.locations
@@ -20,7 +20,7 @@
     </p>
 
     {#each data.locations.filter(([, areas]) => areas.length > 0) as [version, areas]}
-      <article data-version={version}>
+      <article class="panel-data" data-version={version}>
         <h3>{version}</h3>
         <ul role="img">
           {#each areas as area}
@@ -36,12 +36,12 @@
 {/if}
 
 {#if data.lineage.length > 0}
-  <div>
+  <div class="flow-l">
     <h2 class="visually-hidden">Evolutions</h2>
     <p>
       Remember that <b>{@html data.pokemon.name}</b> is not alone in the dex.
     </p>
-    <article>
+    <article class="panel-data">
       <h3>EVO</h3>
       <ul role="img">
         {#each data.lineage as connection}
