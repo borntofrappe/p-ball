@@ -21,7 +21,7 @@
     </nav>
   {/if}
 
-  <main class="flow-s">
+  <main>
     {@render children()}
   </main>
 
