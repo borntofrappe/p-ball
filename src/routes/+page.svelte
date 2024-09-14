@@ -4,43 +4,74 @@
   let { data } = $props();
 </script>
 
-<div class="flow-m">
-  <h2 class="heading-ball">Search</h2>
-  <p>
-    Need some help or some inspiration? You just need a
-    <b>name</b>.
-  </p>
-  {#each data.searchNames as [param, values]}
-    <form method="GET" action="/{param}">
-      <h3 id="heading-{param}">{param}</h3>
-      <div>
-        <label>
-          <input
-            aria-labelledby="heading-{param}"
-            list="names-{param}"
-            type="text"
-            name="name"
-            required
-          />
-          <datalist id="names-{param}">
-            {#each values as value}
-              <option {value}></option>
-            {/each}
-          </datalist>
-        </label>
-        <button>
-          <span class="visually-hidden">Search</span>
-          <!-- prettier-ignore -->
-          <svg width="1em" height="1em" viewBox="-4 -4 8 8">
+<div class="flow-xl">
+  <section class="flow-m">
+    <h2 class="heading-ball">Search</h2>
+    <p>
+      Need some help or some inspiration? You just need a
+      <b>name</b>.
+    </p>
+    {#each data.searchNames as [param, values]}
+      <form method="GET" action="/{param}">
+        <h3 id="heading-{param}">{param}</h3>
+        <div>
+          <label>
+            <input
+              aria-labelledby="heading-{param}"
+              list="names-{param}"
+              type="text"
+              name="name"
+              required
+            />
+            <datalist id="names-{param}">
+              {#each values as value}
+                <option {value}></option>
+              {/each}
+            </datalist>
+          </label>
+          <button>
+            <span class="visually-hidden">Search</span>
+            <!-- prettier-ignore -->
+            <svg width="1em" height="1em" viewBox="-4 -4 8 8">
             <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <circle fill="none" cx="-0.75" cy="-0.75" r="2.75" />
               <path d="M 1.6 1.4 C 3.5 2.75 3.5 2.75 3.15 3.15 2.75 3.5 2.75 3.5 1.4 1.6 Z" />
             </g>
           </svg>
-        </button>
-      </div>
-    </form>
-  {/each}
+          </button>
+        </div>
+      </form>
+    {/each}
+  </section>
+
+  <section class="flow-m">
+    <h2 class="heading-ball">Guess</h2>
+    <p>Want to play a little longer? Try the <b>catch of the day</b>.</p>
+
+    <article>
+      <h3>{data.entry.name}</h3>
+      <picture>
+        <img width="46" height="30" src={data.entry.src} alt="" />
+      </picture>
+      <p>NO. {data.entry.no}</p>
+      <p>{data.entry.category}</p>
+      <dl>
+        <dt>
+          <span aria-hidden="true">H</span>
+          <span class="visually-hidden">Height</span>
+        </dt>
+        <dd>{data.entry.height}m</dd>
+        <dt>
+          <span aria-hidden="true">W</span>
+          <span class="visually-hidden">Weight</span>
+        </dt>
+        <dd>{data.entry.weight}kg</dd>
+      </dl>
+      <p>
+        {data.entry.description}
+      </p>
+    </article>
+  </section>
 </div>
 
 <style>
