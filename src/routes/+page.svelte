@@ -162,4 +162,84 @@
   form input:focus {
     outline: var(--focus-outline);
   }
+
+  article {
+    --entry-color: var(--white);
+    --entry-background: var(--black);
+    --entry-panel-color: var(--black);
+    --entry-panel-background: var(--white);
+    --img-scale: 2.8;
+    --entry-size: 36ch;
+
+    font-size: clamp(1.4238rem, 1.3697rem + 0.2704vw, 1.6233rem);
+    font-family: PixelEntry, monospace;
+    max-inline-size: var(--entry-size);
+    margin-inline: auto;
+    inline-size: 100%;
+    color: var(--entry-color);
+    background: var(--entry-background);
+    padding: var(--space-s);
+    display: grid;
+    grid-template-areas: "no ." "image name" "image category" "image stats" "desc desc";
+    grid-template-columns: auto minmax(auto, 1fr);
+    gap: 0.5ex 1ch;
+  }
+
+  article ::selection {
+    background: oklch(from var(--entry-background) calc(l + 0.4) c h);
+  }
+
+  article h3 {
+    grid-area: name;
+    font-size: 1.25em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  article picture {
+    grid-area: image;
+    align-self: center;
+    background: var(--entry-panel-background);
+  }
+
+  article p:nth-of-type(1) {
+    grid-area: no;
+    font-size: 1.1em;
+    letter-spacing: 0.1ch;
+    line-height: 1;
+  }
+
+  article p:nth-of-type(2) {
+    grid-area: category;
+    font-size: 1.25em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  article p:nth-of-type(3) {
+    grid-area: desc;
+    max-inline-size: var(--size-wrapper-s);
+    margin-block-start: 0.9ex;
+    font-size: 1.2em;
+    color: var(--entry-panel-color);
+    background: var(--entry-panel-background);
+    padding: var(--space-xs);
+    text-wrap: pretty;
+    line-height: 1.2;
+  }
+
+  article p:nth-of-type(3)::selection {
+    background: oklch(from var(--entry-panel-background) calc(l - 0.12) c h);
+  }
+
+  article dl {
+    grid-area: stats;
+    letter-spacing: 1px;
+  }
+
+  article dl {
+    display: grid;
+    grid-template-columns: auto minmax(auto, 1fr) auto auto;
+    gap: 0 1ch;
+  }
 </style>
