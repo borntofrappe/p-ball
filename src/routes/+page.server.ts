@@ -12,12 +12,17 @@ export const load: PageServerLoad = () => {
 };
 
 export const actions = {
-  default: async ({ request }) => {
+  guess: async ({ request }) => {
     const formData = await request.formData();
     return {
       guessed:
         formData.get("entry")?.toString().toLowerCase() ===
         formData.get("guess")?.toString().toLowerCase(),
+    };
+  },
+  reveal: () => {
+    return {
+      seen: true,
     };
   },
 } satisfies Actions;

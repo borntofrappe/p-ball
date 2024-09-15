@@ -26,10 +26,11 @@
     }
   });
 
-  const peekEntry = () => {
-    if (guess.src === data.entry.src) return;
-    guess.src = data.entry.src;
-  };
+  $effect(() => {
+    if (form?.seen) {
+      guess.src = data.entry.src;
+    }
+  });
 </script>
 
 <div class="flow-xl">
@@ -101,10 +102,12 @@
     </article>
 
     {#if data.entry.name !== guess.name}
-      <button disabled={data.entry.src === guess.src} onclick={peekEntry}
-        >reveal</button
-      >
-      <form use:enhance method="POST">
+      {#if data.entry.src !== guess.src}
+        <form use:enhance method="POST" action="?/reveal">
+          <button>Reveal</button>
+        </form>
+      {/if}
+      <form use:enhance method="POST" action="?/guess">
         <input type="hidden" name="entry" value={data.entry.name} />
         <div>
           <label>
