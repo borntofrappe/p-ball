@@ -1,7 +1,19 @@
 <script lang="ts">
   import type { PageData } from "./$types";
+  import type { Entry } from "$lib/server/types";
 
   let { data } = $props();
+  const { height, weight, description } = data.entry;
+
+  const guess: Entry = {
+    no: " ",
+    name: " ",
+    category: " ",
+    height: height,
+    weight: weight,
+    description: description,
+    src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAeCAMAAABkHdyoAAAASFBMVEWoqKj4+vj6+Pj4+fj4+Pv5+Pj4+Pr4+Pn4+Piqqqqoq6ipqqmoqqqoqqirqKipqaiqqKqoqaqqqKioqaipqKmpqKioqKqoqKkc5p6VAAABI0lEQVR42qWUjVbDIAyFr8VtqYo6YuD931Sh/KSpdMfjd3bWQG+TNCEFGHs8DkT8Ce1E8JBwFptBBS3m/BvSVIN4D1BHBWfssolf2LgSuWs26OYcPcqwObV2YsTh/a1sFQU629Lwruyn/W0pet9qz+pOWSn1Z/MvOHL/LbbULdt46amqnoy9CUQL2NRkyz7AJxg4S+orrCuRcf/Ra1r/qLP+kK+OMpMuUWFRcjLykZH0sJNkYA6PJyXRZgkdBGIiEMUxPrIdXJt65FSfiNRrkw6nJuHIhdrIhBw6ZPkWqO7btj7b5y+Qs7FbRk8SHNHZWEe24+ExgYeGhiHZR0td7Ll8abqliG3KehkZob+hoxs0upYcMCNEf9QH4FV9DLlYd/ybb9YCDv4mNKpOAAAAAElFTkSuQmCC",
+  };
 </script>
 
 <div class="flow-xl">
@@ -49,12 +61,12 @@
     <p>Want to play a little longer? Try the <b>catch of the day</b>.</p>
 
     <article>
-      <h3>{data.entry.name}</h3>
+      <h3>{guess.name}</h3>
       <picture>
-        <img width="46" height="30" src={data.entry.src} alt="" />
+        <img width="46" height="30" src={guess.src} alt="" />
       </picture>
-      <p>NO. {data.entry.no}</p>
-      <p>{data.entry.category}</p>
+      <p>NO. {guess.no}</p>
+      <p>{guess.category}</p>
       <dl>
         <dt>
           <span aria-hidden="true">H</span>
@@ -170,6 +182,7 @@
     --entry-panel-background: var(--white);
     --img-scale: 2.8;
     --entry-size: 36ch;
+    white-space: preserve;
 
     font-size: clamp(1.4238rem, 1.3697rem + 0.2704vw, 1.6233rem);
     font-family: PixelEntry, monospace;
