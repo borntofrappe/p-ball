@@ -132,12 +132,14 @@
       </div>
     </form>
 
-    <div aria-hidden="true">
-      P.S. If you need a hint you may
+    <div class="line-height-body" aria-hidden="true">
+      P.S. If you can't quite guess you can always
       <form use:enhance class="see" method="POST" action="?/see">
-        <button>take a peek</button>
+        <button disabled={data.entryOfTheDay.src === entry.src}
+          >take a peek</button
+        >
       </form>
-      , just once.
+       at the shadows.
     </div>
   </section>
 </div>
@@ -331,5 +333,27 @@
       [src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAeCAMAAABkHdyoAAAASFBMVEWoqKj4+vj6+Pj4+fj4+Pv5+Pj4+Pr4+Pn4+Piqqqqoq6ipqqmoqqqoqqirqKipqaiqqKqoqaqqqKioqaipqKmpqKioqKqoqKkc5p6VAAABI0lEQVR42qWUjVbDIAyFr8VtqYo6YuD931Sh/KSpdMfjd3bWQG+TNCEFGHs8DkT8Ce1E8JBwFptBBS3m/BvSVIN4D1BHBWfssolf2LgSuWs26OYcPcqwObV2YsTh/a1sFQU629Lwruyn/W0pet9qz+pOWSn1Z/MvOHL/LbbULdt46amqnoy9CUQL2NRkyz7AJxg4S+orrCuRcf/Ra1r/qLP+kK+OMpMuUWFRcjLykZH0sJNkYA6PJyXRZgkdBGIiEMUxPrIdXJt65FSfiNRrkw6nJuHIhdrIhBw6ZPkWqO7btj7b5y+Qs7FbRk8SHNHZWEe24+ExgYeGhiHZR0td7Ll8abqliG3KehkZob+hoxs0upYcMCNEf9QH4FV9DLlYd/ybb9YCDv4mNKpOAAAAAElFTkSuQmCC"]
     ) {
     filter: brightness(0);
+  }
+
+  form.see {
+    display: inline;
+  }
+
+  form.see button {
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+    border: none;
+    color: inherit;
+    background: none;
+  }
+
+  form.see button:not(:disabled) {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  form.see button:hover {
+    text-decoration: none;
   }
 </style>
