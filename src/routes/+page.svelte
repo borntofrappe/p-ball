@@ -99,7 +99,7 @@
       <p>
         {entry.description}
       </p>
-      <output></output>
+      <output class:animate={form?.caught}>{form?.message}</output>
     </article>
 
     <form use:enhance class="catch" method="POST" action="?/catch">
@@ -320,8 +320,9 @@
     text-transform: uppercase;
   }
 
-  article output::before {
-    content: ' ';
+  article output::before,
+  article output::after {
+    content: " ";
   }
 
   article

@@ -14,11 +14,19 @@ export const load: PageServerLoad = () => {
 export const actions = {
   catch: async ({ request }) => {
     const formData = await request.formData();
-    return {
-      caught:
-        formData.get("catch-of-the-day")?.toString().toLowerCase() ===
-        formData.get("catch")?.toString().toLowerCase(),
-    };
+    const name = formData.get("catch-of-the-day")?.toString().toLowerCase();
+
+    if (name && name === formData.get("catch")?.toString().toLowerCase()) {
+      return {
+        caught: true,
+        message: `You caught ${name[0].toUpperCase()}${name.slice(1)}!`,
+      };
+    } else {
+      return {
+        caught: false,
+        message: "Ball saved - Try again",
+      };
+    }
   },
   see: () => {
     return {
