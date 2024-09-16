@@ -108,28 +108,18 @@
         name="catch-of-the-day"
         value={data.entryOfTheDay.name}
       />
-      <div>
-        <label>
-          <input
-            disabled={data.entryOfTheDay.name === entry.name}
-            name="catch"
-            type="text"
-            minlength="3"
-            placeholder="???"
-            required
-          />
-        </label>
-        <button disabled={data.entryOfTheDay.name === entry.name}>
-          <span class="visually-hidden">Guess</span>
-          <!-- prettier-ignore -->
-          <svg width="1em" height="1em" viewBox="-4 -4 8 8">
-            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <circle fill="none" cx="-0.75" cy="-0.75" r="2.75" />
-              <path d="M 1.6 1.4 C 3.5 2.75 3.5 2.75 3.15 3.15 2.75 3.5 2.75 3.5 1.4 1.6 Z" />
-            </g>
-          </svg>
-        </button>
-      </div>
+      <label>
+        <span class="visually-hidden">Who's that entry?</span>
+        <input
+          disabled={data.entryOfTheDay.name === entry.name}
+          name="catch"
+          type="text"
+          minlength="3"
+          placeholder="???"
+          required
+        />
+      </label>
+      <button disabled={data.entryOfTheDay.name === entry.name}>Catch</button>
     </form>
 
     <div class="line-height-body" aria-hidden="true">
@@ -139,7 +129,7 @@
           >take a peek</button
         >
       </form>
-       at the shadows.
+      at the shadows.
     </div>
   </section>
 </div>
@@ -333,6 +323,99 @@
       [src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAeCAMAAABkHdyoAAAASFBMVEWoqKj4+vj6+Pj4+fj4+Pv5+Pj4+Pr4+Pn4+Piqqqqoq6ipqqmoqqqoqqirqKipqaiqqKqoqaqqqKioqaipqKmpqKioqKqoqKkc5p6VAAABI0lEQVR42qWUjVbDIAyFr8VtqYo6YuD931Sh/KSpdMfjd3bWQG+TNCEFGHs8DkT8Ce1E8JBwFptBBS3m/BvSVIN4D1BHBWfssolf2LgSuWs26OYcPcqwObV2YsTh/a1sFQU629Lwruyn/W0pet9qz+pOWSn1Z/MvOHL/LbbULdt46amqnoy9CUQL2NRkyz7AJxg4S+orrCuRcf/Ra1r/qLP+kK+OMpMuUWFRcjLykZH0sJNkYA6PJyXRZgkdBGIiEMUxPrIdXJt65FSfiNRrkw6nJuHIhdrIhBw6ZPkWqO7btj7b5y+Qs7FbRk8SHNHZWEe24+ExgYeGhiHZR0td7Ll8abqliG3KehkZob+hoxs0upYcMCNEf9QH4FV9DLlYd/ybb9YCDv4mNKpOAAAAAElFTkSuQmCC"]
     ) {
     filter: brightness(0);
+  }
+
+  form.catch {
+    --button-color: #1d82a5;
+    --button-background: #ffffff;
+    --button-outline: #1d82a5;
+    --button-color-disabled: #ffffff;
+    --input-color: #000000;
+    --input-background: none;
+
+    font-size: var(--size-step-);
+    padding: var(--space-s) var(--space-xl);
+    max-inline-size: max-content;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-m);
+    position: relative;
+    z-index: 0;
+  }
+
+  form.catch::before,
+  form.catch::after {
+    content: url('data:image/svg+xml,<svg style="--_fill: white; --_stroke: black;" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.4 23 8.8"><g fill="var(--_fill, none)" stroke="var(--_stroke, currentColor)" stroke-linecap="round" stroke-linejoin="round"><path d="M 0 -3.75 A 3.75 3.75 0 0 0 0 3.75 C 8 4 18 2.5 18 0 C 18 -2 8 -4 0 -3.75 Z M 0 -0.5 A 0.5 0.5 0 0 0 0 0.5 0.5 0.5 0 0 0 0 -0.5 Z" /></g></svg>');
+    inline-size: calc(var(--space-xl) * 1);
+    position: absolute;
+    inset-block-end: calc(var(--space-s) + 0.5em);
+    transform: rotate(10deg);
+    transition: transform 0.2s cubic-bezier(0.34, 2, 0.64, 1);
+    z-index: -1;
+  }
+
+  form.catch::before {
+    inset-inline-start: 0;
+  }
+
+  form.catch::after {
+    inset-inline-end: 0;
+    scale: -1 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    form.catch:has(input:valid)::before,
+    form.catch:has(input:valid)::after {
+      transform: rotate(35deg);
+    }
+  }
+
+  form.catch input {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 700;
+    text-align: center;
+    color: var(--input-color);
+    background: var(--input-background);
+    max-inline-size: 12ch;
+    letter-spacing: 0.05ch;
+    padding: 0.5ex 1ch;
+    border: none;
+    box-shadow: 0 1px currentColor;
+  }
+
+  form.catch input:focus {
+    outline: none;
+    box-shadow: 0 2px currentColor;
+  }
+
+  form.catch input::placeholder {
+    letter-spacing: 0.2ch;
+  }
+
+  form.catch button {
+    font-size: inherit;
+    font-family: Kanit, sans-serif;
+    font-weight: 700;
+    color: var(--button-color);
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill-opacity="0.35" fill="%231d82a5" viewBox="0 0 1 1"><rect width="0.5" height="0.5" /><rect x="0.5" y="0.5" width="0.5" height="0.5" /></svg>'),
+      var(--button-background);
+    background-size: 5%;
+    border: none;
+    padding: 0 var(--space-xs);
+    line-height: 1.25;
+    letter-spacing: 0.1ch;
+    text-transform: uppercase;
+  }
+
+  form.catch button:disabled {
+    color: var(--button-color-disabled);
+  }
+
+  form.catch button:focus-visible {
+    outline: 2px solid currentColor;
   }
 
   form.see {
