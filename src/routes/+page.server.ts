@@ -3,24 +3,24 @@ import type { PageServerLoad, Actions } from "./$types";
 
 export const load: PageServerLoad = () => {
   const searchNames = getSearchNames();
-  const entry = getEntryOfTheDay();
+  const entryOfTheDay = getEntryOfTheDay();
 
   return {
     searchNames,
-    entry,
+    entryOfTheDay,
   };
 };
 
 export const actions = {
-  guess: async ({ request }) => {
+  catch: async ({ request }) => {
     const formData = await request.formData();
     return {
-      guessed:
-        formData.get("entry")?.toString().toLowerCase() ===
-        formData.get("guess")?.toString().toLowerCase(),
+      caught:
+        formData.get("catch-of-the-day")?.toString().toLowerCase() ===
+        formData.get("catch")?.toString().toLowerCase(),
     };
   },
-  reveal: () => {
+  see: () => {
     return {
       seen: true,
     };

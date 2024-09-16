@@ -5,8 +5,8 @@
 
   let { data, form } = $props();
 
-  const { height, weight, description } = data.entry;
-  const guess: Entry = $state({
+  const { height, weight, description } = data.entryOfTheDay;
+  const entry: Entry = $state({
     no: " ",
     name: " ",
     category: " ",
@@ -17,18 +17,18 @@
   });
 
   $effect(() => {
-    if (form?.guessed) {
-      const { no, name, category, src } = data.entry;
-      guess.no = no;
-      guess.name = name;
-      guess.category = category;
-      guess.src = src;
+    if (form?.caught) {
+      const { no, name, category, src } = data.entryOfTheDay;
+      entry.no = no;
+      entry.name = name;
+      entry.category = category;
+      entry.src = src;
     }
   });
 
   $effect(() => {
     if (form?.seen) {
-      guess.src = data.entry.src;
+      entry.src = data.entryOfTheDay.src;
     }
   });
 </script>
@@ -41,7 +41,7 @@
       <b>name</b>.
     </p>
     {#each data.searchNames as [param, values]}
-      <form method="GET" action="/{param}">
+      <form class="search" method="GET" action="/{param}">
         <h3 id="heading-{param}">{param}</h3>
         <div>
           <label>
@@ -78,54 +78,67 @@
     <p>Want to play a little longer? Try the <b>catch of the day</b>.</p>
 
     <article>
-      <h3>{guess.name}</h3>
+      <h3>{entry.name}</h3>
       <picture>
-        <img width="46" height="30" src={guess.src} alt={guess.name} />
+        <img width="46" height="30" src={entry.src} alt={entry.name} />
       </picture>
-      <p>NO. {guess.no}</p>
-      <p>{guess.category}</p>
+      <p>NO. {entry.no}</p>
+      <p>{entry.category}</p>
       <dl>
         <dt>
           <span aria-hidden="true">H</span>
           <span class="visually-hidden">Height</span>
         </dt>
-        <dd>{data.entry.height}m</dd>
+        <dd>{entry.height}m</dd>
         <dt>
           <span aria-hidden="true">W</span>
           <span class="visually-hidden">Weight</span>
         </dt>
-        <dd>{data.entry.weight}kg</dd>
+        <dd>{entry.weight}kg</dd>
       </dl>
       <p>
-        {data.entry.description}
+        {entry.description}
       </p>
+      <output></output>
     </article>
 
-    {#if data.entry.name !== guess.name}
-      {#if data.entry.src !== guess.src}
-        <form use:enhance method="POST" action="?/reveal">
-          <button>Reveal</button>
-        </form>
-      {/if}
-      <form use:enhance method="POST" action="?/guess">
-        <input type="hidden" name="entry" value={data.entry.name} />
-        <div>
-          <label>
-            <input type="text" name="guess" required />
-          </label>
-          <button>
-            <span class="visually-hidden">Guess</span>
-            <!-- prettier-ignore -->
-            <svg width="1em" height="1em" viewBox="-4 -4 8 8">
+    <form use:enhance class="catch" method="POST" action="?/catch">
+      <input
+        type="hidden"
+        name="catch-of-the-day"
+        value={data.entryOfTheDay.name}
+      />
+      <div>
+        <label>
+          <input
+            disabled={data.entryOfTheDay.name === entry.name}
+            name="catch"
+            type="text"
+            minlength="3"
+            placeholder="???"
+            required
+          />
+        </label>
+        <button disabled={data.entryOfTheDay.name === entry.name}>
+          <span class="visually-hidden">Guess</span>
+          <!-- prettier-ignore -->
+          <svg width="1em" height="1em" viewBox="-4 -4 8 8">
             <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <circle fill="none" cx="-0.75" cy="-0.75" r="2.75" />
               <path d="M 1.6 1.4 C 3.5 2.75 3.5 2.75 3.15 3.15 2.75 3.5 2.75 3.5 1.4 1.6 Z" />
             </g>
           </svg>
-          </button>
-        </div>
+        </button>
+      </div>
+    </form>
+
+    <div aria-hidden="true">
+      P.S. If you need a hint you may
+      <form use:enhance class="see" method="POST" action="?/see">
+        <button>take a peek</button>
       </form>
-    {/if}
+      , just once.
+    </div>
   </section>
 </div>
 
@@ -134,7 +147,7 @@
     font-size: var(--size-step-3);
   }
 
-  form {
+  form.search {
     --heading-color: #e7dfc8;
     --heading-background: #150a06;
     --heading-selection: #8b5546;
@@ -164,7 +177,7 @@
     align-items: center;
   }
 
-  form h3 {
+  form.search h3 {
     display: inline-block;
     font-size: var(--size-step-1);
     text-transform: capitalize;
@@ -175,17 +188,17 @@
     border-radius: 1e5px;
   }
 
-  h3::selection {
+  form.search h3::selection {
     background: var(--heading-selection);
   }
 
-  form div {
+  form.search div {
     display: flex;
     align-items: center;
     gap: var(--space-s);
   }
 
-  form button {
+  form.search button {
     inline-size: var(--button-size);
     block-size: var(--button-size);
     padding: var(--button-padding);
@@ -195,13 +208,13 @@
     background: var(--color-primary);
   }
 
-  form button > svg {
+  form.search button > svg {
     display: block;
     block-size: 100%;
     inline-size: 100%;
   }
 
-  form input {
+  form.search input {
     display: block;
     color: var(--input-color);
     background: var(--input-background);
@@ -213,8 +226,8 @@
     border-radius: var(--border-radius);
   }
 
-  button:focus-visible,
-  form input:focus {
+  form.search button:focus-visible,
+  form.search input:focus {
     outline: var(--focus-outline);
   }
 
@@ -235,8 +248,9 @@
     color: var(--entry-color);
     background: var(--entry-background);
     padding: var(--space-s);
+    padding-block-end: var(--space-3xs);
     display: grid;
-    grid-template-areas: "no ." "image name" "image category" "image stats" "desc desc";
+    grid-template-areas: "no ." "image name" "image category" "image stats" "desc desc" "output output";
     grid-template-columns: auto minmax(auto, 1fr);
     gap: 0.5ex 1ch;
   }
@@ -297,6 +311,17 @@
     display: grid;
     grid-template-columns: auto minmax(auto, 1fr) auto auto;
     gap: 0 1ch;
+  }
+
+  article output {
+    grid-area: output;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  article output::before {
+    content: ' ';
   }
 
   article
