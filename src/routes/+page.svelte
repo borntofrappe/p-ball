@@ -105,6 +105,7 @@
       <output class:animate={data.entryOfTheDay.name === entry.name}>
         {#if data.entryOfTheDay.name === entry.name}
           <span>You caught {entry.name}</span>
+          <span>Jackpot!</span>
         {:else if form?.name}
           <span>Ball saved - Try again</span>
         {/if}
@@ -319,6 +320,55 @@
   article output::before,
   article output::after {
     content: " ";
+  }
+
+  article output.animate {
+    --duration: 10s;
+    --steps: 100;
+    display: block;
+    animation: slide-in-out var(--duration) steps(var(--steps));
+    position: relative;
+  }
+
+  article output.animate > span:nth-child(1) {
+    animation: hide 0.1s var(--duration) step-start forwards;
+  }
+
+  article output.animate > span:nth-child(2) {
+    animation: show 0.1s var(--duration) step-start forwards;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  @keyframes slide-in-out {
+    0% {
+      translate: 100% 0%;
+    }
+    30%,
+    70% {
+      translate: 0% 0%;
+    }
+    100% {
+      translate: -100% 0%;
+    }
+  }
+
+  @keyframes hide {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  @keyframes show {
+    to {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   article
