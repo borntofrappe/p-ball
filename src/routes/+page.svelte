@@ -17,7 +17,10 @@
   });
 
   $effect(() => {
-    if (form?.caught) {
+    if (
+      form?.name &&
+      form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()
+    ) {
       const { no, name, category, src } = data.entryOfTheDay;
       entry.no = no;
       entry.name = name;
@@ -99,20 +102,21 @@
       <p>
         {entry.description}
       </p>
-      <output class:animate={form?.caught}>{form?.message}</output>
+      <output class:animate={data.entryOfTheDay.name === entry.name}>
+        {#if data.entryOfTheDay.name === entry.name}
+          <span>You caught {entry.name}</span>
+        {:else if form?.name}
+          <span>Ball saved - Try again</span>
+        {/if}
+      </output>
     </article>
 
     <form use:enhance class="catch" method="POST" action="?/catch">
-      <input
-        type="hidden"
-        name="catch-of-the-day"
-        value={data.entryOfTheDay.name}
-      />
       <label>
         <span class="visually-hidden">Who's that entry?</span>
         <input
           disabled={data.entryOfTheDay.name === entry.name}
-          name="catch"
+          name="name"
           type="text"
           minlength="3"
           placeholder="???"
