@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P-Ball - Major Outage</title>
+    <meta
+      name="description"
+      content="When everything works, pushing you to play Pokémon Pinball and collect them all."
+    />
+
+    <style>
+      @font-face {
+        font-family: PixelEntry;
+        src: url("./fonts/PixelEntry.woff2");
+        font-weight: 400;
+      }
+
+      @font-face {
+        font-family: "Comic Neue";
+        src: url("./fonts/ComicNeue-Regular.woff2");
+        font-weight: 400;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Comic Neue";
+        src: url("./fonts/ComicNeue-Bold.woff2");
+        font-weight: 700;
+        font-display: swap;
+      }
+
+      :root {
+        --color-selection: #f7d633;
+        --color-text: #150c03;
+        --color-primary: #f9b422;
+        --color-background: #fbf7f2;
+        --white: #ffffff;
+        --black: #000000;
+        --red: #e9270d;
+        --blue: #0e0706;
+        --green: #82c05d;
+        --border: 0.1rem solid var(--white);
+        --size-step-0: clamp(1rem, 0.9661rem + 0.1695vi, 1.125rem);
+        --size-step-1: clamp(1.125rem, 1.0243rem + 0.5034vi, 1.4963rem);
+        --size-step-2: clamp(1.2656rem, 1.0692rem + 0.9822vi, 1.99rem);
+        --size-step-3: clamp(1.4238rem, 1.0921rem + 1.6585vi, 2.6469rem);
+        --size-step-4: clamp(1.6019rem, 1.0817rem + 2.6008vi, 3.52rem);
+        --size-step-5: clamp(1.8019rem, 1.0209rem + 3.9051vi, 4.6819rem);
+        --space-3xs: clamp(0.25rem, 0.2331rem + 0.0847vw, 0.3125rem);
+        --space-2xs: clamp(0.5rem, 0.4831rem + 0.0847vi, 0.5625rem);
+        --space-xs: clamp(0.75rem, 0.7161rem + 0.1695vi, 0.875rem);
+        --space-s: clamp(1rem, 0.9661rem + 0.1695vi, 1.125rem);
+        --space-m: clamp(1.5rem, 1.4492rem + 0.2542vi, 1.6875rem);
+        --space-l: clamp(2rem, 1.9322rem + 0.339vi, 2.25rem);
+        --space-xl: clamp(3rem, 2.8983rem + 0.5085vi, 3.375rem);
+        --space-m-xl: clamp(1.5rem, 0.9915rem + 2.5424vi, 3.375rem);
+        --size-header: clamp(4rem, 2.6441rem + 6.7797vw, 9rem);
+        --size-nav: clamp(2rem, 1.9322rem + 0.339vi, 2.25rem);
+        --size-footer: clamp(3rem, 2.5932rem + 2.0339vw, 4.5rem);
+        --size-ribbon: clamp(3rem, 2.8983rem + 0.5085vw, 3.375rem);
+        --size-wrapper-s: 30ch;
+        --size-wrapper: 52ch;
+      }
+
+      .visually-hidden:not(:focus):not(:active) {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+      }
+
+      .flow-m > * + * {
+        margin-block-start: var(--space-m);
+      }
+
+      .flow-s > * + * {
+        margin-block-start: var(--space-s);
+      }
+
+      .flow-2xs > * + * {
+        margin-block-start: var(--space-2xs);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-block-size: 100svb;
+        font-family: "Comic Neue", sans-serif;
+        font-size: var(--size-step-1);
+        color: var(--color-text);
+        background: var(--color-background);
+      }
+
+      ::selection {
+        background: var(--color-selection);
+      }
+
+      :is(h1, h2, h3) {
+        line-height: 1.1;
+      }
+
+      p {
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        font-weight: 700;
+      }
+
+      a:hover {
+        text-decoration: none;
+      }
+
+      a:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
+
+      b {
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .layout {
+        min-block-size: 100svb;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+      }
+
+      .layout > div {
+        display: grid;
+        place-items: center;
+      }
+
+      nav {
+        color: var(--color-text);
+        background: var(--color-primary);
+        padding: var(--space-s) var(--space-s);
+        border-block-end: var(--border);
+        display: grid;
+        grid-template-columns: 1fr minmax(auto, var(--size-wrapper)) 1fr;
+      }
+
+      nav > * {
+        grid-column: 2;
+      }
+
+      nav a {
+        text-decoration: none;
+      }
+
+      nav > a > svg {
+        display: block;
+        max-block-size: var(--size-nav);
+        inline-size: auto;
+      }
+
+      footer {
+        color: var(--color-text);
+        background: var(--color-primary);
+        text-align: center;
+        padding: var(--space-l) var(--space-s);
+        border-block: var(--border);
+      }
+
+      footer {
+        color: var(--color-text);
+        background: var(--color-primary);
+        text-align: center;
+        padding: var(--space-l) var(--space-s);
+        border-block: var(--border);
+      }
+
+      footer > svg {
+        display: block;
+        max-block-size: var(--size-footer);
+        margin-inline: auto;
+      }
+
+      footer > p {
+        max-inline-size: 55ch;
+        margin-inline: auto;
+        font-size: var(--size-step-1);
+        font-weight: 700;
+        text-wrap: balance;
+      }
+
+      footer {
+        position: relative;
+        border-block-start: var(--border);
+        padding-block-start: calc(var(--space-l) + var(--size-ribbon));
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        inset-inline-start: 0;
+        inset-block-start: 0;
+        inline-size: 100%;
+        block-size: var(--size-ribbon);
+        background: var(--color-primary);
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 1">\<defs><symbol id="banner-outline" viewBox="-46 -46 92 92" x="-0.5" y="-0.5" width="1" height="1"><path fill="currentColor" d="M 23.5 0 24.5 0 A 21 21 0 0 0 3.5 -21 19 19 0 0 1 22.5 0 Z M 31 0 32.5 0 A 29 29 0 0 0 3.5 -29 26 26 0 0 1 29.5 0 Z M 38.5 0 40.5 0 A 37 37 0 0 0 3.5 -37 33 33 0 0 1 36.5 0 ZM -23.5 0 -24.5 0 A 21 21 0 0 0 -3.5 21 19 19 0 0 1 -22.5 0 Z M -31 0 -32.5 0 A 29 29 0 0 0 -3.5 29 26 26 0 0 1 -29.5 0 Z M -38.5 0 -40.5 0 A 37 37 0 0 0 -3.5 37 33 33 0 0 1 -36.5 0 Z" /><path fill="none" stroke="currentColor" stroke-width="3" d="M -44.5 0 A 44.5 44.5 0 0 1 44.5 0 44.5 44.5 0 0 1 -44.5 0 L -16 0 A 16 16 0 0 0 16 0 A 16 16 0 0 0 -16 0 M -10 0 A 10 10 0 0 0 10 0 A 10 10 0 0 0 -10 0 M 16 0 L 44.5 0" /></symbol><pattern id="pattern" viewBox="-0.5 -0.5 2 1" width="2" height="1" patternUnits="userSpaceOnUse"><g style="color: hsl(0 0% 100%)"><use transform="scale(0.8) rotate(50)" href="%23banner-outline" /><use transform="translate(1 0) scale(-1 1) scale(0.8) rotate(50)" href="%23banner-outline" /></g></pattern></defs><rect fill="url(%23pattern)" width="9" height="1" /></svg>'),
+          var(--color-primary);
+        background-position: 50% 50%;
+        background-repeat: repeat-x;
+      }
+
+      main {
+        max-inline-size: var(--size-wrapper);
+        margin-inline: auto;
+        padding: var(--space-xl) var(--space-s);
+        padding-block: var(--space-xl);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2xs);
+      }
+
+      main > div {
+        flex-basis: 0;
+        min-inline-size: 20ch;
+        flex-grow: 999;
+      }
+
+      main > svg {
+        display: block;
+        max-inline-size: 200px;
+        block-size: auto;
+        align-self: end;
+      }
+
+      main h1 {
+        font-family: PixelEntry, monospace;
+        font-weight: 400;
+        font-size: var(--size-step-5);
+      }
+
+      main p {
+        text-wrap: pretty;
+      }
+
+      main svg > g {
+        animation: translate 2s 0.05s steps(2) forwards;
+      }
+
+      @keyframes translate {
+        0% {
+          translate: 0px 0px;
+        }
+        100% {
+          translate: -64px 0px;
+        }
+      }
+
+      main dl {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+      }
+
+      main dt {
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      main code {
+        font-family: PixelEntry, monospace;
+        padding: var(--space-3xs) var(--space-xs);
+        color: var(--white);
+        background: var(--black);
+      }
+
+      main code::selection {
+        background: oklch(from var(--black) calc(l + 0.3) c h);
+      }
+    </style>
+  </head>
+  <body>
+    <svg display="none">
+      <!-- prettier-ignore -->
+      <symbol id="banner" viewBox="-3 -3 79 18.5">
+      <defs>
+        <path id="char-p" d="M 0 12.5 0 0 6 0 A 4 4 0 0 1 6 8 L 0 8" />
+        <path id="char--" d="M 0 6.25 5 6.25" />
+        <path id="char-i" d="M 0 12.5 0 0" />
+        <path id="char-b" d="M 0 12.5 0 0 6 0 A 3.125 3.125 0 0 1 6 6.25 L 0 6.25 6 6.25 A 3.125 3.125 0 0 1 6 12.5 L 0 12.5" />
+        <path id="char-a" d="M 0 12.5 5 0 10 12.5 M 2.5 10 7.5 10" />
+        <path id="char-+" d="M 0 2 A 2 2 0 0 1 0 -2 L 8 -2 C 8.5 -2 9 -1.25 7.5 -0.75 C 4 0.75 1.5 2 0 2" />
+        <use id="char-+-back" fill="#d9ded4" stroke="#d9ded4" stroke-width="2" href="#char-+" />
+        <g id="char-+-front">
+          <use fill="#d9ded4" stroke="#3f1f17" stroke-width="0.5" href="#char-+" />
+          <path fill="#dd1f07" stroke="none" stroke-width="0.5" d="M 0 0 3.5 -1.3 0 -1.3" />
+          <path fill="none" stroke="#3f1f17" stroke-width="0.5" d="M 0 0 3.5 -1.05" />
+          <circle fill="#d9ded4" stroke="#3f1f17" stroke-width="0.6" r="1" />
+        </g>
+      </defs>
+      <g fill="none" stroke="#3f1f17" stroke-linecap="round" stroke-linejoin="round">
+        <g transform="translate(66.5 0)">
+          <use stroke="#d9ded4" stroke-width="6" href="#char-i" />
+          <use transform="translate(0 12.5) rotate(-5)" href="#char-+-back" />
+          <use transform="translate(0 0.2)" stroke="##3f1f17" stroke-width="4.4" href="#char-i" />
+          <use stroke="#dd1f07" stroke-width="3.75" href="#char-i" />
+          <use transform="translate(0 12.5) rotate(-5)" href="#char-+-front" />
+        </g>
+        <g transform="translate(55 0)">
+          <use stroke="#d9ded4" stroke-width="6" href="#char-i" />
+          <use transform="translate(0 12.5) rotate(-10)" href="#char-+-back" />
+          <use transform="translate(0 0.2)" stroke="##3f1f17" stroke-width="4.4" href="#char-i" />
+          <use stroke="#dd1f07" stroke-width="3.75" href="#char-i" />
+          <use transform="translate(0 12.5) rotate(-10)" href="#char-+-front" />
+        </g>
+        <g transform="translate(39.5 0)">
+          <use stroke="#d9ded4" stroke-width="6" href="#char-a" />
+          <use transform="translate(0 0.2)" stroke="##3f1f17" stroke-width="4.4" href="#char-a" />
+          <use stroke="#dd1f07" stroke-width="3.75" href="#char-a" />
+        </g>
+        <g transform="translate(25.5 0)">
+          <use stroke="#d9ded4" stroke-width="6" href="#char-b" />
+          <use transform="translate(0 0.2)" stroke="##3f1f17" stroke-width="4.4" href="#char-b" />
+          <use stroke="#dd1f07" stroke-width="3.75" href="#char-b" />
+        </g>
+        <g transform="translate(15 0)">
+          <use stroke="#d9ded4" stroke-width="6" href="#char--" />
+          <use transform="translate(0 0.2)" stroke="##3f1f17" stroke-width="4.4" href="#char--" />
+          <use stroke="#dd1f07" stroke-width="3.75" href="#char--" />
+        </g>
+        <use stroke="#d9ded4" stroke-width="6" href="#char-p" />
+        <use transform="translate(0 0.2)" stroke="##3f1f17" stroke-width="4.4" href="#char-p" />
+        <use stroke="#dd1f07" stroke-width="3.75" href="#char-p" />	
+      </g>
+    </symbol>
+    </svg>
+
+    <div class="layout">
+      <nav>
+        <a href="/">
+          <span class="visually-hidden">P-Ball</span>
+          <svg display="block" viewBox="0 0 79 18.5">
+            <use href="#banner" />
+          </svg>
+        </a>
+      </nav>
+      <div>
+        <main class="layout-sidebar">
+          <div class="flow-m">
+            <h1>Bzzt!</h1>
+            <p>This is unexpected and comes as a bit of a shock.</p>
+            <dl class="flow-2xs">
+              <dt>Status code</dt>
+              <dd><code>%sveltekit.status%</code></dd>
+              <dt>Error message</dt>
+              <dd><code>%sveltekit.error.message%</code></dd>
+            </dl>
+            <p>
+              If you are up to it consider filing a bug report on
+              <a
+                href="https://github.com/borntofrappe/p-ball/issues/new?title=Status%20code%20%sveltekit.status%&body=%sveltekit.error.message%&labels=bug"
+                >the GitHub repo</a
+              >.
+            </p>
+          </div>
+          <!-- prettier-ignore -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 32 32" shape-rendering="crispEdges">
+      <g>
+        <path stroke="#000000" d="M11 5h8M45 5h8M9 6h2M19 6h2M43 6h2M53 6h2M7 7h2M21 7h2M41 7h2M55 7h2M76 7h8M6 8h1M23 8h1M40 8h1M57 8h1M74 8h2M84 8h2M5 9h1M24 9h1M39 9h1M58 9h1M72 9h2M86 9h2M5 10h1M24 10h1M39 10h1M58 10h1M71 10h1M88 10h1M4 11h1M25 11h1M38 11h1M59 11h1M70 11h1M89 11h1M4 12h1M25 12h1M38 12h1M59 12h1M70 12h1M89 12h1M3 13h1M11 13h1M17 13h1M26 13h1M37 13h1M46 13h1M52 13h1M60 13h1M69 13h1M90 13h1M3 14h1M6 14h3M12 14h1M16 14h1M19 14h4M26 14h1M37 14h1M41 14h4M47 14h1M51 14h1M55 14h3M60 14h1M69 14h1M90 14h1M3 15h1M6 15h1M9 15h2M15 15h1M18 15h2M22 15h1M26 15h1M37 15h1M41 15h1M44 15h2M48 15h1M53 15h2M57 15h1M60 15h1M68 15h1M91 15h1M3 16h1M6 16h1M9 16h1M11 16h2M15 16h3M19 16h1M22 16h1M26 16h1M37 16h1M41 16h1M44 16h1M46 16h3M51 16h2M54 16h1M57 16h1M60 16h1M68 16h1M91 16h1M3 17h2M7 17h1M12 17h1M16 17h1M21 17h1M25 17h2M37 17h2M42 17h1M47 17h1M51 17h1M56 17h1M59 17h2M68 17h1M77 17h1M83 17h1M91 17h1M3 18h1M5 18h1M8 18h4M17 18h4M24 18h1M26 18h1M37 18h1M39 18h1M43 18h4M52 18h4M58 18h1M60 18h1M68 18h1M75 18h1M78 18h1M82 18h1M85 18h1M91 18h1M4 19h1M6 19h2M22 19h2M25 19h1M38 19h1M40 19h2M56 19h2M59 19h1M68 19h2M76 19h1M78 19h1M84 19h1M90 19h2M4 20h1M8 20h3M19 20h3M25 20h1M38 20h1M42 20h3M53 20h3M59 20h1M68 20h2M73 20h1M77 20h1M83 20h1M87 20h1M90 20h2M5 21h1M11 21h8M24 21h1M39 21h1M45 21h8M58 21h1M69 21h2M74 21h4M83 21h4M89 21h2M5 22h1M24 22h1M39 22h1M58 22h1M69 22h1M71 22h2M87 22h2M90 22h1M6 23h1M23 23h1M40 23h1M57 23h1M70 23h1M73 23h2M85 23h2M89 23h1M7 24h2M21 24h2M41 24h2M55 24h2M70 24h1M75 24h10M89 24h1M9 25h2M19 25h2M43 25h2M53 25h2M71 25h1M88 25h1M11 26h8M45 26h8M72 26h2M86 26h2M74 27h2M84 27h2M76 28h8" />
+        <path stroke="#f80000" d="M11 6h8M45 6h8M9 7h12M43 7h12M7 8h2M11 8h12M41 8h2M45 8h12M76 8h8M6 9h2M12 9h12M40 9h2M46 9h12M74 9h12M6 10h2M12 10h12M40 10h2M46 10h12M72 10h2M76 10h12M5 11h4M11 11h14M39 11h4M45 11h14M71 11h2M77 11h12M5 12h20M39 12h20M71 12h2M77 12h12M4 13h2M8 13h3M12 13h5M19 13h7M38 13h3M43 13h3M47 13h5M54 13h6M70 13h4M76 13h14M4 14h1M9 14h3M13 14h3M18 14h1M23 14h3M38 14h3M45 14h2M48 14h3M53 14h2M58 14h2M70 14h20M4 15h2M11 15h4M17 15h1M23 15h3M38 15h3M46 15h2M49 15h2M52 15h1M58 15h2M69 15h22M4 16h2M13 16h2M23 16h3M38 16h3M49 16h2M58 16h2M69 16h22M5 17h2M13 17h3M22 17h3M39 17h3M48 17h3M57 17h2M69 17h8M78 17h5M85 17h6M6 18h2M12 18h5M21 18h3M40 18h3M47 18h5M56 18h2M69 18h6M76 18h2M79 18h3M84 18h1M86 18h5M8 19h14M42 19h14M70 19h6M77 19h1M79 19h3M83 19h1M85 19h5M11 20h8M45 20h8M70 20h3M74 20h3M78 20h5M84 20h3M88 20h2M71 21h3M78 21h5M87 21h2M73 22h14M75 23h10" />
+        <path stroke="#f88870" d="M9 8h2M43 8h2M8 9h1M11 9h1M42 9h1M45 9h1M8 10h1M11 10h1M42 10h1M45 10h1M74 10h2M9 11h2M43 11h2M73 11h1M76 11h1M73 12h1M76 12h1M6 13h2M18 13h1M41 13h2M53 13h1M74 13h2M5 14h1M17 14h1M52 14h1M16 15h1M51 15h1M84 17h1M25 18h1M59 18h1M83 18h1M24 19h1M58 19h1M82 19h1M22 20h2M56 20h2M19 21h4M53 21h4M18 22h5M51 22h5M17 23h4M51 23h4M87 23h1M16 24h3M43 24h1M50 24h3M85 24h2M13 25h4M45 25h1M48 25h3M82 25h4M74 26h1M81 26h3M76 27h1M79 27h3" />
+        <path stroke="#f8f8f8" d="M9 9h2M43 9h2M9 10h2M43 10h2M74 11h2M74 12h2M7 15h2M20 15h2M42 15h2M55 15h2M7 16h2M10 16h1M18 16h1M20 16h2M42 16h2M45 16h1M53 16h1M55 16h2M8 17h4M17 17h4M43 17h4M52 17h4M4 18h1M38 18h1M5 19h1M39 19h1M5 20h3M24 20h1M39 20h3M58 20h1M6 21h5M23 21h1M40 21h5M57 21h1M6 22h12M23 22h1M40 22h11M56 22h2M70 22h1M89 22h1M7 23h10M21 23h2M41 23h10M55 23h2M71 23h2M88 23h1M9 24h7M19 24h2M44 24h6M53 24h2M71 24h4M87 24h2M11 25h2M17 25h2M46 25h2M51 25h2M72 25h10M86 25h2M75 26h6M84 26h2M77 27h2M82 27h2" />
+      </g>
+    </svg>
+        </main>
+      </div>
+      <footer class="flow-s">
+        <svg display="block" viewBox="0 0 79 18.5">
+          <use href="#banner" />
+        </svg>
+        <p>Made with pure interest by <b>Gabriele Corti</b></p>
+      </footer>
+    </div>
+  </body>
+</html>
