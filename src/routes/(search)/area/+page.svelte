@@ -1,19 +1,23 @@
 <script lang="ts">
   import type { PageData } from "./$types";
 
-  const { data } = $props();
+  let { data } = $props();
 
-  const catches = data.catches.filter(([, pokemon]) => pokemon.length > 0);
+  let catches = $derived(
+    data.catches.filter(([, pokemon]) => pokemon.length > 0)
+  );
 
-  const distinctPokemon = new Set(
-    catches.reduce(
-      (acc, [, pokemon]) => [
-        ...acc,
-        ...pokemon.reduce((a, c) => [...a, c.name], [] as string[]),
-      ],
-      [] as string[]
-    )
-  ).size;
+  let distinctPokemon = $derived(
+    new Set(
+      catches.reduce(
+        (acc, [, pokemon]) => [
+          ...acc,
+          ...pokemon.reduce((a, c) => [...a, c.name], [] as string[]),
+        ],
+        [] as string[]
+      )
+    ).size
+  );
 </script>
 
 <svelte:head>
