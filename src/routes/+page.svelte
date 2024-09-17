@@ -40,7 +40,7 @@
   <section class="flow-m">
     <h2 class="heading-ball">Search</h2>
     <p>
-      Need some help or some inspiration? You just need a
+      Need help? You just need a
       <b>name</b>.
     </p>
     {#each data.searchNames as [param, values]}
@@ -77,8 +77,8 @@
   </section>
 
   <section class="flow-m">
-    <h2 class="heading-ball">Guess</h2>
-    <p>Want to play a little longer? Try the <b>catch of the day</b>.</p>
+    <h2 class="heading-ball">Learn</h2>
+    <p>Looking for inspiration? Discover the <b>catch of the day</b>.</p>
 
     <article>
       <h3>{entry.name}</h3>
@@ -127,15 +127,20 @@
       <button disabled={data.entryOfTheDay.name === entry.name}>Catch</button>
     </form>
 
-    <div class="line-height-body" aria-hidden="true">
-      P.S. If you can't quite guess you can always
-      <form use:enhance class="see" method="POST" action="?/see">
-        <button disabled={data.entryOfTheDay.src === entry.src}
-          >take a peek</button
-        >
-      </form>
-      at the shadows.
-    </div>
+    <form
+      aria-hidden="true"
+      use:enhance
+      class="see"
+      method="POST"
+      action="?/see"
+    >
+      <p>
+        <b>P.S.</b> If you <button disabled={data.entryOfTheDay.src === entry.src}
+          >see the creature</button
+        > you'll be able to appreciate the entry with its rough outlines. You'll
+        nee to catch it to admire the fully-colored picture.
+      </p>
+    </form>
   </section>
 </div>
 
@@ -470,10 +475,6 @@
 
   form.catch button:focus-visible {
     outline: 2px solid currentColor;
-  }
-
-  form.see {
-    display: inline;
   }
 
   form.see button {
