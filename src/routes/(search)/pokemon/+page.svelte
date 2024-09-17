@@ -2,6 +2,10 @@
   import type { PageData } from "./$types";
 
   let { data } = $props();
+
+  let locations = $derived(
+    data.locations.filter(([, areas]) => areas.length > 0)
+  );
 </script>
 
 <svelte:head>
@@ -14,17 +18,16 @@
     <img src={data.pokemon.src} alt="" width="46" height="30" />
   </header>
 
-  {#if data.locations.filter(([, areas]) => areas.length > 0).length > 0}
+  {#if locations.length > 0}
     <h2 class="visually-hidden">Locations</h2>
     <div class="flow-l">
       <p>
-        You may catch <b>{data.pokemon.name}</b> in the {@html data.locations
-          .filter(([, areas]) => areas.length > 0)
+        You may catch <b>{data.pokemon.name}</b> in the {@html locations
           .map(([version]) => `<b data-version=${version}>${version}</b>`)
           .join(" and ")} version.
       </p>
 
-      {#each data.locations.filter(([, areas]) => areas.length > 0) as [version, areas]}
+      {#each locations as [version, areas]}
         <article class="panel-data" data-version={version}>
           <h3>{version}</h3>
           <ul role="img">
@@ -38,13 +41,35 @@
         </article>
       {/each}
     </div>
-  {/if}
 
-  {#if data.lineage.length > 0}
+    {#if data.lineage.length > 0}
+      <h2 class="visually-hidden">Evolutions</h2>
+      <div class="flow-l">
+        <p>
+          Don't forget the evolutionary line. You'll want to play a little
+          longer to complete the dex.
+        </p>
+        <article class="panel-data">
+          <h3>EVO</h3>
+          <ul role="img">
+            {#each data.lineage as connection}
+              <li>
+                <img src={connection.src} alt="" width="46" height="30" />
+                <p>
+                  <a href="/pokemon?name={connection.name}">{connection.name}</a
+                  >
+                </p>
+              </li>
+            {/each}
+          </ul>
+        </article>
+      </div>
+    {/if}
+  {:else if data.lineage.length > 0}
     <h2 class="visually-hidden">Evolutions</h2>
     <div class="flow-l">
       <p>
-        Remember that <b>{data.pokemon.name}</b> is not alone in the dex.
+        The only way to find <b>{data.pokemon.name}</b> is through evolution.
       </p>
       <article class="panel-data">
         <h3>EVO</h3>
