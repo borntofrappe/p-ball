@@ -12,6 +12,22 @@
   <title>P-Ball - {data.pokemon.name}</title>
 </svelte:head>
 
+{#snippet evo(lineage: Array<{name: string, src: string}>)}
+  <article class="panel-data">
+    <h3>EVO</h3>
+    <ul role="img">
+      {#each lineage as connection}
+        <li>
+          <img src={connection.src} alt="" width="46" height="30" />
+          <p>
+            <a href="/pokemon?name={connection.name}">{connection.name}</a>
+          </p>
+        </li>
+      {/each}
+    </ul>
+  </article>
+{/snippet}
+
 <div class="flow-l">
   <header class="header-data">
     <h1 class="visually-hidden">{data.pokemon.name}</h1>
@@ -49,20 +65,7 @@
           Don't forget the evolutionary line. You'll want to play a little
           longer to complete the dex.
         </p>
-        <article class="panel-data">
-          <h3>EVO</h3>
-          <ul role="img">
-            {#each data.lineage as connection}
-              <li>
-                <img src={connection.src} alt="" width="46" height="30" />
-                <p>
-                  <a href="/pokemon?name={connection.name}">{connection.name}</a
-                  >
-                </p>
-              </li>
-            {/each}
-          </ul>
-        </article>
+        {@render evo(data.lineage)}
       </div>
     {/if}
   {:else if data.lineage.length > 0}
@@ -71,19 +74,7 @@
       <p>
         The only way to find <b>{data.pokemon.name}</b> is through evolution.
       </p>
-      <article class="panel-data">
-        <h3>EVO</h3>
-        <ul role="img">
-          {#each data.lineage as connection}
-            <li>
-              <img src={connection.src} alt="" width="46" height="30" />
-              <p>
-                <a href="/pokemon?name={connection.name}">{connection.name}</a>
-              </p>
-            </li>
-          {/each}
-        </ul>
-      </article>
+      {@render evo(data.lineage)}
     </div>
   {/if}
 </div>
