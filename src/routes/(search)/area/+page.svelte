@@ -1,7 +1,19 @@
 <script lang="ts">
   import type { PageData } from "./$types";
 
-  let { data } = $props();
+  const { data } = $props();
+
+  const catches = data.catches.filter(([, pokemon]) => pokemon.length > 0);
+
+  const distinctPokemon = new Set(
+    catches.reduce(
+      (acc, [, pokemon]) => [
+        ...acc,
+        ...pokemon.reduce((a, c) => [...a, c.name], [] as string[]),
+      ],
+      [] as string[]
+    )
+  ).size;
 </script>
 
 <svelte:head>
@@ -16,15 +28,12 @@
 
   <div class="flow-l">
     <p>
-      You reach <b>{data.area.name}</b> in the {@html data.catches
-        .filter(([, pokemon]) => pokemon.length > 0)
+      You reach <b>{data.area.name}</b> in the {@html catches
         .map(([version]) => `<b data-version="${version}">${version}</b>`)
-        .join(" and ")} version. Here you can find {data.catches.reduce(
-        (acc, [, catches]) => acc + catches.length,
-        0
-      )} <b>Pokémon</b>.
+        .join(" and ")} version. Here you can find {distinctPokemon} distinct
+      <b>Pokémon</b>.
     </p>
-    {#each data.catches.filter(([, pokemon]) => pokemon.length > 0) as [version, pokemon]}
+    {#each catches as [version, pokemon]}
       <article class="panel-data" data-version={version}>
         <h2>{version}</h2>
         <ul>
