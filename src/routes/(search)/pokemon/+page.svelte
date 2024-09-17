@@ -4,6 +4,10 @@
   let { data } = $props();
 </script>
 
+<svelte:head>
+  <title>P-Ball - {data.pokemon.name}</title>
+</svelte:head>
+
 <div class="flow-l">
   <header class="header-data">
     <h1 class="visually-hidden">{data.pokemon.name}</h1>

@@ -2,6 +2,10 @@
   import { page } from "$app/stores";
 </script>
 
+<svelte:head>
+  <title>P-Ball - Minor Headache</title>
+</svelte:head>
+
 <dl class="visually-hidden">
   <dt>Status code</dt>
   <dd>{$page.status}</dd>
