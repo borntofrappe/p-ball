@@ -146,8 +146,8 @@
         <b>P.S.</b> If you
         <button disabled={form?.seen || form?.name === data.entryOfTheDay.name}
           >see the creature</button
-        > you'll be able to appreciate the entry with its rough outlines. You'll
-        nee to catch it to admire the fully-colored picture.
+        > you'll be able to appreciate the entry in rough outlines. You'll
+        need to catch it to admire the crisp, colored picture.
       </p>
     </form>
   </section>
