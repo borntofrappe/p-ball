@@ -4,6 +4,7 @@
   import { enhance } from "$app/forms";
 
   let { data, form } = $props();
+  let element: HTMLDivElement | undefined = $state()
 
   const { height, weight, description } = data.entryOfTheDay;
   const entry: Entry = {
@@ -15,6 +16,12 @@
     description,
     src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAeCAMAAABkHdyoAAAASFBMVEWoqKj4+vj6+Pj4+fj4+Pv5+Pj4+Pr4+Pn4+Piqqqqoq6ipqqmoqqqoqqirqKipqaiqqKqoqaqqqKioqaipqKmpqKioqKqoqKkc5p6VAAABI0lEQVR42qWUjVbDIAyFr8VtqYo6YuD931Sh/KSpdMfjd3bWQG+TNCEFGHs8DkT8Ce1E8JBwFptBBS3m/BvSVIN4D1BHBWfssolf2LgSuWs26OYcPcqwObV2YsTh/a1sFQU629Lwruyn/W0pet9qz+pOWSn1Z/MvOHL/LbbULdt46amqnoy9CUQL2NRkyz7AJxg4S+orrCuRcf/Ra1r/qLP+kK+OMpMuUWFRcjLykZH0sJNkYA6PJyXRZgkdBGIiEMUxPrIdXJt65FSfiNRrkw6nJuHIhdrIhBw6ZPkWqO7btj7b5y+Qs7FbRk8SHNHZWEe24+ExgYeGhiHZR0td7Ll8abqliG3KehkZob+hoxs0upYcMCNEf9QH4FV9DLlYd/ybb9YCDv4mNKpOAAAAAElFTkSuQmCC",
   };
+
+  $effect(() => {
+    if(form && element) {
+      element.focus()
+    }
+  })
 </script>
 
 {#snippet entryOfTheDay({ entry, caught } : {entry: Entry, caught?: boolean})}
@@ -95,17 +102,19 @@
     <h2 class="heading-ball">Learn</h2>
     <p>Looking for inspiration? Discover the <b>catch of the day</b>.</p>
 
-    {#if form?.name}
-      {#if form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()}
-        {@render entryOfTheDay({ entry: data.entryOfTheDay, caught: true })}
+    <div bind:this={element} tabindex="-1">
+      {#if form?.name}
+        {#if form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()}
+          {@render entryOfTheDay({ entry: data.entryOfTheDay, caught: true })}
+        {:else}
+          {@render entryOfTheDay({ entry, caught: false })}
+        {/if}
+      {:else if form?.seen}
+        {@render entryOfTheDay({ entry: { ...entry, src: data.entryOfTheDay.src }})}
       {:else}
-        {@render entryOfTheDay({ entry, caught: false })}
+        {@render entryOfTheDay({ entry })}
       {/if}
-    {:else if form?.seen}
-      {@render entryOfTheDay({ entry: { ...entry, src: data.entryOfTheDay.src }})}
-    {:else}
-      {@render entryOfTheDay({ entry })}
-    {/if}
+    </div>
 
     <form use:enhance class="catch" method="POST" action="?/catch">
       <label>
