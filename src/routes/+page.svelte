@@ -6,35 +6,50 @@
   let { data, form } = $props();
 
   const { height, weight, description } = data.entryOfTheDay;
-  const entry: Entry = $state({
+  const entry: Entry = {
     no: " ",
     name: " ",
     category: " ",
-    height: height,
-    weight: weight,
-    description: description,
+    height,
+    weight,
+    description,
     src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAeCAMAAABkHdyoAAAASFBMVEWoqKj4+vj6+Pj4+fj4+Pv5+Pj4+Pr4+Pn4+Piqqqqoq6ipqqmoqqqoqqirqKipqaiqqKqoqaqqqKioqaipqKmpqKioqKqoqKkc5p6VAAABI0lEQVR42qWUjVbDIAyFr8VtqYo6YuD931Sh/KSpdMfjd3bWQG+TNCEFGHs8DkT8Ce1E8JBwFptBBS3m/BvSVIN4D1BHBWfssolf2LgSuWs26OYcPcqwObV2YsTh/a1sFQU629Lwruyn/W0pet9qz+pOWSn1Z/MvOHL/LbbULdt46amqnoy9CUQL2NRkyz7AJxg4S+orrCuRcf/Ra1r/qLP+kK+OMpMuUWFRcjLykZH0sJNkYA6PJyXRZgkdBGIiEMUxPrIdXJt65FSfiNRrkw6nJuHIhdrIhBw6ZPkWqO7btj7b5y+Qs7FbRk8SHNHZWEe24+ExgYeGhiHZR0td7Ll8abqliG3KehkZob+hoxs0upYcMCNEf9QH4FV9DLlYd/ybb9YCDv4mNKpOAAAAAElFTkSuQmCC",
-  });
-
-  $effect(() => {
-    if (
-      form?.name &&
-      form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()
-    ) {
-      const { no, name, category, src } = data.entryOfTheDay;
-      entry.no = no;
-      entry.name = name;
-      entry.category = category;
-      entry.src = src;
-    }
-  });
-
-  $effect(() => {
-    if (form?.seen) {
-      entry.src = data.entryOfTheDay.src;
-    }
-  });
+  };
 </script>
+
+{#snippet entryOfTheDay({ entry, caught } : {entry: Entry, caught?: boolean})}
+  <article>
+    <h3>{entry.name}</h3>
+    <picture>
+      <img width="46" height="30" src={entry.src} alt={entry.name} />
+    </picture>
+    <p>NO. {entry.no}</p>
+    <p>{entry.category}</p>
+    <dl>
+      <dt>
+        <span aria-hidden="true">H</span>
+        <span class="visually-hidden">Height</span>
+      </dt>
+      <dd>{entry.height}m</dd>
+      <dt>
+        <span aria-hidden="true">W</span>
+        <span class="visually-hidden">Weight</span>
+      </dt>
+      <dd>{entry.weight}kg</dd>
+    </dl>
+    <p>
+      {entry.description}
+    </p>
+    <output class:animate={caught}>
+      {#if caught === true}
+        <span>You caught {entry.name}</span>
+        <span>Jackpot!</span>
+      {:else if caught === false}
+        <span>Ball saved - Try again</span>
+      {/if}
+    </output>
+  </article>
+{/snippet}
 
 <div class="flow-xl">
   <section class="flow-m">
@@ -80,43 +95,24 @@
     <h2 class="heading-ball">Learn</h2>
     <p>Looking for inspiration? Discover the <b>catch of the day</b>.</p>
 
-    <article>
-      <h3>{entry.name}</h3>
-      <picture>
-        <img width="46" height="30" src={entry.src} alt={entry.name} />
-      </picture>
-      <p>NO. {entry.no}</p>
-      <p>{entry.category}</p>
-      <dl>
-        <dt>
-          <span aria-hidden="true">H</span>
-          <span class="visually-hidden">Height</span>
-        </dt>
-        <dd>{entry.height}m</dd>
-        <dt>
-          <span aria-hidden="true">W</span>
-          <span class="visually-hidden">Weight</span>
-        </dt>
-        <dd>{entry.weight}kg</dd>
-      </dl>
-      <p>
-        {entry.description}
-      </p>
-      <output class:animate={data.entryOfTheDay.name === entry.name}>
-        {#if data.entryOfTheDay.name === entry.name}
-          <span>You caught {entry.name}</span>
-          <span>Jackpot!</span>
-        {:else if form?.name}
-          <span>Ball saved - Try again</span>
-        {/if}
-      </output>
-    </article>
+    {#if form?.name}
+      {#if form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()}
+        {@render entryOfTheDay({ entry: data.entryOfTheDay, caught: true })}
+      {:else}
+        {@render entryOfTheDay({ entry, caught: false })}
+      {/if}
+    {:else if form?.seen}
+      {@render entryOfTheDay({ entry: { ...entry, src: data.entryOfTheDay.src }})}
+    {:else}
+      {@render entryOfTheDay({ entry })}
+    {/if}
 
     <form use:enhance class="catch" method="POST" action="?/catch">
       <label>
         <span class="visually-hidden">Who's that entry?</span>
         <input
-          disabled={data.entryOfTheDay.name === entry.name}
+          disabled={form?.name?.toLowerCase() ===
+            data.entryOfTheDay.name.toLowerCase()}
           name="name"
           type="text"
           minlength="3"
@@ -124,7 +120,10 @@
           required
         />
       </label>
-      <button disabled={data.entryOfTheDay.name === entry.name}>Catch</button>
+      <button
+        disabled={form?.name?.toLowerCase() ===
+          data.entryOfTheDay.name.toLowerCase()}>Catch</button
+      >
     </form>
 
     <form
@@ -135,7 +134,8 @@
       action="?/see"
     >
       <p>
-        <b>P.S.</b> If you <button disabled={data.entryOfTheDay.src === entry.src}
+        <b>P.S.</b> If you
+        <button disabled={form?.seen || form?.name === data.entryOfTheDay.name}
           >see the creature</button
         > you'll be able to appreciate the entry with its rough outlines. You'll
         nee to catch it to admire the fully-colored picture.
