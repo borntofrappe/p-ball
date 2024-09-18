@@ -266,6 +266,7 @@
     font-size: 1.25em;
     text-transform: uppercase;
     line-height: 1;
+    font-weight: 400;
   }
 
   article picture {
