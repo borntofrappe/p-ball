@@ -36,6 +36,7 @@
     min-block-size: 100svb;
     display: grid;
     grid-template-rows: auto 1fr auto;
+  --border: 0.1rem solid var(--white);
   }
 
   header {

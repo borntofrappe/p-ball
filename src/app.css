@@ -1,20 +1,21 @@
 :root {
-  --color-selection: #f7d633;
   --color-text: #150c03;
   --color-primary: #f9b422;
   --color-background: #fbf7f2;
+  --color-selection: #f7d633;
   --white: #ffffff;
   --black: #000000;
   --red: #e9270d;
   --blue: #0e0706;
   --green: #82c05d;
-  --border: 0.1rem solid var(--white);
+
   --size-step-0: clamp(1rem, 0.9661rem + 0.1695vi, 1.125rem);
   --size-step-1: clamp(1.125rem, 1.0243rem + 0.5034vi, 1.4963rem);
   --size-step-2: clamp(1.2656rem, 1.0692rem + 0.9822vi, 1.99rem);
   --size-step-3: clamp(1.4238rem, 1.0921rem + 1.6585vi, 2.6469rem);
   --size-step-4: clamp(1.6019rem, 1.0817rem + 2.6008vi, 3.52rem);
   --size-step-5: clamp(1.8019rem, 1.0209rem + 3.9051vi, 4.6819rem);
+
   --space-3xs: clamp(0.25rem, 0.2331rem + 0.0847vw, 0.3125rem);
   --space-2xs: clamp(0.5rem, 0.4831rem + 0.0847vi, 0.5625rem);
   --space-xs: clamp(0.75rem, 0.7161rem + 0.1695vi, 0.875rem);
@@ -23,6 +24,7 @@
   --space-l: clamp(2rem, 1.9322rem + 0.339vi, 2.25rem);
   --space-xl: clamp(3rem, 2.8983rem + 0.5085vi, 3.375rem);
   --space-m-xl: clamp(1.5rem, 0.9915rem + 2.5424vi, 3.375rem);
+
   --size-header: clamp(4rem, 2.6441rem + 6.7797vw, 9rem);
   --size-nav: clamp(2rem, 1.9322rem + 0.339vi, 2.25rem);
   --size-footer: clamp(3rem, 2.5932rem + 2.0339vw, 4.5rem);
@@ -67,7 +69,7 @@
 
 body {
   min-block-size: 100svb;
-  font-family: "Comic Neue";
+  font-family: "Comic Neue", cursive;
   font-size: var(--size-step-1);
   color: var(--color-text);
   background: var(--color-background);
@@ -133,8 +135,12 @@ img {
   --color-text: #3f1f17;
   --color-primary: #f9b422;
   --color-background: #f5e99d;
-  --border: 0.2rem solid var(--color-primary);
   --color-selection: #e3d9ab;
+
+  color: var(--color-text);
+  background: var(--color-background);
+  padding: var(--space-xl) var(--space-l);
+  border: 3px solid var(--color-primary);
 }
 
 .panel-data ::selection {
@@ -155,13 +161,6 @@ img {
   --color-primary: #2c1d5c;
   --color-text-label: #f0d5f0;
   --color-selection: #d5d2ad;
-}
-
-.panel-data {
-  color: var(--color-text);
-  background: var(--color-background);
-  padding: var(--space-xl) var(--space-l);
-  border: 3px solid var(--color-primary);
 }
 
 .panel-data ul {
@@ -203,6 +202,16 @@ img {
   background: var(--color-primary);
   padding: var(--space-3xs) var(--space-2xs);
   line-height: 1;
+}
+
+.panel-data[data-justify-heading="center"] :is(h2, h3) {
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+}
+
+.panel-data[data-justify-heading="end"] :is(h2, h3) {
+  inset-inline-start: initial;
+  inset-inline-end: 5%;
 }
 
 .heading-ball {
