@@ -7,7 +7,6 @@
   --black: #000000;
   --red: #e9270d;
   --blue: #0e0706;
-  --green: #82c05d;
 
   --size-step-0: clamp(1rem, 0.9661rem + 0.1695vi, 1.125rem);
   --size-step-1: clamp(1.125rem, 1.0243rem + 0.5034vi, 1.4963rem);

@@ -98,7 +98,7 @@
 </script>
 
 <div class="flow-xl">
-  <section class="flow-m">
+  <section class="flow-l">
     <h2 class="heading-ball">Search</h2>
     <p>
       Need help? You just need a
@@ -141,51 +141,53 @@
     <h2 class="heading-ball">Learn</h2>
     <p>Looking for inspiration? Discover the <b>catch of the day</b>.</p>
 
-    <article bind:this={element} tabindex="-1">
-      <h3>{entry.name}</h3>
-      <picture>
-        <img width="46" height="30" src={entry.src} alt={entry.name} />
-      </picture>
-      <p>NO. {entry.no}</p>
-      <p>{entry.category}</p>
-      <dl>
-        <dt>
-          <span aria-hidden="true">H</span>
-          <span class="visually-hidden">Height</span>
-        </dt>
-        <dd>{entry.height}m</dd>
-        <dt>
-          <span aria-hidden="true">W</span>
-          <span class="visually-hidden">Weight</span>
-        </dt>
-        <dd>{entry.weight}kg</dd>
-      </dl>
-      <p>
-        {entry.description}
-      </p>
-      <output class:animate={form && data.entryOfTheDay.name === entry.name}>
-        {#if data.entryOfTheDay.name === entry.name}
-          <span>You caught {entry.name}</span>
-          <span>Jackpot!</span>
-        {:else if form?.name}
-          <span>Ball saved - Try again</span>
-        {/if}
-      </output>
-    </article>
+    <div>
+      <article bind:this={element} tabindex="-1">
+        <h3>{entry.name}</h3>
+        <picture>
+          <img width="46" height="30" src={entry.src} alt={entry.name} />
+        </picture>
+        <p>NO. {entry.no}</p>
+        <p>{entry.category}</p>
+        <dl>
+          <dt>
+            <span aria-hidden="true">H</span>
+            <span class="visually-hidden">Height</span>
+          </dt>
+          <dd>{entry.height}m</dd>
+          <dt>
+            <span aria-hidden="true">W</span>
+            <span class="visually-hidden">Weight</span>
+          </dt>
+          <dd>{entry.weight}kg</dd>
+        </dl>
+        <p>
+          {entry.description}
+        </p>
+        <output class:animate={form && data.entryOfTheDay.name === entry.name}>
+          {#if data.entryOfTheDay.name === entry.name}
+            <span>You caught {entry.name}</span>
+            <span>Jackpot!</span>
+          {:else if form?.name}
+            <span>Ball saved - Try again</span>
+          {/if}
+        </output>
+      </article>
 
-    <form use:enhance class="catch" method="POST" action="?/catch">
-      <label>
-        <span class="visually-hidden">Who's that entry?</span>
-        <input
-          disabled={data.entryOfTheDay.name === entry.name}
-          name="name"
-          type="text"
-          minlength="3"
-          required
-        />
-      </label>
-      <button disabled={data.entryOfTheDay.name === entry.name}>Catch</button>
-    </form>
+      <form use:enhance class="catch" method="POST" action="?/catch">
+        <label>
+          <span class="visually-hidden">Who's that entry?</span>
+          <input
+            disabled={data.entryOfTheDay.name === entry.name}
+            name="name"
+            type="text"
+            minlength="3"
+            required
+          />
+        </label>
+        <button disabled={data.entryOfTheDay.name === entry.name}>Catch</button>
+      </form>
+    </div>
 
     <form
       aria-hidden="true"
@@ -211,22 +213,27 @@
   }
 
   form.search {
+    --green: #82c05d;
+    --_green: var(--green);
+    --_green: oklch(from var(--green) l calc(c - 0.04) h);
+
     --heading-color: #e7dfc8;
     --heading-background: #150a06;
     --heading-selection: #8b5546;
+
+    --border-radius: var(--space-3xs);
+    --border: 0.5rem solid var(--green);
+    --focus-outline: 0.2rem solid var(--_green);
+
     --button-color: var(--white);
     --button-background: var(--color-primary);
     --button-size: var(--space-l);
     --button-padding: var(--space-2xs);
-    --border-radius: var(--space-3xs);
-    --border: 0.5rem solid var(--green);
-    --_green: var(--green);
-    --_green: oklch(from var(--green) l calc(c - 0.04) h);
+
     --input-color: #150a06;
     --input-background: #ffffff;
     --input-border: 0.1rem solid var(--_green);
     --input-padding: var(--space-2xs) var(--space-s);
-    --focus-outline: 0.2rem solid var(--_green);
 
     background: oklch(from var(--color-background) calc(l - 0.01) c h);
     max-inline-size: var(--size-wrapper-s);
@@ -241,10 +248,9 @@
   }
 
   form.search h3 {
-    display: inline-block;
     font-size: var(--size-step-1);
     text-transform: capitalize;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.08ch;
     color: var(--heading-color);
     background: var(--heading-background);
     padding: var(--space-2xs) var(--space-l);
@@ -262,13 +268,13 @@
   }
 
   form.search button {
+    color: var(--white);
+    background: var(--color-primary);
     inline-size: var(--button-size);
     block-size: var(--button-size);
     padding: var(--button-padding);
     border: none;
     border-radius: var(--border-radius);
-    color: var(--white);
-    background: var(--color-primary);
   }
 
   form.search button > svg {
@@ -279,11 +285,11 @@
 
   form.search input {
     display: block;
-    color: var(--input-color);
-    background: var(--input-background);
     font-family: "Comic Neue";
     font-weight: 700;
     font-size: var(--size-step-0);
+    color: var(--input-color);
+    background: var(--input-background);
     padding: var(--input-padding);
     border: var(--input-border);
     border-radius: var(--border-radius);
@@ -295,21 +301,21 @@
   }
 
   article {
-    --entry-color: var(--white);
-    --entry-background: var(--black);
-    --entry-panel-color: var(--black);
-    --entry-panel-background: var(--white);
+    --color: var(--white);
+    --background: var(--black);
+    --panel-color: var(--black);
+    --panel-background: var(--white);
     --img-scale: 2.8;
-    --entry-size: 36ch;
+    --max-inline-size: 36ch;
     white-space: preserve;
 
     font-size: clamp(1.4238rem, 1.3697rem + 0.2704vw, 1.6233rem);
     font-family: PixelEntry, monospace;
-    max-inline-size: var(--entry-size);
+    max-inline-size: var(--max-inline-size);
     margin-inline: auto;
     inline-size: 100%;
-    color: var(--entry-color);
-    background: var(--entry-background);
+    color: var(--color);
+    background: var(--background);
     padding: var(--space-s);
     padding-block-end: var(--space-3xs);
     display: grid;
@@ -319,56 +325,56 @@
   }
 
   article ::selection {
-    background: oklch(from var(--entry-background) calc(l + 0.4) c h);
+    background: oklch(from var(--background) calc(l + 0.4) c h);
   }
 
   article h3 {
     grid-area: name;
     font-size: 1.25em;
-    text-transform: uppercase;
-    line-height: 1;
     font-weight: 400;
+    line-height: 1;
+    text-transform: uppercase;
   }
 
   article picture {
     grid-area: image;
     align-self: center;
-    background: var(--entry-panel-background);
+    background: var(--panel-background);
   }
 
   article p:nth-of-type(1) {
     grid-area: no;
     font-size: 1.1em;
-    letter-spacing: 0.1ch;
     line-height: 1;
+    letter-spacing: 0.1ch;
   }
 
   article p:nth-of-type(2) {
     grid-area: category;
     font-size: 1.25em;
-    text-transform: uppercase;
     line-height: 1;
+    text-transform: uppercase;
   }
 
   article p:nth-of-type(3) {
     grid-area: desc;
     max-inline-size: var(--size-wrapper-s);
     margin-block-start: 0.9ex;
-    font-size: 1.2em;
-    color: var(--entry-panel-color);
-    background: var(--entry-panel-background);
     padding: var(--space-xs);
-    text-wrap: pretty;
+    color: var(--panel-color);
+    background: var(--panel-background);
+    font-size: 1.2em;
     line-height: 1.2;
+    text-wrap: pretty;
   }
 
   article p:nth-of-type(3)::selection {
-    background: oklch(from var(--entry-panel-background) calc(l - 0.12) c h);
+    background: oklch(from var(--panel-background) calc(l - 0.12) c h);
   }
 
   article dl {
     grid-area: stats;
-    letter-spacing: 1px;
+    letter-spacing: 0.1ch;
   }
 
   article dl {
@@ -378,6 +384,7 @@
   }
 
   article output {
+    display: block;
     grid-area: output;
     line-height: 1;
     text-align: center;
@@ -389,20 +396,22 @@
     content: " ";
   }
 
-  article output > span:nth-last-child(2),
-  article output > span:nth-last-child(2) ~ span {
-    opacity: 0;
-    visibility: hidden;
+  article output > span:nth-child(2) {
     position: absolute;
     inset: 0;
     inline-size: 100%;
     block-size: 100%;
   }
 
+  article output > span:nth-last-child(2),
+  article output > span:nth-last-child(2) ~ span {
+    opacity: 0;
+    visibility: hidden;
+  }
+
   article output.animate {
     --duration: 10s;
     --steps: 100;
-    display: block;
     animation: slide-in-out var(--duration) steps(var(--steps));
     position: relative;
   }
@@ -463,10 +472,10 @@
     --button-background: #ffffff;
     --button-outline: #1d82a5;
     --button-color-disabled: #ffffff;
+
     --input-color: #000000;
     --input-background: none;
 
-    font-size: var(--size-step-);
     padding: var(--space-s) var(--space-xl);
     max-inline-size: max-content;
     margin-inline: auto;
@@ -481,8 +490,8 @@
   form.catch::before,
   form.catch::after {
     content: url('data:image/svg+xml,<svg style="--_fill: white; --_stroke: black;" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.4 23 8.8"><g fill="var(--_fill, none)" stroke="var(--_stroke, currentColor)" stroke-linecap="round" stroke-linejoin="round"><path d="M 0 -3.75 A 3.75 3.75 0 0 0 0 3.75 C 8 4 18 2.5 18 0 C 18 -2 8 -4 0 -3.75 Z M 0 -0.5 A 0.5 0.5 0 0 0 0 0.5 0.5 0.5 0 0 0 0 -0.5 Z" /></g></svg>');
-    inline-size: calc(var(--space-xl) * 1);
     position: absolute;
+    inline-size: calc(var(--space-xl) * 1);
     inset-block-end: calc(var(--space-s) + 0.5em);
     transform: rotate(10deg);
     transition: transform 0.2s cubic-bezier(0.34, 2, 0.64, 1);
@@ -513,7 +522,7 @@
     color: var(--input-color);
     background: var(--input-background);
     max-inline-size: 12ch;
-    letter-spacing: 0.05ch;
+    letter-spacing: 0.08ch;
     padding: 0.5ex 1ch;
     border: none;
     box-shadow: 0 1px currentColor;
@@ -524,23 +533,19 @@
     box-shadow: 0 2px currentColor;
   }
 
-  form.catch input::placeholder {
-    letter-spacing: 0.2ch;
-  }
-
   form.catch button {
     font-size: inherit;
     font-family: Kanit, sans-serif;
     font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.1ch;
+    text-transform: uppercase;
+    padding: 0 var(--space-xs);
     color: var(--button-color);
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill-opacity="0.35" fill="%231d82a5" viewBox="0 0 1 1"><rect width="0.5" height="0.5" /><rect x="0.5" y="0.5" width="0.5" height="0.5" /></svg>'),
       var(--button-background);
     background-size: 5%;
     border: none;
-    padding: 0 var(--space-xs);
-    line-height: 1.25;
-    letter-spacing: 0.1ch;
-    text-transform: uppercase;
   }
 
   form.catch input:disabled {
@@ -562,10 +567,10 @@
   form.see button {
     font-family: inherit;
     font-size: inherit;
-    padding: 0;
-    border: none;
     color: inherit;
     background: none;
+    padding: 0;
+    border: none;
   }
 
   form.see button:not(:disabled) {
