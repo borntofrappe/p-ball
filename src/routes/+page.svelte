@@ -39,9 +39,39 @@
     }
   }
 
+  const day = new Date();
+  const storageKeyCaught = "catch-of-the-day-caught";
+  const storageKeySeen = "catch-of-the-day-seen";
+  const getStorageValue = (date: Date, suffix: string): string => {
+    return `${date.getFullYear()}-${date.getMonth()}-${suffix}`;
+  };
+
+  $effect(() => {
+    if (localStorage) {
+      if (
+        localStorage.getItem(storageKeySeen) ===
+        getStorageValue(day, data.entryOfTheDay.no)
+      ) {
+        updatePicture();
+      }
+
+      if (
+        localStorage.getItem(storageKeyCaught) ===
+        getStorageValue(day, data.entryOfTheDay.no)
+      ) {
+        updateEntry();
+      }
+    }
+  });
+
   $effect(() => {
     if (form?.seen && entry.src !== data.entryOfTheDay.src) {
       updatePicture();
+
+      localStorage.setItem(
+        storageKeySeen,
+        getStorageValue(day, data.entryOfTheDay.no)
+      );
 
       if (element) {
         element.focus();
@@ -53,6 +83,11 @@
     if (form?.name) {
       if (form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()) {
         updateEntry();
+
+        localStorage.setItem(
+          storageKeyCaught,
+          getStorageValue(day, data.entryOfTheDay.no)
+        );
       }
 
       if (element) {
