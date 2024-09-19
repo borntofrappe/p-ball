@@ -4,10 +4,10 @@
   import { enhance } from "$app/forms";
 
   let { data, form } = $props();
-  let element: HTMLDivElement | undefined = $state()
+  let element: HTMLElement | undefined = $state();
 
   const { height, weight, description } = data.entryOfTheDay;
-  const entry: Entry = {
+  const entry: Entry = $state({
     no: " ",
     name: " ",
     category: " ",
@@ -15,48 +15,52 @@
     weight,
     description,
     src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAeCAMAAABkHdyoAAAASFBMVEWoqKj4+vj6+Pj4+fj4+Pv5+Pj4+Pr4+Pn4+Piqqqqoq6ipqqmoqqqoqqirqKipqaiqqKqoqaqqqKioqaipqKmpqKioqKqoqKkc5p6VAAABI0lEQVR42qWUjVbDIAyFr8VtqYo6YuD931Sh/KSpdMfjd3bWQG+TNCEFGHs8DkT8Ce1E8JBwFptBBS3m/BvSVIN4D1BHBWfssolf2LgSuWs26OYcPcqwObV2YsTh/a1sFQU629Lwruyn/W0pet9qz+pOWSn1Z/MvOHL/LbbULdt46amqnoy9CUQL2NRkyz7AJxg4S+orrCuRcf/Ra1r/qLP+kK+OMpMuUWFRcjLykZH0sJNkYA6PJyXRZgkdBGIiEMUxPrIdXJt65FSfiNRrkw6nJuHIhdrIhBw6ZPkWqO7btj7b5y+Qs7FbRk8SHNHZWEe24+ExgYeGhiHZR0td7Ll8abqliG3KehkZob+hoxs0upYcMCNEf9QH4FV9DLlYd/ybb9YCDv4mNKpOAAAAAElFTkSuQmCC",
+  });
+
+  const updatePicture = () => {
+    entry.src = data.entryOfTheDay.src;
   };
 
-  $effect(() => {
-    if(form && element) {
-      element.focus()
-    }
-  })
-</script>
+  const updateEntry = () => {
+    const { no, name, category, src } = data.entryOfTheDay;
+    entry.no = no;
+    entry.name = name;
+    entry.category = category;
+    entry.src = src;
+  };
 
-{#snippet entryOfTheDay({ entry, caught } : {entry: Entry, caught?: boolean})}
-  <article>
-    <h3>{entry.name}</h3>
-    <picture>
-      <img width="46" height="30" src={entry.src} alt={entry.name} />
-    </picture>
-    <p>NO. {entry.no}</p>
-    <p>{entry.category}</p>
-    <dl>
-      <dt>
-        <span aria-hidden="true">H</span>
-        <span class="visually-hidden">Height</span>
-      </dt>
-      <dd>{entry.height}m</dd>
-      <dt>
-        <span aria-hidden="true">W</span>
-        <span class="visually-hidden">Weight</span>
-      </dt>
-      <dd>{entry.weight}kg</dd>
-    </dl>
-    <p>
-      {entry.description}
-    </p>
-    <output class:animate={caught}>
-      {#if caught === true}
-        <span>You caught {entry.name}</span>
-        <span>Jackpot!</span>
-      {:else if caught === false}
-        <span>Ball saved - Try again</span>
-      {/if}
-    </output>
-  </article>
-{/snippet}
+  if (form?.seen && entry.src !== data.entryOfTheDay.src) {
+    updatePicture();
+  }
+
+  if (form?.name) {
+    if (form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()) {
+      updateEntry();
+    }
+  }
+
+  $effect(() => {
+    if (form?.seen && entry.src !== data.entryOfTheDay.src) {
+      updatePicture();
+
+      if (element) {
+        element.focus();
+      }
+    }
+  });
+
+  $effect(() => {
+    if (form?.name) {
+      if (form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()) {
+        updateEntry();
+      }
+
+      if (element) {
+        element.focus();
+      }
+    }
+  });
+</script>
 
 <div class="flow-xl">
   <section class="flow-m">
@@ -102,36 +106,50 @@
     <h2 class="heading-ball">Learn</h2>
     <p>Looking for inspiration? Discover the <b>catch of the day</b>.</p>
 
-    <div bind:this={element} tabindex="-1">
-      {#if form?.name}
-        {#if form.name.toLowerCase() === data.entryOfTheDay.name.toLowerCase()}
-          {@render entryOfTheDay({ entry: data.entryOfTheDay, caught: true })}
-        {:else}
-          {@render entryOfTheDay({ entry, caught: false })}
+    <article bind:this={element} tabindex="-1">
+      <h3>{entry.name}</h3>
+      <picture>
+        <img width="46" height="30" src={entry.src} alt={entry.name} />
+      </picture>
+      <p>NO. {entry.no}</p>
+      <p>{entry.category}</p>
+      <dl>
+        <dt>
+          <span aria-hidden="true">H</span>
+          <span class="visually-hidden">Height</span>
+        </dt>
+        <dd>{entry.height}m</dd>
+        <dt>
+          <span aria-hidden="true">W</span>
+          <span class="visually-hidden">Weight</span>
+        </dt>
+        <dd>{entry.weight}kg</dd>
+      </dl>
+      <p>
+        {entry.description}
+      </p>
+      <output class:animate={form && data.entryOfTheDay.name === entry.name}>
+        {#if data.entryOfTheDay.name === entry.name}
+          <span>You caught {entry.name}</span>
+          <span>Jackpot!</span>
+        {:else if form?.name}
+          <span>Ball saved - Try again</span>
         {/if}
-      {:else if form?.seen}
-        {@render entryOfTheDay({ entry: { ...entry, src: data.entryOfTheDay.src }})}
-      {:else}
-        {@render entryOfTheDay({ entry })}
-      {/if}
-    </div>
+      </output>
+    </article>
 
     <form use:enhance class="catch" method="POST" action="?/catch">
       <label>
         <span class="visually-hidden">Who's that entry?</span>
         <input
-          disabled={form?.name?.toLowerCase() ===
-            data.entryOfTheDay.name.toLowerCase()}
+          disabled={data.entryOfTheDay.name === entry.name}
           name="name"
           type="text"
           minlength="3"
           required
         />
       </label>
-      <button
-        disabled={form?.name?.toLowerCase() ===
-          data.entryOfTheDay.name.toLowerCase()}>Catch</button
-      >
+      <button disabled={data.entryOfTheDay.name === entry.name}>Catch</button>
     </form>
 
     <form
@@ -143,10 +161,10 @@
     >
       <p>
         <b>P.S.</b> If you
-        <button disabled={form?.seen || form?.name === data.entryOfTheDay.name}
+        <button disabled={data.entryOfTheDay.src === entry.src}
           >see the creature</button
-        > you'll be able to appreciate the entry in rough outlines. You'll
-        need to catch it to admire the crisp, colored picture.
+        > you'll be able to appreciate the entry in rough outlines. You'll need to
+        catch it to admire the crisp, colored picture.
       </p>
     </form>
   </section>
@@ -477,7 +495,7 @@
     letter-spacing: 0.1ch;
     text-transform: uppercase;
   }
-  
+
   form.catch input:disabled {
     opacity: 0;
     visibility: hidden;
@@ -485,7 +503,7 @@
     transition-duration: 0.08s;
     transition-timing-function: ease-in;
   }
-  
+
   form.catch button:disabled {
     color: var(--button-color-disabled);
   }
