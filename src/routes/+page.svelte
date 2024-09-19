@@ -125,7 +125,6 @@
           name="name"
           type="text"
           minlength="3"
-          placeholder="???"
           required
         />
       </label>
@@ -478,7 +477,15 @@
     letter-spacing: 0.1ch;
     text-transform: uppercase;
   }
-
+  
+  form.catch input:disabled {
+    opacity: 0;
+    visibility: hidden;
+    transition-property: opacity, visibility;
+    transition-duration: 0.08s;
+    transition-timing-function: ease-in;
+  }
+  
   form.catch button:disabled {
     color: var(--button-color-disabled);
   }
