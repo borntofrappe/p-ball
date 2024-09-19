@@ -389,6 +389,16 @@
     content: " ";
   }
 
+  article output > span:nth-last-child(2),
+  article output > span:nth-last-child(2) ~ span {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
   article output.animate {
     --duration: 10s;
     --steps: 100;
@@ -398,6 +408,8 @@
   }
 
   article output.animate > span:nth-child(1) {
+    opacity: 1;
+    visibility: visible;
     animation: hide 0.1s var(--duration) step-start forwards;
   }
 
