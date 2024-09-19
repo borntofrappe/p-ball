@@ -37,10 +37,14 @@
         .join(" and ")} version. Here you can find {distinctPokemon} distinct
       <b>Pokémon</b>.
     </p>
-    {#each catches as [version, pokemon]}
-      <article class="panel-data" data-version={version}>
+    {#each catches as [version, pokemon], i}
+      <article
+        class="panel-data"
+        data-version={version}
+        data-justify-heading={i % 2 !== 0 ? "" : "end"}
+      >
         <h2>{version}</h2>
-        <ul>
+        <ul role="list">
           {#each pokemon as pokemon}
             <li>
               <img src={pokemon.src} alt="" width="46" height="30" />

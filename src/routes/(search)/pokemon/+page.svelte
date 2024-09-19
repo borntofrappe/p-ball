@@ -12,22 +12,6 @@
   <title>P-Ball - {data.pokemon.name}</title>
 </svelte:head>
 
-{#snippet evo(lineage: Array<{name: string, src: string}>)}
-  <article class="panel-data">
-    <h3>EVO</h3>
-    <ul role="img">
-      {#each lineage as connection}
-        <li>
-          <img src={connection.src} alt="" width="46" height="30" />
-          <p>
-            <a href="/pokemon?name={connection.name}">{connection.name}</a>
-          </p>
-        </li>
-      {/each}
-    </ul>
-  </article>
-{/snippet}
-
 <div class="flow-l">
   <header class="header-data">
     <h1 class="visually-hidden">{data.pokemon.name}</h1>
@@ -42,9 +26,12 @@
           .map(([version]) => `<b data-version=${version}>${version}</b>`)
           .join(" and ")} version.
       </p>
-
-      {#each locations as [version, areas]}
-        <article class="panel-data" data-version={version}>
+      {#each locations as [version, areas], i}
+        <article
+          class="panel-data"
+          data-version={version}
+          data-justify-heading={i % 2 === 0 ? "" : "end"}
+        >
           <h3>{version}</h3>
           <ul role="img">
             {#each areas as area}
@@ -78,3 +65,20 @@
     </div>
   {/if}
 </div>
+
+{#snippet evo(lineage: Array<{name: string, src: string}>)}
+  <article class="panel-data" data-justify-heading="center">
+    <h3>EVO</h3>
+    <ul role="img">
+      {#each lineage as connection}
+        <li>
+          <img src={connection.src} alt="" width="46" height="30" />
+          <p>
+            <a href="/pokemon?name={connection.name}">{connection.name}</a>
+          </p>
+        </li>
+      {/each}
+    </ul>
+  </article>
+{/snippet}
+    
