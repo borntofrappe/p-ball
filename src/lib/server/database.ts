@@ -1,5 +1,3 @@
-import { assets } from "$app/paths";
-import { building } from "$app/environment";
 import Database from "better-sqlite3";
 import type {
   SearchParam,
@@ -11,8 +9,7 @@ import type {
   Location,
 } from "./types";
 
-const path = building ? `.${assets}/p-ball.sqlite3` : "./static/p-ball.sqlite3";
-const db = new Database(path);
+const db = new Database("./p-ball.sqlite3");
 
 const getImgSrc = (arrayBuffer: ArrayBuffer): string => {
   return `data:image/png;base64,${Buffer.from(arrayBuffer).toString("base64")}`;
