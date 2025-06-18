@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "p-ball",
+    "name": "P-Ball",
     "slug": "p-ball",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,7 +14,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#f9b41f"
       },
       "edgeToEdgeEnabled": true
     },
@@ -31,7 +31,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#f9b41f"
         }
       ]
     ],
