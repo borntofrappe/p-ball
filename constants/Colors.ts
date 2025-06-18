@@ -1,0 +1,41 @@
+export const Colors = {
+  text: "#150c03",
+  background: "#fbf7f2",
+  primary: "#f9b422",
+  selection: "#f7d633",
+  white: "#ffffff",
+  black: "#000000",
+  red: "#e9270d",
+  blue: "#0e0706",
+  green: "#82c05d",
+  heading: {
+    color: "#e7dfc8",
+    background: "#150a06",
+    selection: "#8b5546",
+  },
+  input: {
+    color: "#150a06",
+    background: "#ffffff",
+  },
+  yellowBox: {
+    text: "#3f1f17",
+    label: "#3f1f17",
+    background: "#f5e99d",
+    primary: "#f9b422",
+    selection: "#e3d9ab",
+  },
+  redBox: {
+    text: "#3f1f17",
+    label: "#0e0706",
+    background: "#f5e99d",
+    primary: "#e9270d",
+    selection: "#f8c281",
+  },
+  blueBox: {
+    text: "#3f1f17",
+    label: "#f0d5f0",
+    background: "#f5e99d",
+    primary: "#2c1d5c",
+    selection: "#d5d2ad",
+  },
+};
