@@ -7,7 +7,12 @@ export default function RootLayout() {
       databaseName="p-ball.sqlite3"
       assetSource={{ assetId: require("@/assets/data/p-ball.sqlite3") }}
     >
-      <Stack />
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{ title: "Home", headerShown: false }}
+        />
+      </Stack>
     </SQLiteProvider>
   );
 }
