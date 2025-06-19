@@ -43,8 +43,6 @@ export default SearchBox;
 
 const styles = StyleSheet.create({
   searchContainer: {
-    marginVertical: 16,
-    marginHorizontal: 16,
     gap: 18,
     paddingHorizontal: 24,
     paddingVertical: 32,
