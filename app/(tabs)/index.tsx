@@ -1,13 +1,14 @@
 // import { useSQLiteContext } from "expo-sqlite";
-import Ribbon from "@/components/Ribbon";
-import { Text, View } from "react-native";
+import SearchBox from "@/components/SearchBox";
+import { View } from "react-native";
 
 const Index = () => {
   // const db = useSQLiteContext();
+
+  const onChangeText = (text: string) => {};
   return (
     <View>
-      <Ribbon />
-      <Text>Search</Text>
+      <SearchBox title="Pokemon" onChangeText={onChangeText} />
     </View>
   );
 };
