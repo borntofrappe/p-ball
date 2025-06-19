@@ -1,7 +1,6 @@
-import { View, Image } from "react-native";
-import React, { useEffect, useState } from "react";
-import { Dimensions } from "react-native";
 import { Colors } from "@/constants/Colors";
+import React, { useEffect, useState } from "react";
+import { Dimensions, Image, View } from "react-native";
 
 const Ribbon = () => {
   const windowWidth = Dimensions.get("window").width;
