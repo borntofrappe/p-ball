@@ -5,16 +5,23 @@ import { Image, StyleSheet, Text, View } from "react-native";
 const navIcon = require("@/assets/images/nav-icon.png");
 const navPattern = require("@/assets/images/nav-pattern-2.png");
 
-const iconSize = 40;
+const iconSize = 36;
 const itemHeight = iconSize * 0.8;
 const itemPaddingHorizontal = [iconSize * 0.65, iconSize * 0.2];
-const fontSize = itemHeight * 0.725;
-const tabHeight = iconSize * 1.3;
+const fontSize = itemHeight * 0.85;
+const tabHeight = iconSize * 1.5;
+const patternWidth = (itemHeight / 64) * 18;
 
-const TabBarIcon = ({ title, focused }: { title: string; focused: boolean }) => {
+const TabBarIcon = ({
+  title,
+  focused,
+}: {
+  title: string;
+  focused: boolean;
+}) => {
   if (focused) {
     return (
-      <View style={[styles.navPill]}>
+      <View>
         <Image source={navIcon} style={[styles.navIcon]} />
         <Text style={[styles.navTextFocus]}>{title}</Text>
         <Image source={navPattern} style={[styles.navPattern]} />
@@ -36,7 +43,6 @@ const TabsLayout = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           paddingTop: (tabHeight - iconSize) / 2,
-          height: tabHeight,
           backgroundColor: Colors.primary,
         },
       }}
@@ -66,14 +72,11 @@ const TabsLayout = () => {
 export default TabsLayout;
 
 const styles = StyleSheet.create({
-  navPill: {
-    height: itemHeight,
-    flexDirection: "row",
-    marginLeft: itemPaddingHorizontal[1] - itemPaddingHorizontal[0],
-  },
   navPattern: {
-    width: (itemHeight / 64) * 18,
+    position: "absolute",
+    width: patternWidth,
     height: itemHeight,
+    right: patternWidth * -1,
   },
   navIcon: {
     position: "absolute",
@@ -89,15 +92,18 @@ const styles = StyleSheet.create({
     ],
   },
   navText: {
+    width: "100%",
     fontSize,
     color: Colors.text,
     fontWeight: 700,
     textTransform: "uppercase",
   },
   navTextFocus: {
+    width: "100%",
     paddingLeft: itemPaddingHorizontal[0],
     paddingRight: itemPaddingHorizontal[1],
     fontSize,
+    height: itemHeight,
     color: Colors.white,
     backgroundColor: Colors.text,
     fontWeight: 700,
