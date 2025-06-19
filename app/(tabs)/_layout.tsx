@@ -1,3 +1,4 @@
+import Ribbon from "@/components/Ribbon";
 import { Colors } from "@/constants/Colors";
 import { Tabs } from "expo-router";
 import React from "react";
@@ -9,7 +10,7 @@ const iconSize = 36;
 const itemHeight = iconSize * 0.8;
 const itemPaddingHorizontal = [iconSize * 0.65, iconSize * 0.2];
 const fontSize = itemHeight * 0.85;
-const tabHeight = iconSize * 1.5;
+const tabHeight = iconSize * 1.25;
 const patternWidth = (itemHeight / 64) * 18;
 
 const TabBarIcon = ({
@@ -37,35 +38,38 @@ const TabBarIcon = ({
 
 const TabsLayout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          paddingTop: (tabHeight - iconSize) / 2,
-          backgroundColor: Colors.primary,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Search",
-          tabBarIcon: ({ focused }) => {
-            return <TabBarIcon focused={focused} title="Search" />;
+    <View style={{flex: 1}}>
+      <Ribbon />
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            paddingTop: (tabHeight - iconSize) / 2,
+            backgroundColor: Colors.primary,
           },
         }}
-      />
-      <Tabs.Screen
-        name="catch"
-        options={{
-          title: "Catch",
-          tabBarIcon: ({ focused }) => {
-            return <TabBarIcon focused={focused} title="Catch" />;
-          },
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Search",
+            tabBarIcon: ({ focused }) => {
+              return <TabBarIcon focused={focused} title="Search" />;
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="catch"
+          options={{
+            title: "Catch",
+            tabBarIcon: ({ focused }) => {
+              return <TabBarIcon focused={focused} title="Catch" />;
+            },
+          }}
+        />
+      </Tabs>
+    </View>
   );
 };
 

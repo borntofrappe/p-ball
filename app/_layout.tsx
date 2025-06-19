@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { SQLiteProvider } from "expo-sqlite";
+import { StatusBar } from "react-native";
 
 export default function RootLayout() {
   return (
@@ -13,6 +14,7 @@ export default function RootLayout() {
           options={{ title: "Home", headerShown: false }}
         />
       </Stack>
+      <StatusBar />
     </SQLiteProvider>
   );
 }
