@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   searchTitle: {
+    fontFamily: "ComicNeue-Bold",
     alignSelf: "center",
     paddingHorizontal: 24,
     paddingVertical: 8,
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
     borderRadius: 1e5,
     fontSize: 18,
     textTransform: "uppercase",
-    fontWeight: 700,
   },
   searchRow: {
     flexDirection: "row",
