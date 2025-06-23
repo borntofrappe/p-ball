@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontSize,
+    width: "100%",
     height: itemHeight,
     color: Colors.text,
     fontWeight: 700,
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
   },
   tabTextFocus: {
     fontSize,
+    width: "100%",
     height: itemHeight,
     paddingLeft: itemPaddingHorizontal[0],
     paddingRight: itemPaddingHorizontal[1],
