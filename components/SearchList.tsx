@@ -2,30 +2,38 @@ import React from "react";
 import {
   FlatList,
   Image,
+  Pressable,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
 
 type Props = {
   items: SearchItem[];
+  onSelect: (text: string) => void;
 };
 
-const SearchList = ({ items }: Props) => {
+const SearchList = ({ items, onSelect }: Props) => {
   return (
     <FlatList
       contentContainerStyle={styles.listContainer}
       data={items}
       renderItem={({ item, index }) => (
-        <View style={styles.itemContainer} key={index}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Image
-            width={46}
-            height={30}
-            style={styles.itemImage}
-            source={{ uri: item.uri }}
-          />
-        </View>
+        <Pressable
+          onPress={() => {
+            onSelect(item.name);
+          }}
+        >
+          <View style={styles.itemContainer} key={index}>
+            <Text style={styles.itemName}>{item.name}</Text>
+            <Image
+              width={46}
+              height={30}
+              style={styles.itemImage}
+              source={{ uri: item.uri }}
+            />
+          </View>
+        </Pressable>
       )}
     />
   );

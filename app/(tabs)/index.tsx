@@ -1,12 +1,14 @@
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import { Sizes } from "@/constants/Sizes";
+import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
 import { View } from "react-native";
 
 const Index = () => {
   const db = useSQLiteContext();
+  const router = useRouter();
 
   const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
 
@@ -33,6 +35,15 @@ const Index = () => {
       })
     );
   };
+
+  const onSelectEntry = async (name: string) => {
+    router.push({
+      pathname: "/entry/[name]",
+      params: {
+        name,
+      },
+    });
+  };
   return (
     <View
       style={{
@@ -44,7 +55,7 @@ const Index = () => {
       }}
     >
       <SearchBox title="Pokemon" onChangeText={onChangeText} />
-      <SearchList items={searchItems} />
+      <SearchList items={searchItems} onSelect={onSelectEntry} />
     </View>
   );
 };
