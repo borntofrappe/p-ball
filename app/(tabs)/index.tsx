@@ -84,7 +84,7 @@ const Index = () => {
           </View>
           <Text
             style={{
-              fontWeight: 700,
+              fontFamily: "Poppins-Bold",
               fontSize: 20,
             }}
           >

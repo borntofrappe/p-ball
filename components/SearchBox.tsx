@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 14,
     color: Colors.input.color,
-    fontSize: 18,
+    fontFamily: "ComicNeue-Bold",
+    fontSize: 20,
   },
   searchIcon: {
     width: 18,

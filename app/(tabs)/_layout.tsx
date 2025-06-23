@@ -9,7 +9,7 @@ const tabPattern = require("@/assets/images/tab-pattern.png");
 const iconSize = 36;
 const itemHeight = iconSize * 0.8;
 const itemPaddingHorizontal = [iconSize * 0.65, iconSize * 0.2];
-const fontSize = itemHeight * 0.8;
+const fontSize = itemHeight * 0.7;
 const tabHeight = iconSize * 1.25;
 const patternWidth = (itemHeight / 64) * 18;
 
@@ -24,7 +24,7 @@ const TabBarIcon = ({
     return (
       <View>
         <Image source={tabIcon} style={[styles.tabIcon]} />
-        <Text style={[styles.tabTextFocus]}>{title}</Text>
+        <Text style={[styles.tabText, styles.tabTextFocus]}>{title}</Text>
         <Image source={tabPattern} style={[styles.tabPattern]} />
       </View>
     );
@@ -91,19 +91,14 @@ const styles = StyleSheet.create({
     fontSize,
     width: "100%",
     height: itemHeight,
+    paddingLeft: itemPaddingHorizontal[0],
+    paddingRight: itemPaddingHorizontal[1],
     color: Colors.text,
-    fontWeight: 700,
+    fontFamily: "Poppins-Bold",
     textTransform: "uppercase",
   },
   tabTextFocus: {
-    fontSize,
-    width: "100%",
-    height: itemHeight,
-    paddingLeft: itemPaddingHorizontal[0],
-    paddingRight: itemPaddingHorizontal[1],
     color: Colors.white,
     backgroundColor: Colors.text,
-    fontWeight: 700,
-    textTransform: "uppercase",
   },
 });

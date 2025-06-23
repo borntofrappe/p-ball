@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     filter: [{ grayscale: 1 }, { brightness: 0.15 }],
   },
   itemName: {
-    fontWeight: 700,
+    fontFamily: "ComicNeue-Bold",
     fontSize: 18,
   },
 });
