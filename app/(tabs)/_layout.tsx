@@ -9,7 +9,7 @@ const tabPattern = require("@/assets/images/tab-pattern.png");
 const iconSize = 36;
 const itemHeight = iconSize * 0.8;
 const itemPaddingHorizontal = [iconSize * 0.65, iconSize * 0.2];
-const fontSize = itemHeight * 0.7;
+const fontSize = itemHeight * 0.75;
 const tabHeight = iconSize * 1.25;
 const patternWidth = (itemHeight / 64) * 18;
 
