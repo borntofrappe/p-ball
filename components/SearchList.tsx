@@ -2,13 +2,11 @@ import React from "react";
 import {
   FlatList,
   Image,
-  ImageBackground,
   Pressable,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-const imageEmptyComponent = require("@/assets/images/missing-data.png");
 
 type Props = {
   items: SearchItem[];
@@ -18,39 +16,6 @@ type Props = {
 const SearchList = ({ items, onSelect }: Props) => {
   return (
     <FlatList
-      ListEmptyComponent={
-        <View
-          style={{
-            alignItems: "center",
-            gap: 16,
-          }}
-        >
-          <View
-            style={{
-              width: 150,
-              height: 150,
-              overflow: "hidden",
-            }}
-          >
-            <ImageBackground
-              style={{
-                width: 450,
-                height: 150,
-                // left: -150,
-              }}
-              source={imageEmptyComponent}
-            ></ImageBackground>
-          </View>
-          <Text
-            style={{
-              fontWeight: 700,
-              fontSize: 20,
-            }}
-          >
-            Entry not found
-          </Text>
-        </View>
-      }
       contentContainerStyle={styles.listContainer}
       data={items}
       renderItem={({ item, index }) => (

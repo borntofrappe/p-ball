@@ -4,12 +4,14 @@ import { Sizes } from "@/constants/Sizes";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
-import { View } from "react-native";
+import { ImageBackground, Text, View } from "react-native";
+const imageNotFound = require("@/assets/images/not-found.png");
 
 const Index = () => {
   const db = useSQLiteContext();
   const router = useRouter();
 
+  const [input, setInput] = useState("");
   const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
 
   const onChangeText = async (text: string) => {
@@ -34,6 +36,8 @@ const Index = () => {
         };
       })
     );
+
+    setInput(text);
   };
 
   const onSelectEntry = async (name: string) => {
@@ -56,6 +60,39 @@ const Index = () => {
     >
       <SearchBox title="Pokemon" onChangeText={onChangeText} />
       <SearchList items={searchItems} onSelect={onSelectEntry} />
+      {searchItems.length === 0 && input && (
+        <View
+          style={{
+            alignItems: "center",
+            gap: 16,
+          }}
+        >
+          <View
+            style={{
+              width: 150,
+              height: 150,
+              overflow: "hidden",
+            }}
+          >
+            <ImageBackground
+              style={{
+                width: 450,
+                height: 150,
+                // left: -150,
+              }}
+              source={imageNotFound}
+            ></ImageBackground>
+          </View>
+          <Text
+            style={{
+              fontWeight: 700,
+              fontSize: 20,
+            }}
+          >
+            Entry not found
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
