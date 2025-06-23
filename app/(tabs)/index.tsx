@@ -1,6 +1,5 @@
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
-import { Sizes } from "@/constants/Sizes";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
@@ -50,11 +49,11 @@ const Index = () => {
   return (
     <View
       style={{
-        maxWidth: Sizes.content.maxWidth,
+        maxWidth: 500,
         width: "100%",
         marginInline: "auto",
-        paddingHorizontal: Sizes.content.paddingHorizontal,
-        paddingVertical: Sizes.content.paddingVertical,
+        paddingHorizontal: 16,
+        paddingVertical: 16,
       }}
     >
       <SearchBox title="Pokemon" onChangeText={onChangeText} />
