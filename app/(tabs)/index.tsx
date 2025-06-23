@@ -17,25 +17,24 @@ const Index = () => {
   const onChangeText = async (text: string) => {
     if (text.trim() === "") {
       setSearchItems([]);
-      return;
+    } else {
+      const entries: Entry[] = await db.getAllAsync(
+        "SELECT * FROM entry WHERE name LIKE ?",
+        [`%${text}%`]
+      );
+
+      setSearchItems(
+        entries.map(({ name, img }) => {
+          const base64Data = btoa(String.fromCharCode.apply(null, img));
+          const uri = "data:image/png;base64," + base64Data;
+
+          return {
+            name,
+            uri,
+          };
+        })
+      );
     }
-
-    const entries: Entry[] = await db.getAllAsync(
-      "SELECT * FROM entry WHERE name LIKE ?",
-      [`%${text}%`]
-    );
-
-    setSearchItems(
-      entries.map(({ name, img }) => {
-        const base64Data = btoa(String.fromCharCode.apply(null, img));
-        const uri = "data:image/png;base64," + base64Data;
-
-        return {
-          name,
-          uri,
-        };
-      })
-    );
 
     setInput(text);
   };
@@ -78,7 +77,7 @@ const Index = () => {
               style={{
                 width: 450,
                 height: 150,
-                // left: -150,
+                left: -150,
               }}
               source={imageNotFound}
             ></ImageBackground>
