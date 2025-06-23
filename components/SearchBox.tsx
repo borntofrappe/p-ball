@@ -29,6 +29,7 @@ const SearchBox = ({ title, onChangeText }: Props) => {
           onChangeText={onChangeText}
         />
         <Pressable
+          style={styles.searchButton}
           onPress={() => {
             textInput.current?.focus();
           }}
@@ -44,12 +45,12 @@ export default SearchBox;
 
 const styles = StyleSheet.create({
   searchContainer: {
-    gap: 24,
+    gap: 28,
     paddingHorizontal: 24,
     paddingVertical: 32,
     borderColor: Colors.green,
     borderWidth: 6,
-    borderRadius: 12,
+    borderRadius: 16,
     backgroundColor: Colors.background,
   },
   searchTitle: {
@@ -65,11 +66,8 @@ const styles = StyleSheet.create({
   },
   searchRow: {
     flexDirection: "row",
-    borderColor: Colors.green,
-    borderWidth: 2,
-    borderRadius: 12,
+    gap: 16,
     alignItems: "center",
-    backgroundColor: Colors.input.background,
   },
   searchInput: {
     flex: 1,
@@ -78,10 +76,18 @@ const styles = StyleSheet.create({
     color: Colors.input.color,
     fontFamily: "ComicNeue-Bold",
     fontSize: 20,
+    borderColor: Colors.green,
+    borderWidth: 2,
+    borderRadius: 6,
+    backgroundColor: Colors.input.background,
+  },
+  searchButton: {
+    padding: 12,
+    backgroundColor: Colors.primary,
+    borderRadius: 6,
   },
   searchIcon: {
-    width: 18,
-    height: 18,
-    marginHorizontal: 12,
+    width: 17,
+    height: 17,
   },
 });
