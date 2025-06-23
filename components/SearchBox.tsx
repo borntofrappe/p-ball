@@ -2,10 +2,10 @@ import { Colors } from "@/constants/Colors";
 import React, { useRef } from "react";
 import {
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 const searchIcon = require("@/assets/images/search-icon.png");
@@ -23,17 +23,18 @@ const SearchBox = ({ title, onChangeText }: Props) => {
       <Text style={styles.searchTitle}>{title}</Text>
       <View style={styles.searchRow}>
         <TextInput
+          spellCheck={false}
           ref={textInput}
           style={styles.searchInput}
           onChangeText={onChangeText}
         />
-        <TouchableWithoutFeedback
+        <Pressable
           onPress={() => {
             textInput.current?.focus();
           }}
         >
           <Image source={searchIcon} style={styles.searchIcon} />
-        </TouchableWithoutFeedback>
+        </Pressable>
       </View>
     </View>
   );
@@ -43,7 +44,7 @@ export default SearchBox;
 
 const styles = StyleSheet.create({
   searchContainer: {
-    gap: 18,
+    gap: 24,
     paddingHorizontal: 24,
     paddingVertical: 32,
     borderColor: Colors.green,
@@ -53,13 +54,14 @@ const styles = StyleSheet.create({
   },
   searchTitle: {
     alignSelf: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
     paddingVertical: 8,
     color: Colors.white,
     backgroundColor: Colors.text,
     borderRadius: 1e5,
     fontSize: 18,
     textTransform: "uppercase",
+    fontWeight: 700,
   },
   searchRow: {
     flexDirection: "row",
@@ -70,15 +72,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.input.background,
   },
   searchInput: {
-    color: Colors.input.color,
+    flex: 1,
     paddingVertical: 8,
     paddingHorizontal: 14,
+    color: Colors.input.color,
     fontSize: 18,
-    flex: 1,
   },
   searchIcon: {
     width: 18,
-    marginHorizontal: 12,
     height: 18,
+    marginHorizontal: 12,
   },
 });
