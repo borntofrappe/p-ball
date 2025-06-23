@@ -1,12 +1,38 @@
-// import { useSQLiteContext } from "expo-sqlite";
 import SearchBox from "@/components/SearchBox";
+import SearchList from "@/components/SearchList";
 import { Sizes } from "@/constants/Sizes";
+import { useSQLiteContext } from "expo-sqlite";
+import { useState } from "react";
 import { View } from "react-native";
 
 const Index = () => {
-  // const db = useSQLiteContext();
+  const db = useSQLiteContext();
 
-  const onChangeText = (text: string) => {};
+  const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
+
+  const onChangeText = async (text: string) => {
+    if (text.trim() === "") {
+      setSearchItems([]);
+      return;
+    }
+
+    const entries: Entry[] = await db.getAllAsync(
+      "SELECT * FROM entry WHERE name LIKE ?",
+      [`%${text}%`]
+    );
+
+    setSearchItems(
+      entries.map(({ name, img }) => {
+        const base64Data = btoa(String.fromCharCode.apply(null, img));
+        const uri = "data:image/png;base64," + base64Data;
+
+        return {
+          name,
+          uri,
+        };
+      })
+    );
+  };
   return (
     <View
       style={{
@@ -18,6 +44,7 @@ const Index = () => {
       }}
     >
       <SearchBox title="Pokemon" onChangeText={onChangeText} />
+      <SearchList items={searchItems} />
     </View>
   );
 };
