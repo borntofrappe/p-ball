@@ -3,7 +3,7 @@ import SearchList from "@/components/SearchList";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
-import { ImageBackground, Text, View } from "react-native";
+import { ActivityIndicator, ImageBackground, Text, View } from "react-native";
 const imageNotFound = require("@/assets/images/not-found.png");
 
 const Index = () => {
@@ -12,33 +12,51 @@ const Index = () => {
 
   const [input, setInput] = useState("");
   const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
+  const [searchState, setSearchState] = useState<SearchState>();
+  let [timeoutID, setTimeoutID] = useState<number>();
+  const searchDelay = 1000;
 
-  const onChangeText = async (text: string) => {
-    if (text.trim() === "") {
-      setSearchItems([]);
-    } else {
-      const entries: Entry[] = await db.getAllAsync(
-        "SELECT * FROM entry WHERE name LIKE ?",
-        [`%${text}%`]
-      );
+  const searchEntryByName = async (name: string) => {
+    const entries: Entry[] = await db.getAllAsync(
+      "SELECT * FROM entry WHERE name LIKE ?",
+      [`%${name}%`]
+    );
 
-      setSearchItems(
-        entries.map(({ name, img }) => {
-          const base64Data = btoa(String.fromCharCode.apply(null, img));
-          const uri = "data:image/png;base64," + base64Data;
+    setSearchItems(
+      entries.map(({ name, img }) => {
+        const base64Data = btoa(String.fromCharCode.apply(null, img));
+        const uri = "data:image/png;base64," + base64Data;
 
-          return {
-            name,
-            uri,
-          };
-        })
-      );
-    }
+        return {
+          name,
+          uri,
+        };
+      })
+    );
 
-    setInput(text);
+    setSearchState("find");
   };
 
-  const onSelectEntry = async (name: string) => {
+  const search = (text: string) => {
+    const searchText = text.trim();
+    clearTimeout(timeoutID);
+    if (searchText === "") {
+      setSearchItems([]);
+      setSearchState("find");
+    } else {
+      let id = setTimeout(() => {
+        searchEntryByName(searchText);
+        clearTimeout(id);
+      }, searchDelay);
+
+      setSearchState("search");
+      setTimeoutID(id);
+    }
+
+    setInput(searchText);
+  };
+
+  const selectEntryByName = async (name: string) => {
     router.push({
       pathname: "/entry/[name]",
       params: {
@@ -56,40 +74,46 @@ const Index = () => {
         paddingVertical: 16,
       }}
     >
-      <SearchBox title="Pokemon" onChangeText={onChangeText} />
-      <SearchList items={searchItems} onSelect={onSelectEntry} />
-      {searchItems.length === 0 && input && (
-        <View
-          style={{
-            alignItems: "center",
-            gap: 16,
-          }}
-        >
-          <View
-            style={{
-              width: 150,
-              height: 150,
-              overflow: "hidden",
-            }}
-          >
-            <ImageBackground
+      <SearchBox title="Pokemon" onChangeText={search} />
+      {searchState === "search" ? (
+        <ActivityIndicator />
+      ) : (
+        <>
+          <SearchList items={searchItems} onSelect={selectEntryByName} />
+          {searchItems.length === 0 && input && (
+            <View
               style={{
-                width: 450,
-                height: 150,
-                left: -150,
+                alignItems: "center",
+                gap: 16,
               }}
-              source={imageNotFound}
-            ></ImageBackground>
-          </View>
-          <Text
-            style={{
-              fontFamily: "Poppins-Bold",
-              fontSize: 20,
-            }}
-          >
-            Entry not found
-          </Text>
-        </View>
+            >
+              <View
+                style={{
+                  width: 150,
+                  height: 150,
+                  overflow: "hidden",
+                }}
+              >
+                <ImageBackground
+                  style={{
+                    width: 450,
+                    height: 150,
+                    left: -150,
+                  }}
+                  source={imageNotFound}
+                ></ImageBackground>
+              </View>
+              <Text
+                style={{
+                  fontFamily: "Poppins-Bold",
+                  fontSize: 20,
+                }}
+              >
+                Entry not found
+              </Text>
+            </View>
+          )}
+        </>
       )}
     </View>
   );

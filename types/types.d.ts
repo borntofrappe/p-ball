@@ -3,6 +3,8 @@ type SearchItem = {
   uri: string;
 };
 
+type SearchState = undefined | "search" | "find";
+
 type Entry = {
   id: string;
   name: string;
