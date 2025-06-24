@@ -1,9 +1,11 @@
+import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
-import { ActivityIndicator, ImageBackground, Text, View } from "react-native";
+import { ImageBackground, Text, View } from "react-native";
+
 const imageNotFound = require("@/assets/images/not-found.png");
 
 const Index = () => {
@@ -14,7 +16,7 @@ const Index = () => {
   const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
   const [searchState, setSearchState] = useState<SearchState>();
   let [timeoutID, setTimeoutID] = useState<number>();
-  const searchDelay = 1000;
+  const searchDelay = 2000;
 
   const searchEntryByName = async (name: string) => {
     const entries: Entry[] = await db.getAllAsync(
@@ -64,6 +66,7 @@ const Index = () => {
       },
     });
   };
+
   return (
     <View
       style={{
@@ -76,7 +79,18 @@ const Index = () => {
     >
       <SearchBox title="Pokemon" onChangeText={search} />
       {searchState === "search" ? (
-        <ActivityIndicator />
+        <View
+          style={{
+            width: 180,
+            height: 180,
+            alignSelf: "center",
+            marginTop: 16,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <LoadingSpinner width={120} height={120} />
+        </View>
       ) : (
         <>
           <SearchList items={searchItems} onSelect={selectEntryByName} />
