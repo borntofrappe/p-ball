@@ -1,22 +1,22 @@
 import { useEffect } from "react";
 import Animated, {
-    cancelAnimation,
-    Easing,
-    useAnimatedStyle,
-    useSharedValue,
-    withRepeat,
-    withTiming,
+  cancelAnimation,
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
 } from "react-native-reanimated";
 
-const imageActivity = require("@/assets/images/loading-spinner.png");
+const imageActivity = require("@/assets/images/activity-indicator.png");
 
 type Props = {
   width: number;
   height: number;
+  duration?: number;
 };
 
-const LoadingSpinner = ({ width, height }: Props) => {
-  const duration = 1500;
+const ActivityIndicator = ({ width, height, duration }: Props) => {
   const easing = Easing.bezier(0.25, -0.5, 0.25, 1);
 
   const spin = useSharedValue<number>(0);
@@ -33,7 +33,7 @@ const LoadingSpinner = ({ width, height }: Props) => {
   useEffect(() => {
     spin.value = withRepeat(
       withTiming(1, {
-        duration,
+        duration: duration || 1000,
         easing,
       }),
       -1
@@ -58,4 +58,4 @@ const LoadingSpinner = ({ width, height }: Props) => {
   );
 };
 
-export default LoadingSpinner;
+export default ActivityIndicator;

@@ -1,4 +1,4 @@
-import LoadingSpinner from "@/components/LoadingSpinner";
+import ActivityIndicator from "@/components/ActivityIndicator";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import { useRouter } from "expo-router";
@@ -16,7 +16,7 @@ const Index = () => {
   const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
   const [searchState, setSearchState] = useState<SearchState>();
   let [timeoutID, setTimeoutID] = useState<number>();
-  const searchDelay = 2000;
+  const searchDelay = 1600;
 
   const searchEntryByName = async (name: string) => {
     const entries: Entry[] = await db.getAllAsync(
@@ -89,7 +89,11 @@ const Index = () => {
             alignItems: "center",
           }}
         >
-          <LoadingSpinner width={120} height={120} />
+          <ActivityIndicator
+            width={120}
+            height={120}
+            duration={searchDelay / 2.1}
+          />
         </View>
       ) : (
         <>
