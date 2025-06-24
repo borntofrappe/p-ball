@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#f9b41f"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "bundler": "metro",
