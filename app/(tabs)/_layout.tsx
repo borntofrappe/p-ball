@@ -1,6 +1,5 @@
 import { Colors } from "@/constants/Colors";
 import { Tabs } from "expo-router";
-import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 const imageIcon = require("@/assets/images/tab-icon.png");
