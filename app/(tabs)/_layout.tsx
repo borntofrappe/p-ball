@@ -3,8 +3,8 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-const tabIcon = require("@/assets/images/tab-icon.png");
-const tabPattern = require("@/assets/images/tab-pattern.png");
+const imageIcon = require("@/assets/images/tab-icon.png");
+const imagePattern = require("@/assets/images/tab-pattern.png");
 
 const iconSize = 36;
 const itemHeight = iconSize * 0.8;
@@ -23,9 +23,9 @@ const TabBarIcon = ({
   if (focused) {
     return (
       <View>
-        <Image source={tabIcon} style={[styles.tabIcon]} />
+        <Image source={imageIcon} style={[styles.tabIcon]} />
         <Text style={[styles.tabText, styles.tabTextFocus]}>{title}</Text>
-        <Image source={tabPattern} style={[styles.tabPattern]} />
+        <Image source={imagePattern} style={[styles.tabPattern]} />
       </View>
     );
   }

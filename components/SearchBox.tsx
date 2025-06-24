@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-const searchIcon = require("@/assets/images/search-icon.png");
+const imageIcon = require("@/assets/images/search-icon.png");
 
 type Props = {
   title: string;
@@ -34,7 +34,7 @@ const SearchBox = ({ title, onChangeText }: Props) => {
             textInput.current?.focus();
           }}
         >
-          <Image source={searchIcon} style={styles.searchIcon} />
+          <Image source={imageIcon} style={styles.searchIcon} />
         </Pressable>
       </View>
     </View>

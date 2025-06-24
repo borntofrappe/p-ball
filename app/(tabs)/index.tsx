@@ -6,7 +6,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
 import { ImageBackground, Text, View } from "react-native";
 
-const imageNotFound = require("@/assets/images/not-found.png");
+const imageNotFound = require("@/assets/images/entry-not-found.png");
 
 const Index = () => {
   const db = useSQLiteContext();
