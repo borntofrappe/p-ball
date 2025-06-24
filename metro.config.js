@@ -1,5 +1,8 @@
 // Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require("expo/metro-config");
+const {
+  wrapWithReanimatedMetroConfig,
+} = require("react-native-reanimated/metro-config");
 
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
@@ -16,8 +19,6 @@ config.server.enhanceMiddleware = (middleware) => {
   };
 };
 
-config.resolver.assetExts.push(
-  "sqlite3"
-);
+config.resolver.assetExts.push("sqlite3");
 
-module.exports = config;
+module.exports = wrapWithReanimatedMetroConfig(config);
