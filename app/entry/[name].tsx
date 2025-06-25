@@ -15,16 +15,18 @@ const EntryByName = () => {
       name,
     ]).then((entryDB) => {
       if (entryDB) {
-        const { name, no, description, weight, height, img } = entryDB;
+        const { no, name, category, height, weight, description, img } =
+          entryDB;
         const base64Data = btoa(String.fromCharCode.apply(null, img));
         const uri = "data:image/png;base64," + base64Data;
 
         setEntry({
-          name,
           no,
-          description,
-          weight,
+          name,
+          category,
           height,
+          weight,
+          description,
           uri,
         });
       }
@@ -50,9 +52,10 @@ const EntryByName = () => {
           <Entry
             no={entry.no}
             name={entry.name}
-            description={entry.description}
-            weight={entry.weight}
+            category={entry.category}
             height={entry.height}
+            weight={entry.weight}
+            description={entry.description}
             uri={entry.uri}
           />
         ) : (

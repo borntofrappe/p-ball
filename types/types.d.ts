@@ -6,20 +6,22 @@ type SearchItem = {
 type SearchState = undefined | "search" | "find";
 
 type Entry = {
-  name: string;
   no: string;
-  description: string;
-  weight: number;
+  name: string;
+  category: string;
   height: number;
+  weight: number;
+  description: string;
   uri: string;
 };
 
 type EntryDB = {
   id: string;
-  name: string;
   no: string;
-  description: string;
-  weight: number;
+  name: string;
+  category: string;
   height: number;
+  weight: number;
+  description: string;
   img: number[];
 };
