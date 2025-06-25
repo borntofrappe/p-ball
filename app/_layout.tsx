@@ -1,4 +1,3 @@
-import Ribbon from "@/components/Ribbon";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -31,18 +30,15 @@ export default function RootLayout() {
       databaseName="p-ball.sqlite3"
       assetSource={{ assetId: require("@/assets/data/p-ball.sqlite3") }}
     >
-      <>
-        <Ribbon />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="/entry/[name]" />
-        </Stack>
-        <StatusBar />
-      </>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="entry/[name]" />
+      </Stack>
+      <StatusBar />
     </SQLiteProvider>
   );
 }
