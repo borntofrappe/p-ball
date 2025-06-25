@@ -1,18 +1,14 @@
-import PixelatedImage from "@/components/PixelatedImage";
+import Entry from "@/components/Entry";
 import Ribbon from "@/components/Ribbon";
 import { useLocalSearchParams } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
-const Entry = () => {
+const EntryByName = () => {
   const db = useSQLiteContext();
   const { name } = useLocalSearchParams<{ name: string }>();
   const [entry, setEntry] = useState<Entry>();
-
-  const imageScale = 3;
-  const imageWidth = 46 * imageScale;
-  const imageHeight = 30 * imageScale;
 
   useEffect(() => {
     db.getFirstAsync<EntryDB>("SELECT * FROM entry WHERE name = ?", [
@@ -51,17 +47,14 @@ const Entry = () => {
         }}
       >
         {entry ? (
-          <>
-            <Text>{entry.name}</Text>
-            <Text>{entry.description}</Text>
-            <Text>W {entry.weight}</Text>
-            <Text>H {entry.height}</Text>
-            <PixelatedImage
-              width={imageWidth}
-              height={imageHeight}
-              uri={entry.uri}
-            />
-          </>
+          <Entry
+            no={entry.no}
+            name={entry.name}
+            description={entry.description}
+            weight={entry.weight}
+            height={entry.height}
+            uri={entry.uri}
+          />
         ) : (
           <>
             <Text>{name} not found</Text>
@@ -73,4 +66,4 @@ const Entry = () => {
   );
 };
 
-export default Entry;
+export default EntryByName;
