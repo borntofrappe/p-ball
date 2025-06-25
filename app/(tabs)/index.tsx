@@ -20,13 +20,13 @@ const Index = () => {
   const searchDelay = 1600;
 
   const searchEntryByName = async (name: string) => {
-    const entries: Entry[] = await db.getAllAsync(
+    const entriesDB: EntryDB[] = await db.getAllAsync(
       "SELECT * FROM entry WHERE name LIKE ?",
       [`%${name}%`]
     );
 
     setSearchItems(
-      entries.map(({ name, img }) => {
+      entriesDB.map(({ name, img }) => {
         const base64Data = btoa(String.fromCharCode.apply(null, img));
         const uri = "data:image/png;base64," + base64Data;
 
