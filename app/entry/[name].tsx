@@ -1,11 +1,9 @@
+import PixelatedImage from "@/components/PixelatedImage";
 import Ribbon from "@/components/Ribbon";
 import { useLocalSearchParams } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useEffect, useState } from "react";
-import { Platform, Text, View } from "react-native";
-import Svg, { Image as SvgImage } from "react-native-svg";
-
-import { WebView } from "react-native-webview";
+import { Text, View } from "react-native";
 
 const Entry = () => {
   const db = useSQLiteContext();
@@ -58,52 +56,11 @@ const Entry = () => {
             <Text>{entry.description}</Text>
             <Text>W {entry.weight}</Text>
             <Text>H {entry.height}</Text>
-            {Platform.OS === "web" ? (
-              <Svg
-                width={imageWidth}
-                height={imageHeight}
-                image-rendering="pixelated"
-              >
-                <SvgImage
-                  width={imageWidth}
-                  height={imageHeight}
-                  href={{ uri: entry.uri }}
-                />
-              </Svg>
-            ) : (
-              <View
-                style={{
-                  width: imageWidth,
-                  height: imageHeight,
-                }}
-              >
-                <WebView
-                  domStorageEnabled={false}
-                  javaScriptEnabled={false}
-                  scalesPageToFit={false}
-                  style={{
-                    backgroundColor: "transparent",
-                  }}
-                  originWhitelist={["*"]}
-                  source={{
-                    html: `<body style="margin: 0;">
-                    <img 
-                      alt=""
-                      src="${entry.uri}" 
-                      style="
-                        display: block;
-                        width: ${imageWidth}px;
-                        height: ${imageHeight}px;
-                        image-rendering: pixelated;
-                        image-rendering: -moz-crisp-edges;
-                        image-rendering: crisp-edges;
-                      "
-                    />
-                  </body>`,
-                  }}
-                />
-              </View>
-            )}
+            <PixelatedImage
+              width={imageWidth}
+              height={imageHeight}
+              uri={entry.uri}
+            />
           </>
         ) : (
           <>
