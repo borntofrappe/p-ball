@@ -2,12 +2,19 @@ import Ribbon from "@/components/Ribbon";
 import { useLocalSearchParams } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
+import Svg, { Image as SvgImage } from "react-native-svg";
+
+import { WebView } from "react-native-webview";
 
 const Entry = () => {
   const db = useSQLiteContext();
   const { name } = useLocalSearchParams<{ name: string }>();
   const [entry, setEntry] = useState<Entry>();
+
+  const imageScale = 3;
+  const imageWidth = 46 * imageScale;
+  const imageHeight = 30 * imageScale;
 
   useEffect(() => {
     db.getFirstAsync<EntryDB>("SELECT * FROM entry WHERE name = ?", [
@@ -46,25 +53,62 @@ const Entry = () => {
         }}
       >
         {entry ? (
-          <View>
+          <>
             <Text>{entry.name}</Text>
             <Text>{entry.description}</Text>
             <Text>W {entry.weight}</Text>
             <Text>H {entry.height}</Text>
-            <Image
-              width={46}
-              height={30}
-              style={{
-                width: 46,
-                height: 30,
-              }}
-              source={{ uri: entry.uri }}
-            />
-          </View>
+            {Platform.OS === "web" ? (
+              <Svg
+                width={imageWidth}
+                height={imageHeight}
+                image-rendering="pixelated"
+              >
+                <SvgImage
+                  width={imageWidth}
+                  height={imageHeight}
+                  href={{ uri: entry.uri }}
+                />
+              </Svg>
+            ) : (
+              <View
+                style={{
+                  width: imageWidth,
+                  height: imageHeight,
+                }}
+              >
+                <WebView
+                  domStorageEnabled={false}
+                  javaScriptEnabled={false}
+                  scalesPageToFit={false}
+                  style={{
+                    backgroundColor: "transparent",
+                  }}
+                  originWhitelist={["*"]}
+                  source={{
+                    html: `<body style="margin: 0;">
+                    <img 
+                      alt=""
+                      src="${entry.uri}" 
+                      style="
+                        display: block;
+                        width: ${imageWidth}px;
+                        height: ${imageHeight}px;
+                        image-rendering: pixelated;
+                        image-rendering: -moz-crisp-edges;
+                        image-rendering: crisp-edges;
+                      "
+                    />
+                  </body>`,
+                  }}
+                />
+              </View>
+            )}
+          </>
         ) : (
-          <View>
+          <>
             <Text>{name} not found</Text>
-          </View>
+          </>
         )}
       </View>
       <Ribbon />
