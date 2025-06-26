@@ -35,7 +35,7 @@ const AreaByName = () => {
   });
 
   const selectEntryByName = async (name: string) => {
-    router.push({
+    router.replace({
       pathname: "/entry/[name]",
       params: {
         name,
