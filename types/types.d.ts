@@ -25,3 +25,21 @@ type EntryDB = {
   description: string;
   img: number[];
 };
+
+type Area = {
+  name: string;
+  uri: string;
+};
+
+type AreaDB = {
+  id: string;
+  name: string;
+  img: number[];
+};
+
+type Version = "Red" | "Blue";
+
+type VersionDB = {
+  id: string;
+  name: Version;
+};
