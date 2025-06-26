@@ -1,9 +1,11 @@
 import Entry from "@/components/Entry";
+import Panel from "@/components/Panel";
 import Ribbon from "@/components/Ribbon";
+import { Colors } from "@/constants/Colors";
 import { useLocalSearchParams } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const EntryByName = () => {
   const db = useSQLiteContext();
@@ -137,14 +139,15 @@ const EntryByName = () => {
   return (
     <>
       <Ribbon />
-      <View
-        style={{
+      <ScrollView
+        contentContainerStyle={{
           flex: 1,
           maxWidth: 500,
           width: "100%",
           marginInline: "auto",
           paddingHorizontal: 16,
           paddingVertical: 16,
+          gap: 24,
         }}
       >
         {entry ? (
@@ -163,42 +166,71 @@ const EntryByName = () => {
           </>
         )}
 
-        {(locations.Red.length > 0 || locations.Blue.length > 0) &&
-          Object.entries(locations)
-            .filter((d) => d[1].length > 0)
-            .map(([version, areas]) =>
-              areas.map((area) => (
-                <View key={`${version}-${area.name}`}>
-                  <Text>{version}</Text>
-                  <Text>{area.name}</Text>
+        <View style={[styles.panelsContainer]}>
+          {(locations.Red.length > 0 || locations.Blue.length > 0) &&
+            Object.entries(locations)
+              .filter((d) => d[1].length > 0)
+              .map(([version, areas]) => (
+                <Panel label={version} key={version}>
+                  {areas.map((area) => (
+                    <View
+                      style={[styles.itemsContainer]}
+                      key={`${version}-${area.name}`}
+                    >
+                      <Image
+                        style={{
+                          width: 46,
+                          height: 30,
+                        }}
+                        source={{ uri: area.uri }}
+                      />
+                      <Text style={[styles.itemsText]}>{area.name}</Text>
+                    </View>
+                  ))}
+                </Panel>
+              ))}
+
+          {connections.length > 1 && (
+            <Panel label="EVO">
+              {connections.map((connection) => (
+                <View
+                  style={[styles.itemsContainer]}
+                  key={`${connection.name}`}
+                >
                   <Image
                     style={{
                       width: 46,
                       height: 30,
                     }}
-                    source={{ uri: area.uri }}
+                    source={{ uri: connection.uri }}
                   />
+                  <Text style={[styles.itemsText]}>{connection.name}</Text>
                 </View>
-              ))
-            )}
-
-        {connections.length > 1 &&
-          connections.map((connection) => (
-            <View key={connection.name}>
-              <Text>{connection.name}</Text>
-              <Image
-                style={{
-                  width: 46,
-                  height: 30,
-                }}
-                source={{ uri: connection.uri }}
-              />
-            </View>
-          ))}
-      </View>
+              ))}
+            </Panel>
+          )}
+        </View>
+      </ScrollView>
       <Ribbon />
     </>
   );
 };
 
 export default EntryByName;
+
+const styles = StyleSheet.create({
+  panelsContainer: {
+    gap: 16,
+  },
+  itemsContainer: {
+    gap: 12,
+    alignItems: "center",
+  },
+  itemsText: {
+    fontFamily: "ComicNeue-Bold",
+    color: Colors.text,
+    fontSize: 16,
+    maxWidth: 80,
+    textAlign: "center",
+  },
+});
