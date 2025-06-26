@@ -1,10 +1,15 @@
+import {
+  getConnectionsByName,
+  getEntryByName,
+  getLocationsByName,
+} from "@/api/queries";
 import Entry from "@/components/Entry";
 import Panel from "@/components/Panel";
 import Ribbon from "@/components/Ribbon";
 import { Colors } from "@/constants/Colors";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { SQLiteDatabase, useSQLiteContext } from "expo-sqlite";
+import { useSQLiteContext } from "expo-sqlite";
 import React, { useRef } from "react";
 import {
   Image,
@@ -14,147 +19,6 @@ import {
   Text,
   View,
 } from "react-native";
-
-const getEntryByName = async ({
-  db,
-  name,
-}: {
-  db: SQLiteDatabase;
-  name: string;
-}): Promise<Entry | undefined> => {
-  const entryDB = await db.getFirstAsync<EntryDB>(
-    `
-      SELECT *
-      FROM entry 
-      WHERE name = ?
-      `,
-    [name]
-  );
-
-  if (entryDB) {
-    const { no, name, category, height, weight, description, img } = entryDB;
-    const base64Data = btoa(String.fromCharCode.apply(null, img));
-    const uri = "data:image/png;base64," + base64Data;
-
-    return {
-      no,
-      name,
-      category,
-      height,
-      weight,
-      description,
-      uri,
-    };
-  }
-};
-
-const getLocationsByName = async ({
-  db,
-  name,
-}: {
-  db: SQLiteDatabase;
-  name: string;
-}): Promise<{ Red: Area[]; Blue: Area[] } | undefined> => {
-  const locationsDB = await db.getAllAsync<{
-    name: string;
-    version: Version;
-    img: number[];
-  }>(
-    `
-      SELECT name, version, img
-      FROM name_catch
-      JOIN area ON name_catch.area = area.name
-      WHERE entry = ?;
-      `,
-    [name]
-  );
-
-  if (locationsDB) {
-    const locations = locationsDB
-      .map((locationDB) => {
-        const { name, version, img } = locationDB;
-        const base64Data = btoa(String.fromCharCode.apply(null, img));
-        const uri = "data:image/png;base64," + base64Data;
-        return {
-          name,
-          version,
-          uri,
-        };
-      })
-      .reduce<{ Red: Area[]; Blue: Area[] }>(
-        (acc, curr) => {
-          const { name, version, uri } = curr;
-          acc[version].push({
-            name,
-            uri,
-          });
-          return acc;
-        },
-        { Red: [], Blue: [] }
-      );
-
-    return locations;
-  }
-};
-
-const getConnectionsByName = async ({
-  db,
-  name,
-}: {
-  db: SQLiteDatabase;
-  name: string;
-}): Promise<Array<{ name: string; uri: string }> | undefined> => {
-  const connectionsDB = await db.getAllAsync<{ name: string; img: number[] }>(
-    `
-      SELECT name, img
-      FROM entry
-      WHERE name IN (
-        SELECT base
-        FROM name_evo
-        WHERE evolution = (
-          SELECT base FROM name_evo
-          WHERE evolution = $name
-        )
-        UNION
-        SELECT base
-        FROM name_evo
-        WHERE evolution = $name
-        UNION
-        SELECT $name
-        UNION
-        SELECT evolution
-        FROM name_evo
-        WHERE base = $name
-        UNION
-        SELECT evolution
-        FROM name_evo
-        WHERE base = (
-          SELECT evolution
-          FROM name_evo
-          WHERE base = $name
-        )
-      );
-      `,
-    {
-      $name: name,
-    }
-  );
-
-  if (connectionsDB) {
-    const connections = connectionsDB.map((connectionDB) => {
-      const { name, img } = connectionDB;
-      const base64Data = btoa(String.fromCharCode.apply(null, img));
-      const uri = "data:image/png;base64," + base64Data;
-
-      return {
-        name,
-        uri,
-      };
-    });
-
-    return connections;
-  }
-};
 
 const EntryByName = () => {
   const db = useSQLiteContext();

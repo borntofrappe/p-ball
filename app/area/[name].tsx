@@ -1,10 +1,11 @@
+import { getAreaByName, getCatchesByName } from "@/api/queries";
 import Panel from "@/components/Panel";
 import PixelatedImage from "@/components/PixelatedImage";
 import Ribbon from "@/components/Ribbon";
 import { Colors } from "@/constants/Colors";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { SQLiteDatabase, useSQLiteContext } from "expo-sqlite";
+import { useSQLiteContext } from "expo-sqlite";
 import React from "react";
 import {
   Image,
@@ -14,83 +15,6 @@ import {
   Text,
   View,
 } from "react-native";
-
-const getAreaByName = async ({
-  db,
-  name,
-}: {
-  db: SQLiteDatabase;
-  name: string;
-}): Promise<Area | undefined> => {
-  const areaDB = await db.getFirstAsync<AreaDB>(
-    `
-      SELECT *
-      FROM area 
-      WHERE name = ?
-      `,
-    [name]
-  );
-
-  if (areaDB) {
-    const { name, img } = areaDB;
-    const base64Data = btoa(String.fromCharCode.apply(null, img));
-    const uri = "data:image/png;base64," + base64Data;
-
-    return {
-      name,
-      uri,
-    };
-  }
-};
-
-const getCatchesByName = async ({
-  db,
-  name,
-}: {
-  db: SQLiteDatabase;
-  name: string;
-}): Promise<{ Red: Catch[]; Blue: Catch[] } | undefined> => {
-  const catchesDB = await db.getAllAsync<{
-    name: string;
-    version: Version;
-    img: number[];
-  }>(
-    `
-      SELECT name, version, img
-      FROM name_catch 
-      JOIN entry ON name_catch.entry = entry.name 
-      WHERE area = ?;
-      `,
-    [name]
-  );
-
-  if (catchesDB) {
-    const catches = catchesDB
-      .map((catchDB) => {
-        const { name, version, img } = catchDB;
-        const base64Data = btoa(String.fromCharCode.apply(null, img));
-        const uri = "data:image/png;base64," + base64Data;
-        return {
-          name,
-          version,
-          uri,
-        };
-      })
-      .reduce<{ Red: Catch[]; Blue: Catch[] }>(
-        (acc, curr) => {
-          const { name, version, uri } = curr;
-          acc[version].push({
-            name,
-            uri,
-          });
-          return acc;
-        },
-        { Red: [], Blue: [] }
-      );
-
-    return catches;
-  }
-};
 
 const AreaByName = () => {
   const db = useSQLiteContext();
