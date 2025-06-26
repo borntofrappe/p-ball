@@ -1,9 +1,12 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect } from "react";
 import { StatusBar } from "react-native";
+
+const queryClient = new QueryClient();
 
 SplashScreen.preventAutoHideAsync();
 
@@ -26,20 +29,22 @@ export default function RootLayout() {
   }
 
   return (
-    <SQLiteProvider
-      databaseName="p-ball.sqlite3"
-      assetSource={{ assetId: require("@/assets/data/p-ball.sqlite3") }}
-    >
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
+    <QueryClientProvider client={queryClient}>
+      <SQLiteProvider
+        databaseName="p-ball.sqlite3"
+        assetSource={{ assetId: require("@/assets/data/p-ball.sqlite3") }}
       >
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="entry/[name]" />
-        <Stack.Screen name="area/[name]" />
-      </Stack>
-      <StatusBar />
-    </SQLiteProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="entry/[name]" />
+          <Stack.Screen name="area/[name]" />
+        </Stack>
+        <StatusBar />
+      </SQLiteProvider>
+    </QueryClientProvider>
   );
 }
