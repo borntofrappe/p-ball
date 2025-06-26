@@ -2,9 +2,10 @@ import Panel from "@/components/Panel";
 import PixelatedImage from "@/components/PixelatedImage";
 import Ribbon from "@/components/Ribbon";
 import { Colors } from "@/constants/Colors";
+import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
-import React, { useEffect, useState } from "react";
+import { SQLiteDatabase, useSQLiteContext } from "expo-sqlite";
+import React from "react";
 import {
   Image,
   Pressable,
@@ -14,9 +15,81 @@ import {
   View,
 } from "react-native";
 
-type Catch = {
+const getAreaByName = async ({
+  db,
+  name,
+}: {
+  db: SQLiteDatabase;
   name: string;
-  uri: string;
+}): Promise<Area | undefined> => {
+  const areaDB = await db.getFirstAsync<AreaDB>(
+    `
+      SELECT *
+      FROM area 
+      WHERE name = ?
+      `,
+    [name]
+  );
+
+  if (areaDB) {
+    const { name, img } = areaDB;
+    const base64Data = btoa(String.fromCharCode.apply(null, img));
+    const uri = "data:image/png;base64," + base64Data;
+
+    return {
+      name,
+      uri,
+    };
+  }
+};
+
+const getCatchesByName = async ({
+  db,
+  name,
+}: {
+  db: SQLiteDatabase;
+  name: string;
+}): Promise<{ Red: Catch[]; Blue: Catch[] } | undefined> => {
+  const catchesDB = await db.getAllAsync<{
+    name: string;
+    version: Version;
+    img: number[];
+  }>(
+    `
+      SELECT name, version, img
+      FROM name_catch 
+      JOIN entry ON name_catch.entry = entry.name 
+      WHERE area = ?;
+      `,
+    [name]
+  );
+
+  if (catchesDB) {
+    const catches = catchesDB
+      .map((catchDB) => {
+        const { name, version, img } = catchDB;
+        const base64Data = btoa(String.fromCharCode.apply(null, img));
+        const uri = "data:image/png;base64," + base64Data;
+        return {
+          name,
+          version,
+          uri,
+        };
+      })
+      .reduce<{ Red: Catch[]; Blue: Catch[] }>(
+        (acc, curr) => {
+          const { name, version, uri } = curr;
+          acc[version].push({
+            name,
+            uri,
+          });
+          return acc;
+        },
+        { Red: [], Blue: [] }
+      );
+
+    return catches;
+  }
 };
 
 const AreaByName = () => {
@@ -28,10 +101,15 @@ const AreaByName = () => {
   const imageHeight = 30 * imageScale;
 
   const { name } = useLocalSearchParams<{ name: string }>();
-  const [area, setArea] = useState<Area>();
-  const [catches, setCatches] = useState<{ Red: Catch[]; Blue: Catch[] }>({
-    Red: [],
-    Blue: [],
+
+  const { data: area } = useQuery({
+    queryKey: ["area", { db, name }],
+    queryFn: () => getAreaByName({ db, name }),
+  });
+
+  const { data: catches } = useQuery({
+    queryKey: ["catches", { db, name }],
+    queryFn: () => getCatchesByName({ db, name }),
   });
 
   const selectEntryByName = async (name: string) => {
@@ -42,66 +120,6 @@ const AreaByName = () => {
       },
     });
   };
-
-  useEffect(() => {
-    db.getFirstAsync<AreaDB>(
-      `
-      SELECT *
-      FROM area 
-      WHERE name = ?
-      `,
-      [name]
-    ).then((areaDB) => {
-      if (areaDB) {
-        const { name, img } = areaDB;
-        const base64Data = btoa(String.fromCharCode.apply(null, img));
-        const uri = "data:image/png;base64," + base64Data;
-
-        setArea({
-          name,
-          uri,
-        });
-      }
-    });
-
-    db.getAllAsync<{
-      name: string;
-      version: Version;
-      img: number[];
-    }>(
-      `
-      SELECT name, version, img
-      FROM name_catch 
-      JOIN entry ON name_catch.entry = entry.name 
-      WHERE area = ?;
-      `,
-      [name]
-    ).then((catchesDB) => {
-      const catches = catchesDB
-        .map((catchDB) => {
-          const { name, version, img } = catchDB;
-          const base64Data = btoa(String.fromCharCode.apply(null, img));
-          const uri = "data:image/png;base64," + base64Data;
-          return {
-            name,
-            version,
-            uri,
-          };
-        })
-        .reduce<{ Red: Catch[]; Blue: Catch[] }>(
-          (acc, curr) => {
-            const { name, version, uri } = curr;
-            acc[version].push({
-              name,
-              uri,
-            });
-            return acc;
-          },
-          { Red: [], Blue: [] }
-        );
-      setCatches(catches);
-    });
-  });
 
   return (
     <>
@@ -133,7 +151,7 @@ const AreaByName = () => {
         )}
 
         <View style={[styles.panelsContainer]}>
-          {(catches.Red.length > 0 || catches.Blue.length > 0) &&
+          {catches && (catches.Red.length > 0 || catches.Blue.length > 0) &&
             Object.entries(catches)
               .filter((d) => d[1].length > 0)
               .map(([version, entries]) => (
