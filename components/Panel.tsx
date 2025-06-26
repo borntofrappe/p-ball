@@ -4,14 +4,35 @@ import { StyleSheet, Text, View } from "react-native";
 
 type Props = {
   label: string;
-  theme?: Version;
+  theme?: Version | "Yellow";
 };
 
-const Panel = ({ label, theme, children }: PropsWithChildren<Props>) => {
-  const panelTheme = theme || "Yellow";
+const Panel = ({
+  label,
+  theme = "Yellow",
+  children,
+}: PropsWithChildren<Props>) => {
+  const colorsPanel = Colors.panel[theme];
+  const colorsLabel = Colors.label[theme];
   return (
-    <View style={[styles.container]}>
-      <Text style={[styles.label]}>{label}</Text>
+    <View
+      style={[
+        styles.container,
+        {
+          ...colorsPanel,
+        },
+      ]}
+    >
+      <Text
+        style={[
+          styles.label,
+          {
+            ...colorsLabel,
+          },
+        ]}
+      >
+        {label}
+      </Text>
       {children}
     </View>
   );
@@ -27,9 +48,9 @@ const styles = StyleSheet.create({
     gap: 28,
     paddingVertical: 36,
     paddingHorizontal: 24,
-    backgroundColor: Colors.yellowBox.background,
     borderWidth: 3,
-    borderColor: Colors.yellowBox.primary,
+    backgroundColor: Colors.backgroundColor,
+    borderColor: Colors.color,
     marginTop: 12,
   },
   label: {
@@ -45,7 +66,7 @@ const styles = StyleSheet.create({
         translateY: "-50%",
       },
     ],
-    color: Colors.yellowBox.label,
-    backgroundColor: Colors.yellowBox.primary,
+    color: Colors.backgroundColor,
+    backgroundColor: Colors.color,
   },
 });

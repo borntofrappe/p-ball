@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
     height: itemHeight,
     paddingLeft: itemPaddingHorizontal[0],
     paddingRight: itemPaddingHorizontal[1],
-    color: Colors.text,
+    color: Colors.color,
     fontFamily: "Poppins-Bold",
     textTransform: "uppercase",
   },
   tabTextFocus: {
     color: Colors.white,
-    backgroundColor: Colors.text,
+    backgroundColor: Colors.color,
   },
 });

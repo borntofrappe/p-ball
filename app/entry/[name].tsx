@@ -171,7 +171,7 @@ const EntryByName = () => {
             Object.entries(locations)
               .filter((d) => d[1].length > 0)
               .map(([version, areas]) => (
-                <Panel label={version} key={version}>
+                <Panel label={version} theme={version as Version} key={version}>
                   {areas.map((area) => (
                     <View
                       style={[styles.itemsContainer]}
@@ -184,14 +184,23 @@ const EntryByName = () => {
                         }}
                         source={{ uri: area.uri }}
                       />
-                      <Text style={[styles.itemsText]}>{area.name}</Text>
+                      <Text
+                        style={[
+                          styles.itemsText,
+                          {
+                            color: Colors.panel[version as Version].color,
+                          },
+                        ]}
+                      >
+                        {area.name}
+                      </Text>
                     </View>
                   ))}
                 </Panel>
               ))}
 
           {connections.length > 1 && (
-            <Panel label="EVO">
+            <Panel label="EVO" theme="Yellow">
               {connections.map((connection) => (
                 <View
                   style={[styles.itemsContainer]}
@@ -204,7 +213,16 @@ const EntryByName = () => {
                     }}
                     source={{ uri: connection.uri }}
                   />
-                  <Text style={[styles.itemsText]}>{connection.name}</Text>
+                  <Text
+                    style={[
+                      styles.itemsText,
+                      {
+                        color: Colors.panel.Yellow.color,
+                      },
+                    ]}
+                  >
+                    {connection.name}
+                  </Text>
                 </View>
               ))}
             </Panel>
@@ -228,7 +246,6 @@ const styles = StyleSheet.create({
   },
   itemsText: {
     fontFamily: "ComicNeue-Bold",
-    color: Colors.text,
     fontSize: 16,
     maxWidth: 80,
     textAlign: "center",

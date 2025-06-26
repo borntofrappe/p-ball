@@ -1,41 +1,49 @@
 export const Colors = {
-  text: "#150c03",
-  background: "#fbf7f2",
+  color: "#150c03",
+  backgroundColor: "#fbf7f2",
   primary: "#f9b422",
-  selection: "#f7d633",
   white: "#ffffff",
   black: "#000000",
   red: "#e9270d",
   blue: "#0e0706",
   green: "#82c05d",
-  heading: {
+  pill: {
     color: "#e7dfc8",
-    background: "#150a06",
-    selection: "#8b5546",
+    backgroundColor: "#150a06",
   },
   input: {
     color: "#150a06",
-    background: "#ffffff",
+    backgroundColor: "#ffffff",
   },
-  yellowBox: {
-    text: "#3f1f17",
-    label: "#3f1f17",
-    background: "#f5e99d",
-    primary: "#f9b422",
-    selection: "#e3d9ab",
+  panel: {
+    Yellow: {
+      color: "#3f1f17",
+      backgroundColor: "#f5e99d",
+      borderColor: "#f9b422",
+    },
+    Red: {
+      color: "#3f1f17",
+      backgroundColor: "#f5e99d",
+      borderColor: "#e9270d",
+    },
+    Blue: {
+      color: "#3f1f17",
+      backgroundColor: "#f5e99d",
+      borderColor: "#2c1d5c",
+    },
   },
-  redBox: {
-    text: "#3f1f17",
-    label: "#0e0706",
-    background: "#f5e99d",
-    primary: "#e9270d",
-    selection: "#f8c281",
-  },
-  blueBox: {
-    text: "#3f1f17",
-    label: "#f0d5f0",
-    background: "#f5e99d",
-    primary: "#2c1d5c",
-    selection: "#d5d2ad",
+  label: {
+    Yellow: {
+      color: "#3f1f17",
+      backgroundColor: "#f9b422",
+    },
+    Red: {
+      color: "#0e0706",
+      backgroundColor: "#e9270d",
+    },
+    Blue: {
+      color: "#f0d5f0",
+      backgroundColor: "#2c1d5c",
+    },
   },
 };
