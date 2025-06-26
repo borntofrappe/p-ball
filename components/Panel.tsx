@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     fontFamily: "ComicNeue-Bold",
     position: "absolute",
     fontSize: 20,
+    letterSpacing: 0.5,
     paddingHorizontal: 10,
     paddingVertical: 4,
     left: 20,
