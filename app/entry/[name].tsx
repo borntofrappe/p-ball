@@ -45,6 +45,15 @@ const EntryByName = () => {
     });
   };
 
+   const selectAreaByName = async (name: string) => {
+    router.push({
+      pathname: "/area/[name]",
+      params: {
+        name,
+      },
+    });
+  };
+
   useEffect(() => {
     db.getFirstAsync<EntryDB>(
       `
@@ -200,28 +209,32 @@ const EntryByName = () => {
               .map(([version, areas]) => (
                 <Panel label={version} theme={version as Version} key={version}>
                   {areas.map((area) => (
-                    <View
-                      style={[styles.itemsContainer]}
+                    <Pressable
+                      onPress={() => {
+                        selectAreaByName(area.name);
+                      }}
                       key={`${version}-${area.name}`}
                     >
-                      <Image
-                        style={{
-                          width: 46,
-                          height: 30,
-                        }}
-                        source={{ uri: area.uri }}
-                      />
-                      <Text
-                        style={[
-                          styles.itemsText,
-                          {
-                            color: Colors.panel[version as Version].color,
-                          },
-                        ]}
-                      >
-                        {area.name}
-                      </Text>
-                    </View>
+                      <View style={[styles.itemsContainer]}>
+                        <Image
+                          style={{
+                            width: 46,
+                            height: 30,
+                          }}
+                          source={{ uri: area.uri }}
+                        />
+                        <Text
+                          style={[
+                            styles.itemsText,
+                            {
+                              color: Colors.panel[version as Version].color,
+                            },
+                          ]}
+                        >
+                          {area.name}
+                        </Text>
+                      </View>
+                    </Pressable>
                   ))}
                 </Panel>
               ))}
