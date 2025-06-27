@@ -48,7 +48,6 @@ const AreaByName = () => {
     <>
       <ScrollView
         contentContainerStyle={{
-          flex: 1,
           maxWidth: 500,
           width: "100%",
           marginInline: "auto",
