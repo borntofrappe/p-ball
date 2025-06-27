@@ -20,7 +20,7 @@ const AreaByName = () => {
   const db = useSQLiteContext();
   const router = useRouter();
 
-  const imageScale = 3;
+  const imageScale = 4;
   const imageWidth = 46 * imageScale;
   const imageHeight = 30 * imageScale;
 
@@ -66,7 +66,7 @@ const AreaByName = () => {
               height={imageHeight}
               uri={area.uri}
             />
-            <Text>{area.name}</Text>
+            <Text style={styles.title}>{area.name}</Text>
           </View>
         ) : (
           <>
@@ -75,7 +75,8 @@ const AreaByName = () => {
         )}
 
         <View style={[styles.panelsContainer]}>
-          {catches && (catches.Red.length > 0 || catches.Blue.length > 0) &&
+          {catches &&
+            (catches.Red.length > 0 || catches.Blue.length > 0) &&
             Object.entries(catches)
               .filter((d) => d[1].length > 0)
               .map(([version, entries]) => (
@@ -120,6 +121,10 @@ const AreaByName = () => {
 export default AreaByName;
 
 const styles = StyleSheet.create({
+  title: {
+    fontFamily: "ComicNeue-Bold",
+    fontSize: 22,
+  },
   panelsContainer: {
     gap: 16,
   },
