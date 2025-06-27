@@ -5,7 +5,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, View } from "react-native";
 
 const queryClient = new QueryClient();
 
@@ -36,16 +36,20 @@ export default function RootLayout() {
         assetSource={{ assetId: require("@/assets/data/p-ball.sqlite3") }}
       >
         <Ribbon />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="entry/[name]" />
-          <Stack.Screen name="area/[name]" />
-        </Stack>
-        <StatusBar />
+        <View style={{ flex: 1 }}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen name="search" />
+            <Stack.Screen name="catch" />
+            <Stack.Screen name="entry/[name]" />
+            <Stack.Screen name="area/[name]" />
+          </Stack>
+          <StatusBar />
+        </View>
         <Ribbon />
       </SQLiteProvider>
     </QueryClientProvider>

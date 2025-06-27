@@ -11,7 +11,7 @@ import { ImageBackground, Text, View } from "react-native";
 const imageNotFound = require("@/assets/images/entry-not-found.png");
 type SearchState = undefined | "search" | "find";
 
-const Index = () => {
+const Search = () => {
   const queryClient = useQueryClient();
 
   const db = useSQLiteContext();
@@ -133,4 +133,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Search;
