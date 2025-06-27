@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     height: 2,
-    backgroundColor: Colors.color,
+    backgroundColor: Colors.icon.color,
     position: "absolute",
     left: "0%",
     top: "50%",

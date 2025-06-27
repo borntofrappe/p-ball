@@ -7,6 +7,9 @@ export const Colors = {
   red: "#e9270d",
   blue: "#0e0706",
   green: "#82c05d",
+  icon: {
+    color: "#333333",
+  },
   pill: {
     color: "#fbf7f2",
     backgroundColor: "#150a06",
