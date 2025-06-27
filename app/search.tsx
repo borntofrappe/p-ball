@@ -2,20 +2,21 @@ import { getMatchesByName } from "@/api/queries";
 import ActivityIndicator from "@/components/ActivityIndicator";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
+import StepAnimation from "@/components/StepAnimation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
-import { ImageBackground, Text, View } from "react-native";
-import Animated, { Keyframe } from "react-native-reanimated";
+import { Text, View } from "react-native";
+import { Keyframe } from "react-native-reanimated";
 
 type SearchState = undefined | "search" | "find";
 
-const notFound = {
+const animationNotFound = {
   image: require("@/assets/images/entry-not-found.png"),
   size: 150,
   steps: 3,
-  animation: new Keyframe({
+  keyframe: new Keyframe({
     0: {
       transform: [
         {
@@ -187,27 +188,7 @@ const Search = () => {
                   gap: 16,
                 }}
               >
-                <View
-                  style={{
-                    width: notFound.size,
-                    height: notFound.size,
-                    overflow: "hidden",
-                  }}
-                >
-                  <Animated.View
-                    entering={notFound.animation
-                      .duration(notFound.duration)
-                      .delay(notFound.delay)}
-                  >
-                    <ImageBackground
-                      style={{
-                        width: notFound.size * notFound.steps,
-                        height: notFound.size,
-                      }}
-                      source={notFound.image}
-                    ></ImageBackground>
-                  </Animated.View>
-                </View>
+                <StepAnimation {...animationNotFound} />
                 <Text
                   style={{
                     fontFamily: "ComicNeue-Bold",
