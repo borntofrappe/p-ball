@@ -1,15 +1,17 @@
 import { Colors } from "@/constants/Colors";
 import { Link } from "expo-router";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 const imageIcon = require("@/assets/images/nav-icon.png");
+const imageSearch = require("@/assets/images/nav-search.png");
+const imageCatch = require("@/assets/images/nav-catch.png");
 
 const index = () => {
   return (
     <View style={[styles.parentContainer]}>
       <View style={[styles.optionContainer]}>
-        <Link href="/search">
-          <Text style={[styles.optionText]}>Search</Text>
+        <Link href="/search" aria-label="Search">
+          <Image source={imageSearch} style={[styles.optionImage]} />
         </Link>
       </View>
       <View>
@@ -17,8 +19,8 @@ const index = () => {
         <Image source={imageIcon} style={[styles.image]} />
       </View>
       <View style={[styles.optionContainer]}>
-        <Link href="/catch">
-          <Text style={[styles.optionText]}>Catch</Text>
+        <Link href="/catch" aria-label="Catch">
+          <Image source={imageCatch} style={[styles.optionImage]} />
         </Link>
       </View>
     </View>
@@ -37,11 +39,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  optionText: {
-    fontSize: 32,
-    color: Colors.color,
-    fontFamily: "Poppins-Bold",
-    textTransform: "uppercase",
+  optionImage: {
+    width: 300,
+    height: 61,
   },
   imageBackground: {
     height: 2,
