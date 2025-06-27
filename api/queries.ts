@@ -1,5 +1,36 @@
 import { SQLiteDatabase } from "expo-sqlite";
 
+export const getMatchesByName = async ({
+  db,
+  name,
+}: {
+  db: SQLiteDatabase;
+  name: string;
+}): Promise<Match[]> => {
+  if(name === "") {
+    return []
+  }
+  
+  const entriesDB: EntryDB[] = await db.getAllAsync(
+    "SELECT * FROM entry WHERE name LIKE ?",
+    [`%${name}%`]
+  );
+
+  if (entriesDB) {
+    return entriesDB.map(({ name, img }) => {
+      const base64Data = btoa(String.fromCharCode.apply(null, img));
+      const uri = "data:image/png;base64," + base64Data;
+
+      return {
+        name,
+        uri,
+      };
+    });
+  }
+
+  return []
+};
+
 export const getEntryByName = async ({
   db,
   name,
