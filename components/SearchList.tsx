@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 type Props = {
-  items: SearchItem[];
+  items: Match[];
   onSelect: (text: string) => void;
 };
 
