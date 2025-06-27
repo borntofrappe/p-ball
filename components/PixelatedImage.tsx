@@ -35,6 +35,7 @@ const PixelatedImage = ({ width, height, uri, style = {} }: Props) => {
         domStorageEnabled={false}
         javaScriptEnabled={false}
         scalesPageToFit={false}
+        showsVerticalScrollIndicator={false}
         style={{
           backgroundColor: "transparent",
         }}
