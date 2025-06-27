@@ -1,7 +1,6 @@
 import { getAreaByName, getCatchesByName } from "@/api/queries";
 import Panel from "@/components/Panel";
 import PixelatedImage from "@/components/PixelatedImage";
-import Ribbon from "@/components/Ribbon";
 import { Colors } from "@/constants/Colors";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -47,7 +46,6 @@ const AreaByName = () => {
 
   return (
     <>
-      <Ribbon />
       <ScrollView
         contentContainerStyle={{
           flex: 1,
@@ -113,7 +111,6 @@ const AreaByName = () => {
               ))}
         </View>
       </ScrollView>
-      <Ribbon />
     </>
   );
 };

@@ -1,3 +1,4 @@
+import Ribbon from "@/components/Ribbon";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -34,6 +35,7 @@ export default function RootLayout() {
         databaseName="p-ball.sqlite3"
         assetSource={{ assetId: require("@/assets/data/p-ball.sqlite3") }}
       >
+        <Ribbon />
         <Stack
           screenOptions={{
             headerShown: false,
@@ -44,6 +46,7 @@ export default function RootLayout() {
           <Stack.Screen name="area/[name]" />
         </Stack>
         <StatusBar />
+        <Ribbon />
       </SQLiteProvider>
     </QueryClientProvider>
   );

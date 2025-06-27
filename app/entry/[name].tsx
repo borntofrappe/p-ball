@@ -5,7 +5,6 @@ import {
 } from "@/api/queries";
 import Entry from "@/components/Entry";
 import Panel from "@/components/Panel";
-import Ribbon from "@/components/Ribbon";
 import { Colors } from "@/constants/Colors";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -69,7 +68,6 @@ const EntryByName = () => {
 
   return (
     <>
-      <Ribbon />
       <ScrollView
         ref={page}
         contentContainerStyle={{
@@ -170,7 +168,6 @@ const EntryByName = () => {
           )}
         </View>
       </ScrollView>
-      <Ribbon />
     </>
   );
 };

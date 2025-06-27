@@ -24,8 +24,8 @@ const Ribbon = () => {
       <Image
         source={imagePattern}
         style={{
-          width: Math.floor(width / 60) * 60,
-          height: 60,
+          width: Math.floor(width / 50) * 50,
+          height: 50,
         }}
         resizeMode="repeat"
       />

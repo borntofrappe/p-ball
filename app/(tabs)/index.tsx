@@ -1,6 +1,5 @@
 import { getMatchesByName } from "@/api/queries";
 import ActivityIndicator from "@/components/ActivityIndicator";
-import Ribbon from "@/components/Ribbon";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -61,7 +60,6 @@ const Index = () => {
 
   return (
     <>
-      <Ribbon />
       <View
         style={{
           maxWidth: 500,
