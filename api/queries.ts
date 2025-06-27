@@ -7,10 +7,10 @@ export const getMatchesByName = async ({
   db: SQLiteDatabase;
   name: string;
 }): Promise<Match[]> => {
-  if(name === "") {
-    return []
+  if (name === "") {
+    return [];
   }
-  
+
   const entriesDB: EntryDB[] = await db.getAllAsync(
     "SELECT * FROM entry WHERE name LIKE ?",
     [`%${name}%`]
@@ -28,7 +28,7 @@ export const getMatchesByName = async ({
     });
   }
 
-  return []
+  return [];
 };
 
 export const getEntryByName = async ({
@@ -70,7 +70,7 @@ export const getLocationsByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<{ Red: Area[]; Blue: Area[] } | undefined> => {
+}): Promise<{ Red: Match[]; Blue: Match[] } | undefined> => {
   const locationsDB = await db.getAllAsync<{
     name: string;
     version: Version;
@@ -119,7 +119,7 @@ export const getConnectionsByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<Array<{ name: string; uri: string }> | undefined> => {
+}): Promise<Match[] | undefined> => {
   const connectionsDB = await db.getAllAsync<{ name: string; img: number[] }>(
     `
       SELECT name, img
@@ -206,7 +206,7 @@ export const getCatchesByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<{ Red: Catch[]; Blue: Catch[] } | undefined> => {
+}): Promise<{ Red: Match[]; Blue: Match[] } | undefined> => {
   const catchesDB = await db.getAllAsync<{
     name: string;
     version: Version;
@@ -233,7 +233,7 @@ export const getCatchesByName = async ({
           uri,
         };
       })
-      .reduce<{ Red: Catch[]; Blue: Catch[] }>(
+      .reduce<{ Red: Match[]; Blue: Match[] }>(
         (acc, curr) => {
           const { name, version, uri } = curr;
           acc[version].push({

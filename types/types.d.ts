@@ -41,8 +41,3 @@ type VersionDB = {
   id: string;
   name: Version;
 };
-
-type Catch = {
-  name: string;
-  uri: string;
-};
