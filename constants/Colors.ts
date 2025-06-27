@@ -18,18 +18,18 @@ export const Colors = {
   panel: {
     Yellow: {
       color: "#3f1f17",
-      backgroundColor: "#f5e99d",
+      backgroundColor: "#f6ecab",
       borderColor: "#f9b422",
     },
     Red: {
-      color: "#3f1f17",
-      backgroundColor: "#f5e99d",
-      borderColor: "#e9270d",
+      color: "#440000",
+      backgroundColor: "#ffe4e2",
+      borderColor: "#e52405",
     },
     Blue: {
-      color: "#3f1f17",
-      backgroundColor: "#f5e99d",
-      borderColor: "#2c1d5c",
+      color: "#020f22",
+      backgroundColor: "#d3e0f2",
+      borderColor: "#2d1e67",
     },
   },
   label: {
@@ -38,12 +38,12 @@ export const Colors = {
       backgroundColor: "#f9b422",
     },
     Red: {
-      color: "#0e0706",
+      color: "#fff5ea",
       backgroundColor: "#e9270d",
     },
     Blue: {
-      color: "#f0d5f0",
-      backgroundColor: "#2c1d5c",
+      color: "#f1eefe",
+      backgroundColor: "#2d1e67",
     },
   },
 };
