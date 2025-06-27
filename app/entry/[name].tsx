@@ -1,10 +1,16 @@
+import {
+  getConnectionsByName,
+  getEntryByName,
+  getLocationsByName,
+} from "@/api/queries";
 import Entry from "@/components/Entry";
 import Panel from "@/components/Panel";
 import Ribbon from "@/components/Ribbon";
 import { Colors } from "@/constants/Colors";
+import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import {
   Image,
   Pressable,
@@ -20,14 +26,21 @@ const EntryByName = () => {
   const page = useRef<ScrollView>(null);
 
   const { name } = useLocalSearchParams<{ name: string }>();
-  const [entry, setEntry] = useState<Entry>();
-  const [locations, setLocations] = useState<{ Red: Area[]; Blue: Area[] }>({
-    Red: [],
-    Blue: [],
+
+  const { data: entry } = useQuery({
+    queryKey: ["entry", { db, name }],
+    queryFn: () => getEntryByName({ db, name }),
   });
-  const [connections, setConnections] = useState<
-    { name: string; uri: string }[]
-  >([]);
+
+  const { data: locations } = useQuery({
+    queryKey: ["locations", { db, name }],
+    queryFn: () => getLocationsByName({ db, name }),
+  });
+
+  const { data: connections } = useQuery({
+    queryKey: ["connections", { db, name }],
+    queryFn: () => getConnectionsByName({ db, name }),
+  });
 
   const selectEntryByName = async (name: string) => {
     if (entry && entry.name === name) {
@@ -53,123 +66,6 @@ const EntryByName = () => {
       },
     });
   };
-
-  useEffect(() => {
-    db.getFirstAsync<EntryDB>(
-      `
-      SELECT *
-      FROM entry 
-      WHERE name = ?
-      `,
-      [name]
-    ).then((entryDB) => {
-      if (entryDB) {
-        const { no, name, category, height, weight, description, img } =
-          entryDB;
-        const base64Data = btoa(String.fromCharCode.apply(null, img));
-        const uri = "data:image/png;base64," + base64Data;
-
-        setEntry({
-          no,
-          name,
-          category,
-          height,
-          weight,
-          description,
-          uri,
-        });
-      }
-    });
-
-    db.getAllAsync<{
-      name: string;
-      version: Version;
-      img: number[];
-    }>(
-      `
-      SELECT name, version, img 
-      FROM name_catch 
-      JOIN area ON name_catch.area = area.name 
-      WHERE entry = ?;
-      `,
-      [name]
-    ).then((locationsDB) => {
-      const locations = locationsDB
-        .map((locationDB) => {
-          const { name, version, img } = locationDB;
-          const base64Data = btoa(String.fromCharCode.apply(null, img));
-          const uri = "data:image/png;base64," + base64Data;
-          return {
-            name,
-            version,
-            uri,
-          };
-        })
-        .reduce<{ Red: Area[]; Blue: Area[] }>(
-          (acc, curr) => {
-            const { name, version, uri } = curr;
-            acc[version].push({
-              name,
-              uri,
-            });
-            return acc;
-          },
-          { Red: [], Blue: [] }
-        );
-      setLocations(locations);
-    });
-
-    db.getAllAsync<{ name: string; img: number[] }>(
-      `
-      SELECT name, img 
-      FROM entry 
-      WHERE name IN (
-        SELECT base 
-        FROM name_evo 
-        WHERE evolution = (
-          SELECT base FROM name_evo 
-          WHERE evolution = $name 
-        ) 
-        UNION 
-        SELECT base 
-        FROM name_evo 
-        WHERE evolution = $name 
-        UNION 
-        SELECT $name
-        UNION
-        SELECT evolution 
-        FROM name_evo 
-        WHERE base = $name
-        UNION
-        SELECT evolution 
-        FROM name_evo 
-        WHERE base = (
-          SELECT evolution 
-          FROM name_evo 
-          WHERE base = $name
-        )
-      );
-      `,
-      {
-        $name: name,
-      }
-    ).then((connectionsDB) => {
-      setConnections(
-        connectionsDB.map((connectionDB) => {
-          const { name, img } = connectionDB;
-          const base64Data = btoa(String.fromCharCode.apply(null, img));
-          const uri = "data:image/png;base64," + base64Data;
-
-          return {
-            name,
-            uri,
-          };
-        })
-      );
-    });
-
-    return () => {};
-  }, []);
 
   return (
     <>
@@ -203,7 +99,8 @@ const EntryByName = () => {
         )}
 
         <View style={[styles.panelsContainer]}>
-          {(locations.Red.length > 0 || locations.Blue.length > 0) &&
+          {locations &&
+            (locations.Red.length > 0 || locations.Blue.length > 0) &&
             Object.entries(locations)
               .filter((d) => d[1].length > 0)
               .map(([version, areas]) => (
@@ -239,7 +136,7 @@ const EntryByName = () => {
                 </Panel>
               ))}
 
-          {connections.length > 1 && (
+          {connections && connections.length > 1 && (
             <Panel label="EVO" theme="Yellow">
               {connections.map((connection) => (
                 <Pressable

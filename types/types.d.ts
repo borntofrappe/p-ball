@@ -1,9 +1,7 @@
-type SearchItem = {
+type Match = {
   name: string;
   uri: string;
 };
-
-type SearchState = undefined | "search" | "find";
 
 type Entry = {
   no: string;

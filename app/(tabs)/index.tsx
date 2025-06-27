@@ -1,54 +1,45 @@
+import { getMatchesByName } from "@/api/queries";
 import ActivityIndicator from "@/components/ActivityIndicator";
 import Ribbon from "@/components/Ribbon";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
 import { ImageBackground, Text, View } from "react-native";
 
 const imageNotFound = require("@/assets/images/entry-not-found.png");
+type SearchState = undefined | "search" | "find";
 
 const Index = () => {
+  const queryClient = useQueryClient();
+
   const db = useSQLiteContext();
   const router = useRouter();
 
   const [input, setInput] = useState("");
-  const [searchItems, setSearchItems] = useState<SearchItem[]>([]);
+  const { data: searchItems } = useQuery({
+    queryKey: ["input", { db, name: input }],
+    queryFn: () => getMatchesByName({ db, name: input }),
+  });
+
   const [searchState, setSearchState] = useState<SearchState>();
   let [timeoutID, setTimeoutID] = useState<number>();
   const searchDelay = 1600;
 
   const searchEntryByName = async (name: string) => {
-    const entriesDB: EntryDB[] = await db.getAllAsync(
-      "SELECT * FROM entry WHERE name LIKE ?",
-      [`%${name}%`]
-    );
-
-    setSearchItems(
-      entriesDB.map(({ name, img }) => {
-        const base64Data = btoa(String.fromCharCode.apply(null, img));
-        const uri = "data:image/png;base64," + base64Data;
-
-        return {
-          name,
-          uri,
-        };
-      })
-    );
-
+    await queryClient.invalidateQueries({ queryKey: ["input"] });
     setSearchState("find");
   };
 
   const search = (text: string) => {
-    const searchText = text.trim();
     clearTimeout(timeoutID);
-    if (searchText === "") {
-      setSearchItems([]);
-      setSearchState("find");
+    if (text === "") {
+      searchEntryByName(text);
     } else {
       let id = setTimeout(() => {
-        searchEntryByName(searchText);
+        searchEntryByName(text);
         clearTimeout(id);
       }, searchDelay);
 
@@ -56,7 +47,7 @@ const Index = () => {
       setTimeoutID(id);
     }
 
-    setInput(searchText);
+    setInput(text);
   };
 
   const selectEntryByName = async (name: string) => {
@@ -100,8 +91,11 @@ const Index = () => {
           </View>
         ) : (
           <>
-            <SearchList items={searchItems} onSelect={selectEntryByName} />
-            {searchItems.length === 0 && input && (
+            <SearchList
+              items={searchItems || []}
+              onSelect={selectEntryByName}
+            />
+            {searchItems && searchItems.length === 0 && input && (
               <View
                 style={{
                   alignItems: "center",
