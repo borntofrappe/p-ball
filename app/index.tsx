@@ -6,21 +6,21 @@ const imageIcon = require("@/assets/images/nav-icon.png");
 
 const index = () => {
   return (
-    <View style={[styles.optionsContainer]}>
-      <Link href="/search" style={{ display: "contents" }}>
-        <View style={[styles.optionContainer]}>
+    <View style={[styles.parentContainer]}>
+      <View style={[styles.optionContainer]}>
+        <Link href="/search">
           <Text style={[styles.optionText]}>Search</Text>
-        </View>
-      </Link>
+        </Link>
+      </View>
       <View>
         <View style={[styles.imageBackground]}></View>
         <Image source={imageIcon} style={[styles.image]} />
       </View>
-      <Link href="/catch" style={{ display: "contents" }}>
-        <View style={[styles.optionContainer]}>
+      <View style={[styles.optionContainer]}>
+        <Link href="/catch">
           <Text style={[styles.optionText]}>Catch</Text>
-        </View>
-      </Link>
+        </Link>
+      </View>
     </View>
   );
 };
@@ -28,7 +28,7 @@ const index = () => {
 export default index;
 
 const styles = StyleSheet.create({
-  optionsContainer: {
+  parentContainer: {
     flex: 1,
     backgroundColor: Colors.primary,
   },
