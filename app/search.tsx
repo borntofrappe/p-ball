@@ -7,9 +7,96 @@ import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
 import { ImageBackground, Text, View } from "react-native";
+import Animated, { Keyframe } from "react-native-reanimated";
 
-const imageNotFound = require("@/assets/images/entry-not-found.png");
 type SearchState = undefined | "search" | "find";
+
+const notFound = {
+  image: require("@/assets/images/entry-not-found.png"),
+  size: 150,
+  steps: 3,
+  animation: new Keyframe({
+    0: {
+      transform: [
+        {
+          translateX: 0,
+        },
+      ],
+    },
+    19.99: {
+      transform: [
+        {
+          translateX: 0,
+        },
+      ],
+    },
+    20: {
+      transform: [
+        {
+          translateX: -150,
+        },
+      ],
+    },
+    39.99: {
+      transform: [
+        {
+          translateX: -150,
+        },
+      ],
+    },
+    40: {
+      transform: [
+        {
+          translateX: 0,
+        },
+      ],
+    },
+    59.99: {
+      transform: [
+        {
+          translateX: 0,
+        },
+      ],
+    },
+    60: {
+      transform: [
+        {
+          translateX: -150,
+        },
+      ],
+    },
+    79.99: {
+      transform: [
+        {
+          translateX: -150,
+        },
+      ],
+    },
+    80: {
+      transform: [
+        {
+          translateX: 0,
+        },
+      ],
+    },
+    99.99: {
+      transform: [
+        {
+          translateX: 0,
+        },
+      ],
+    },
+    100: {
+      transform: [
+        {
+          translateX: -300,
+        },
+      ],
+    },
+  }),
+  duration: 4000,
+  delay: 100,
+};
 
 const Search = () => {
   const queryClient = useQueryClient();
@@ -102,19 +189,24 @@ const Search = () => {
               >
                 <View
                   style={{
-                    width: 150,
-                    height: 150,
+                    width: notFound.size,
+                    height: notFound.size,
                     overflow: "hidden",
                   }}
                 >
-                  <ImageBackground
-                    style={{
-                      width: 450,
-                      height: 150,
-                      left: -150,
-                    }}
-                    source={imageNotFound}
-                  ></ImageBackground>
+                  <Animated.View
+                    entering={notFound.animation
+                      .duration(notFound.duration)
+                      .delay(notFound.delay)}
+                  >
+                    <ImageBackground
+                      style={{
+                        width: notFound.size * notFound.steps,
+                        height: notFound.size,
+                      }}
+                      source={notFound.image}
+                    ></ImageBackground>
+                  </Animated.View>
                 </View>
                 <Text
                   style={{
