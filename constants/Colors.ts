@@ -8,7 +8,7 @@ export const Colors = {
   blue: "#0e0706",
   green: "#82c05d",
   pill: {
-    color: "#e7dfc8",
+    color: "#fbf7f2",
     backgroundColor: "#150a06",
   },
   input: {

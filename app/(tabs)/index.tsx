@@ -120,8 +120,8 @@ const Index = () => {
                 </View>
                 <Text
                   style={{
-                    fontFamily: "Poppins-Bold",
-                    fontSize: 20,
+                    fontFamily: "ComicNeue-Bold",
+                    fontSize: 24,
                   }}
                 >
                   Entry not found

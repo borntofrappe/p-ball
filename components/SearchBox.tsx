@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   },
   searchTitle: {
     fontFamily: "ComicNeue-Bold",
+    letterSpacing: 0.5,
     alignSelf: "center",
     paddingHorizontal: 24,
     paddingVertical: 8,
