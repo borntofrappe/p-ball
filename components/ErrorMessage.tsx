@@ -8,11 +8,12 @@ type Props = {
 };
 const ErrorMessage = ({ error }: Props) => {
   return (
-    <>
+    <View>
       <View
         style={{
           width: animationError.size,
           height: animationError.size,
+          alignSelf: "center",
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -30,7 +31,7 @@ const ErrorMessage = ({ error }: Props) => {
       >
         {error.message}
       </Text>
-    </>
+    </View>
   );
 };
 
