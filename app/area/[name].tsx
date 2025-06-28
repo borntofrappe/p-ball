@@ -88,7 +88,7 @@ const AreaByName = () => {
           gap: 24,
         }}
       >
-        {area ? (
+        {area && (
           <View style={[styles.itemsContainer]}>
             <PixelatedImage
               width={imageWidth}
@@ -97,10 +97,6 @@ const AreaByName = () => {
             />
             <Text style={styles.title}>{area.name}</Text>
           </View>
-        ) : (
-          <>
-            <Text>{name} not found</Text>
-          </>
         )}
 
         <View style={[styles.panelsContainer]}>

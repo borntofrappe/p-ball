@@ -111,7 +111,7 @@ const EntryByName = () => {
           gap: 24,
         }}
       >
-        {entry ? (
+        {entry && (
           <Entry
             no={entry.no}
             name={entry.name}
@@ -121,10 +121,6 @@ const EntryByName = () => {
             description={entry.description}
             uri={entry.uri}
           />
-        ) : (
-          <>
-            <Text>{name} not found</Text>
-          </>
         )}
 
         <View style={[styles.panelsContainer]}>
