@@ -47,11 +47,9 @@ export const getEntryByName = async ({
     [name]
   );
 
-  await new Promise((res) => setTimeout(res, 1000));
-
   if (entryDB === null) {
     throw new Error(
-      `${name} does not match the name of any entry from the Kanto dex`
+      `"${name}" does not match the name of any entry from the Kanto dex`
     );
   }
 
@@ -205,7 +203,7 @@ export const getAreaByName = async ({
 
   if (areaDB === null) {
     throw new Error(
-      `${name} does not match the name of an area from the Kanto region`
+      `"${name}" does not match the name of an area from the Kanto region`
     );
   }
 
