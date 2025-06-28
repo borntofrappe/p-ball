@@ -272,3 +272,60 @@ export const getCatchesByName = async ({
     Blue: [],
   };
 };
+
+export const getEntryByCatchCounter = async ({
+  db,
+  catchCounter,
+}: {
+  db: SQLiteDatabase;
+  catchCounter: string;
+}): Promise<Entry | undefined> => {
+  let n = parseInt(catchCounter, 10);
+  if (isNaN(n)) {
+    throw new Error("Invalid catch counter");
+  }
+
+  const ids = await db.getAllAsync<{ id: number }>(`
+      SELECT entry_id as id
+      FROM order_id
+     `);
+
+  if (ids.length === 0) {
+    throw new Error("Unable to fetch entry identifiers");
+  }
+
+  const { length } = ids;
+  if (n < 0 || n > length) {
+    console.error("Catch counter out of range, fetching random entry");
+    n = Math.floor(Math.random() * length);
+  }
+
+  const entryDB = await db.getFirstAsync<EntryDB>(
+    `
+      SELECT *
+      FROM entry 
+      WHERE id = ?
+      `,
+    [ids[n].id]
+  );
+
+  if (entryDB === null) {
+    throw new Error("Unable to catch entry");
+  }
+
+  if (entryDB) {
+    const { no, name, category, height, weight, description, img } = entryDB;
+    const base64Data = btoa(String.fromCharCode.apply(null, img));
+    const uri = "data:image/png;base64," + base64Data;
+
+    return {
+      no,
+      name,
+      category,
+      height,
+      weight,
+      description,
+      uri,
+    };
+  }
+};
