@@ -1,9 +1,8 @@
 import { getAreaByName, getCatchesByName } from "@/api/queries";
-import ActivityIndicator from "@/components/ActivityIndicator";
+import ErrorMessage from "@/components/ErrorMessage";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import Panel from "@/components/Panel";
 import PixelatedImage from "@/components/PixelatedImage";
-import StepAnimation from "@/components/StepAnimation";
-import { animationError } from "@/constants/Animations";
 import { Colors } from "@/constants/Colors";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -59,29 +58,7 @@ const AreaByName = () => {
           alignSelf: "center",
         }}
       >
-        <View
-          style={{
-            width: animationError.size,
-            height: animationError.size,
-            marginTop: 16,
-            alignSelf: "center",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <StepAnimation {...animationError} />
-        </View>
-
-        <Text
-          style={{
-            fontFamily: "ComicNeue-Bold",
-            fontSize: 20,
-            maxWidth: 360,
-            textAlign: "center",
-          }}
-        >
-          {error.message}
-        </Text>
+        <ErrorMessage error={error} />
       </View>
     );
   }
@@ -90,15 +67,11 @@ const AreaByName = () => {
     return (
       <View
         style={{
-          width: 180,
-          height: 180,
-          alignSelf: "center",
           marginTop: 16,
-          justifyContent: "center",
-          alignItems: "center",
+          alignSelf: "center",
         }}
       >
-        <ActivityIndicator width={120} height={120} duration={1000} />
+        <LoadingSpinner />
       </View>
     );
   }

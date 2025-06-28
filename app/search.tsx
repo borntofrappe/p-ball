@@ -1,5 +1,5 @@
 import { getMatchesByName } from "@/api/queries";
-import ActivityIndicator from "@/components/ActivityIndicator";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import StepAnimation from "@/components/StepAnimation";
@@ -73,19 +73,11 @@ const Search = () => {
         {searchState === "search" ? (
           <View
             style={{
-              width: 180,
-              height: 180,
-              alignSelf: "center",
               marginTop: 16,
-              justifyContent: "center",
-              alignItems: "center",
+              alignSelf: "center",
             }}
           >
-            <ActivityIndicator
-              width={120}
-              height={120}
-              duration={searchDelay / 2.1}
-            />
+            <LoadingSpinner duration={searchDelay / 2.1} />
           </View>
         ) : (
           <>
