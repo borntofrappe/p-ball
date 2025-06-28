@@ -7,6 +7,7 @@ import ActivityIndicator from "@/components/ActivityIndicator";
 import Entry from "@/components/Entry";
 import Panel from "@/components/Panel";
 import StepAnimation from "@/components/StepAnimation";
+import { animationError } from "@/constants/Animations";
 import { Colors } from "@/constants/Colors";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -20,33 +21,6 @@ import {
   Text,
   View,
 } from "react-native";
-import { Keyframe } from "react-native-reanimated";
-import { ValidKeyframeProps } from "react-native-reanimated/lib/typescript/commonTypes";
-
-const keyframeProps: ValidKeyframeProps = Object.fromEntries([
-  ...Array(7)
-    .fill("")
-    .map((_, i, { length }) => {
-      const percentFrom = (100 / length) * i;
-      const percentTo = (100 / length) * (i + 1) * 0.9999;
-      const translateX = i % 2 === 0 ? 0 : -200;
-      return [
-        [percentFrom, { transform: [{ translateX }] }],
-        [percentTo, { transform: [{ translateX }] }],
-      ];
-    })
-    .flat(),
-  [100, { transform: [{ translateX: -400 }] }],
-]);
-
-const animationError = {
-  image: require("@/assets/images/error.png"),
-  size: 200,
-  steps: 3,
-  keyframe: new Keyframe(keyframeProps),
-  duration: 500,
-  delay: 1000,
-};
 
 const EntryByName = () => {
   const db = useSQLiteContext();
