@@ -25,7 +25,11 @@ const AreaByName = () => {
 
   const { name } = useLocalSearchParams<{ name: string }>();
 
-  const { data: area } = useQuery({
+  const {
+    data: area,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["area", { db, name }],
     queryFn: () => getAreaByName({ db, name }),
   });
@@ -43,6 +47,22 @@ const AreaByName = () => {
       },
     });
   };
+
+  if (error) {
+    return (
+      <View>
+        <Text>{error.message}</Text>
+      </View>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
 
   return (
     <>

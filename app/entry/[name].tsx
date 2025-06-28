@@ -26,7 +26,7 @@ const EntryByName = () => {
 
   const { name } = useLocalSearchParams<{ name: string }>();
 
-  const { data: entry } = useQuery({
+  const { data: entry, error, isLoading } = useQuery({
     queryKey: ["entry", { db, name }],
     queryFn: () => getEntryByName({ db, name }),
   });
@@ -65,6 +65,18 @@ const EntryByName = () => {
       },
     });
   };
+
+  if (error) {
+    return <View>
+      <Text>{error.message}</Text>
+    </View>
+  }
+
+  if (isLoading) {
+     return <View>
+      <Text>Loading</Text>
+    </View>
+  }
 
   return (
     <>

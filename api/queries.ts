@@ -47,6 +47,14 @@ export const getEntryByName = async ({
     [name]
   );
 
+  await new Promise((res) => setTimeout(res, 1000));
+
+  if (entryDB === null) {
+    throw new Error(
+      `${name} does not match the name of any entry from the Kanto dex`
+    );
+  }
+
   if (entryDB) {
     const { no, name, category, height, weight, description, img } = entryDB;
     const base64Data = btoa(String.fromCharCode.apply(null, img));
@@ -70,7 +78,7 @@ export const getLocationsByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<{ Red: Match[]; Blue: Match[] } | undefined> => {
+}): Promise<{ Red: Match[]; Blue: Match[] }> => {
   const locationsDB = await db.getAllAsync<{
     name: string;
     version: Version;
@@ -111,6 +119,11 @@ export const getLocationsByName = async ({
 
     return locations;
   }
+
+  return {
+    Red: [],
+    Blue: [],
+  };
 };
 
 export const getConnectionsByName = async ({
@@ -119,7 +132,7 @@ export const getConnectionsByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<Match[] | undefined> => {
+}): Promise<Match[]> => {
   const connectionsDB = await db.getAllAsync<{ name: string; img: number[] }>(
     `
       SELECT name, img
@@ -170,6 +183,8 @@ export const getConnectionsByName = async ({
 
     return connections;
   }
+
+  return [];
 };
 
 export const getAreaByName = async ({
@@ -187,6 +202,12 @@ export const getAreaByName = async ({
       `,
     [name]
   );
+
+  if (areaDB === null) {
+    throw new Error(
+      `${name} does not match the name of an area from the Kanto region`
+    );
+  }
 
   if (areaDB) {
     const { name, img } = areaDB;
@@ -206,7 +227,7 @@ export const getCatchesByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<{ Red: Match[]; Blue: Match[] } | undefined> => {
+}): Promise<{ Red: Match[]; Blue: Match[] }> => {
   const catchesDB = await db.getAllAsync<{
     name: string;
     version: Version;
@@ -247,4 +268,9 @@ export const getCatchesByName = async ({
 
     return catches;
   }
+
+  return {
+    Red: [],
+    Blue: [],
+  };
 };
