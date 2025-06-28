@@ -3,102 +3,14 @@ import ActivityIndicator from "@/components/ActivityIndicator";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import StepAnimation from "@/components/StepAnimation";
+import { animationNotFound } from "@/constants/Animations";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
 import { Text, View } from "react-native";
-import { Keyframe } from "react-native-reanimated";
 
 type SearchState = undefined | "search" | "find";
-
-const animationNotFound = {
-  image: require("@/assets/images/entry-not-found.png"),
-  size: 150,
-  steps: 3,
-  keyframe: new Keyframe({
-    0: {
-      transform: [
-        {
-          translateX: 0,
-        },
-      ],
-    },
-    19.99: {
-      transform: [
-        {
-          translateX: 0,
-        },
-      ],
-    },
-    20: {
-      transform: [
-        {
-          translateX: -150,
-        },
-      ],
-    },
-    39.99: {
-      transform: [
-        {
-          translateX: -150,
-        },
-      ],
-    },
-    40: {
-      transform: [
-        {
-          translateX: 0,
-        },
-      ],
-    },
-    59.99: {
-      transform: [
-        {
-          translateX: 0,
-        },
-      ],
-    },
-    60: {
-      transform: [
-        {
-          translateX: -150,
-        },
-      ],
-    },
-    79.99: {
-      transform: [
-        {
-          translateX: -150,
-        },
-      ],
-    },
-    80: {
-      transform: [
-        {
-          translateX: 0,
-        },
-      ],
-    },
-    99.99: {
-      transform: [
-        {
-          translateX: 0,
-        },
-      ],
-    },
-    100: {
-      transform: [
-        {
-          translateX: -300,
-        },
-      ],
-    },
-  }),
-  duration: 4000,
-  delay: 100,
-};
-
 const Search = () => {
   const queryClient = useQueryClient();
 
