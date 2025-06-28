@@ -26,7 +26,7 @@ export const animationError = {
 };
 
 export const animationNotFound = {
-  image: require("@/assets/images/entry-not-found.png"),
+  image: require("@/assets/images/not-found.png"),
   size: 150,
   steps: 3,
   keyframe: new Keyframe({
