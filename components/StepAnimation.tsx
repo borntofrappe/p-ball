@@ -8,7 +8,6 @@ type Props = {
   steps: number;
   keyframe: ReanimatedKeyframe;
   duration: number;
-  delay: number;
 };
 
 const StepAnimation = ({
@@ -17,7 +16,6 @@ const StepAnimation = ({
   steps,
   keyframe,
   duration,
-  delay,
 }: Props) => {
   return (
     <View
@@ -27,7 +25,7 @@ const StepAnimation = ({
         overflow: "hidden",
       }}
     >
-      <Animated.View entering={keyframe.duration(duration).delay(delay)}>
+      <Animated.View entering={keyframe.duration(duration)}>
         <ImageBackground
           style={{
             width: size * steps,

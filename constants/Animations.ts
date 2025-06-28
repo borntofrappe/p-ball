@@ -1,28 +1,36 @@
 import { Keyframe } from "react-native-reanimated";
 
+const animationErrorDuration = 500;
+const animationErrorDelay = 3000;
+const animationErrorStart =
+  100 / ((animationErrorDuration + animationErrorDelay) / animationErrorDelay);
+
 export const animationError = {
   image: require("@/assets/images/error.png"),
   size: 200,
   steps: 3,
   keyframe: new Keyframe(
     Object.fromEntries([
-      ...Array(7)
+      [0, { transform: [{ translateX: 0 }] }],
+      ...Array(10)
         .fill("")
         .map((_, i, { length }) => {
-          const percentFrom = (100 / length) * i;
-          const percentTo = (100 / length) * (i + 1) * 0.9999;
+          const from =
+            animationErrorStart + ((100 - animationErrorStart) / length) * i;
+          const to =
+            animationErrorStart +
+            ((100 - animationErrorStart) / length) * (i + 1) * 0.9999;
           const translateX = i % 2 === 0 ? 0 : -200;
           return [
-            [percentFrom, { transform: [{ translateX }] }],
-            [percentTo, { transform: [{ translateX }] }],
+            [from, { transform: [{ translateX }] }],
+            [to, { transform: [{ translateX }] }],
           ];
         })
         .flat(),
       [100, { transform: [{ translateX: -400 }] }],
     ])
   ),
-  duration: 500,
-  delay: 1000,
+  duration: animationErrorDuration + animationErrorDelay,
 };
 
 export const animationNotFound = {
@@ -109,5 +117,4 @@ export const animationNotFound = {
     },
   }),
   duration: 4000,
-  delay: 100,
 };
