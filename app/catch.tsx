@@ -5,7 +5,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { Colors } from "@/constants/Colors";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   Image,
   Pressable,
@@ -32,7 +32,6 @@ const Catch = () => {
       }),
   });
 
-  const textInput = useRef<TextInput>(null);
   const [caught, setCaught] = useState<boolean>(false);
   const [guess, setGuess] = useState<Entry>({
     no: " ",
@@ -47,8 +46,7 @@ const Catch = () => {
   const catchEntry = () => {
     if (entry === undefined) return;
 
-    const name = textInput.current?.value;
-    if (name.toLowerCase() === entry.name.toLowerCase()) {
+    if (guess.name.toLowerCase() === entry.name.toLowerCase()) {
       setCaught(true);
       setGuess(entry);
     }
@@ -59,6 +57,13 @@ const Catch = () => {
     setGuess({
       ...guess,
       uri: entry.uri,
+    });
+  };
+
+  const onChangeText = (text: string) => {
+    setGuess({
+      ...guess,
+      name: text,
     });
   };
 
@@ -114,7 +119,7 @@ const Catch = () => {
 
           <View style={[styles.guessContainer]}>
             <TextInput
-              ref={textInput}
+              onChangeText={onChangeText}
               style={[styles.guessInput]}
               spellCheck={false}
               maxLength={30}
