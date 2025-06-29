@@ -7,6 +7,7 @@ export const palette = {
   red: "#e9270d",
   blue: "#0e0706",
   green: "#82c05d",
+  grey: "#a8a8a8",
   icon: {
     color: "#333333",
   },

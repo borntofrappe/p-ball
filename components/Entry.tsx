@@ -27,25 +27,21 @@ const Entry = ({
         No. {no}
       </Text>
       <View style={[styles.imageTextContainer]}>
-        <View style={[styles.imageContainer]}>
-          {seen ? (
-            <View
-              style={[
-                {
-                  filter: [{ grayscale: 1 }, { brightness: 0 }],
-                },
-              ]}
-            >
+        {seen ? (
+          <View style={[styles.imageContainer, styles.imageContainerSeen]}>
+            <View style={[styles.imageSeen]}>
               <PixelatedImage
                 width={imageWidth}
                 height={imageHeight}
                 uri={uri}
               />
             </View>
-          ) : (
+          </View>
+        ) : (
+          <View style={[styles.imageContainer]}>
             <PixelatedImage width={imageWidth} height={imageHeight} uri={uri} />
-          )}
-        </View>
+          </View>
+        )}
         <View style={[styles.textContainer]}>
           <Text style={[styles.text, styles.textLarge, styles.textUppercase]}>
             {name}
@@ -92,6 +88,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 8,
     paddingInlineEnd: 8,
+  },
+  imageContainerSeen: {
+    backgroundColor: palette.grey,
+  },
+  imageSeen: {
+    filter: [{ grayscale: 1 }, { brightness: 0 }],
   },
   text: {
     fontSize: 22,
