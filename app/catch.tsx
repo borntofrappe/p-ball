@@ -33,7 +33,7 @@ const Catch = () => {
   });
 
   const textInput = useRef<TextInput>(null);
-  const [reveal, setReveal] = useState<boolean>(false);
+  const [caught, setCaught] = useState<boolean>(false);
   const [guess, setGuess] = useState<Entry>({
     no: " ",
     name: " ",
@@ -49,7 +49,7 @@ const Catch = () => {
 
     const name = textInput.current?.value;
     if (name.toLowerCase() === entry.name.toLowerCase()) {
-      setReveal(true);
+      setCaught(true);
       setGuess(entry);
     }
   };
@@ -109,9 +109,7 @@ const Catch = () => {
             weight={entry.weight}
             description={entry.description}
             uri={guess.uri}
-            imageStyles={{
-              filter: [{ grayscale: 1 }, { brightness: 0.15 }],
-            }}
+            seen={!caught && entry.uri === guess.uri}
           />
 
           <View style={[styles.guessContainer]}>
@@ -141,7 +139,7 @@ const Catch = () => {
                   style={[
                     styles.optionButton,
                     {
-                      cursor: guess.name === entry.name ? "auto" : "pointer",
+                      cursor: caught ? "auto" : "pointer",
                     },
                   ]}
                 >
@@ -149,7 +147,7 @@ const Catch = () => {
                     style={[
                       styles.optionText,
                       styles.catch,
-                      guess.name === entry.name && styles.inactive,
+                      caught && styles.inactive,
                     ]}
                   >
                     Catch
@@ -160,7 +158,7 @@ const Catch = () => {
                   style={[
                     styles.optionButton,
                     {
-                      cursor: reveal ? "auto" : "pointer",
+                      cursor: guess.uri === entry.uri ? "auto" : "pointer",
                     },
                   ]}
                 >
@@ -168,7 +166,7 @@ const Catch = () => {
                     style={[
                       styles.optionText,
                       styles.see,
-                      reveal && styles.inactive,
+                      guess.uri === entry.uri && styles.inactive,
                     ]}
                   >
                     Peek
