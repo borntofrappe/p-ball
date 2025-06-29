@@ -78,16 +78,7 @@ const AreaByName = () => {
 
   return (
     <>
-      <ScrollView
-        contentContainerStyle={{
-          maxWidth: 500,
-          width: "100%",
-          marginInline: "auto",
-          paddingHorizontal: 16,
-          paddingVertical: 16,
-          gap: 24,
-        }}
-      >
+      <ScrollView contentContainerStyle={[styles.pageContainer]}>
         {area && (
           <View style={[styles.itemsContainer]}>
             <PixelatedImage
@@ -145,6 +136,14 @@ const AreaByName = () => {
 export default AreaByName;
 
 const styles = StyleSheet.create({
+  pageContainer: {
+    maxWidth: 500,
+    width: "100%",
+    marginInline: "auto",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    gap: 20,
+  },
   title: {
     fontFamily: "ComicNeue-Bold",
     fontSize: 22,
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   itemsContainer: {
-    gap: 12,
+    gap: 6,
     alignItems: "center",
   },
   itemsText: {

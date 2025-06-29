@@ -100,17 +100,7 @@ const EntryByName = () => {
 
   return (
     <>
-      <ScrollView
-        ref={page}
-        contentContainerStyle={{
-          maxWidth: 500,
-          width: "100%",
-          marginInline: "auto",
-          paddingHorizontal: 16,
-          paddingVertical: 16,
-          gap: 24,
-        }}
-      >
+      <ScrollView ref={page} contentContainerStyle={[styles.pageContainer]}>
         {entry && (
           <Entry
             no={entry.no}
@@ -202,11 +192,19 @@ const EntryByName = () => {
 export default EntryByName;
 
 const styles = StyleSheet.create({
+  pageContainer: {
+    maxWidth: 500,
+    width: "100%",
+    marginInline: "auto",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    gap: 20,
+  },
   panelsContainer: {
     gap: 16,
   },
   itemsContainer: {
-    gap: 12,
+    gap: 6,
     alignItems: "center",
   },
   itemsText: {
