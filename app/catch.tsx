@@ -5,7 +5,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { palette } from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Image,
   Pressable,
@@ -32,7 +32,9 @@ const Catch = () => {
       }),
   });
 
+  const textInput = useRef<TextInput>(null);
   const [caught, setCaught] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
   const [guess, setGuess] = useState<Entry>({
     no: " ",
     name: " ",
@@ -44,15 +46,17 @@ const Catch = () => {
   });
 
   const catchEntry = () => {
-    if (entry === undefined) return;
+    if (caught || entry === undefined) return;
 
-    if (guess.name.toLowerCase() === entry.name.toLowerCase()) {
+    if (name.toLowerCase() === entry.name.toLowerCase()) {
+      textInput.current?.blur();
       setCaught(true);
-      setGuess(entry);
+      setGuess({ ...entry });
     }
   };
-  const peekEntry = () => {
-    if (entry === undefined) return;
+
+  const seeEntry = () => {
+    if (caught || entry === undefined || guess.uri === entry.uri) return;
 
     setGuess({
       ...guess,
@@ -61,10 +65,7 @@ const Catch = () => {
   };
 
   const onChangeText = (text: string) => {
-    setGuess({
-      ...guess,
-      name: text,
-    });
+    setName(text);
   };
 
   if (error) {
@@ -119,6 +120,7 @@ const Catch = () => {
 
           <View style={[styles.guessContainer]}>
             <TextInput
+              ref={textInput}
               onChangeText={onChangeText}
               style={[styles.guessInput]}
               spellCheck={false}
@@ -159,7 +161,7 @@ const Catch = () => {
                   </Text>
                 </Pressable>
                 <Pressable
-                  onPress={peekEntry}
+                  onPress={seeEntry}
                   style={[
                     styles.optionButton,
                     {
@@ -174,7 +176,7 @@ const Catch = () => {
                       guess.uri === entry.uri && styles.inactive,
                     ]}
                   >
-                    Peek
+                    See
                   </Text>
                 </Pressable>
               </View>
