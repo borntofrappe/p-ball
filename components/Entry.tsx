@@ -1,5 +1,5 @@
 import PixelatedImage from "@/components/PixelatedImage";
-import { Colors } from "@/constants/Colors";
+import { palette } from "@/lib/styles";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   entryContainer: {
     maxWidth: 400,
     marginInline: "auto",
-    backgroundColor: Colors.black,
+    backgroundColor: palette.black,
     paddingHorizontal: 12,
     paddingVertical: 12,
     gap: 12,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   imageContainer: {
-    backgroundColor: Colors.white,
+    backgroundColor: palette.white,
   },
   textContainer: {
     gap: 8,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 22,
     fontFamily: "PixelEntry",
-    color: Colors.white,
+    color: palette.white,
     letterSpacing: 0.75,
   },
   textUppercase: {
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   textDescription: {
-    color: Colors.black,
-    backgroundColor: Colors.white,
+    color: palette.black,
+    backgroundColor: palette.white,
     padding: 8,
     lineHeight: 24,
     letterSpacing: 0.3,

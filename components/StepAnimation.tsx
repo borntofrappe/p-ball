@@ -10,13 +10,7 @@ type Props = {
   duration: number;
 };
 
-const StepAnimation = ({
-  image,
-  size,
-  steps,
-  keyframe,
-  duration,
-}: Props) => {
+const StepAnimation = ({ image, size, steps, keyframe, duration }: Props) => {
   return (
     <View
       style={{

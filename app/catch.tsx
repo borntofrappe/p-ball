@@ -2,7 +2,7 @@ import { getEntryByCatchCounter } from "@/api/queries";
 import Entry from "@/components/Entry";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { Colors } from "@/constants/Colors";
+import { palette } from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     minWidth: 140,
     paddingTop: 4,
     paddingBottom: 1,
-    borderBottomColor: Colors.color,
+    borderBottomColor: palette.color,
     borderBottomWidth: 1,
     textAlign: "center",
     fontSize: 24,
@@ -254,12 +254,12 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   inactive: {
-    ...Colors.option.inactive,
+    ...palette.option.inactive,
   },
   catch: {
-    ...Colors.option.catch,
+    ...palette.option.catch,
   },
   see: {
-    ...Colors.option.see,
+    ...palette.option.see,
   },
 });

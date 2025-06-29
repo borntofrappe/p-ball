@@ -1,4 +1,4 @@
-import { animationError } from "@/constants/Animations";
+import { animationError } from "@/lib/animations";
 import React from "react";
 import { Text, View } from "react-native";
 import StepAnimation from "./StepAnimation";

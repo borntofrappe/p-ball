@@ -3,7 +3,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Panel from "@/components/Panel";
 import PixelatedImage from "@/components/PixelatedImage";
-import { Colors } from "@/constants/Colors";
+import { palette } from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
@@ -14,7 +14,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 
 const AreaByName = () => {
@@ -116,7 +116,7 @@ const AreaByName = () => {
                           style={[
                             styles.itemsText,
                             {
-                              color: Colors.panel[version as Version].color,
+                              color: palette.panel[version as Version].color,
                             },
                           ]}
                         >

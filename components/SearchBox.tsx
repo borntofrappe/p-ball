@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { palette } from "@/lib/styles";
 import React, { useRef } from "react";
 import {
   Image,
@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
     gap: 28,
     paddingHorizontal: 24,
     paddingVertical: 32,
-    borderColor: Colors.green,
+    borderColor: palette.green,
     borderWidth: 6,
     borderRadius: 16,
-    backgroundColor: Colors.backgroundColor,
+    backgroundColor: palette.backgroundColor,
   },
   searchTitle: {
     fontFamily: "ComicNeue-Bold",
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingHorizontal: 24,
     paddingVertical: 8,
-    color: Colors.pill.color,
-    backgroundColor: Colors.pill.backgroundColor,
+    color: palette.pill.color,
+    backgroundColor: palette.pill.backgroundColor,
     borderRadius: 1e5,
     fontSize: 18,
     textTransform: "uppercase",
@@ -74,17 +74,17 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 8,
     paddingHorizontal: 14,
-    color: Colors.input.color,
+    color: palette.input.color,
     fontFamily: "ComicNeue-Bold",
     fontSize: 20,
-    borderColor: Colors.green,
+    borderColor: palette.green,
     borderWidth: 2,
     borderRadius: 6,
-    backgroundColor: Colors.input.backgroundColor,
+    backgroundColor: palette.input.backgroundColor,
   },
   searchButton: {
     padding: 12,
-    backgroundColor: Colors.primary,
+    backgroundColor: palette.primary,
     borderRadius: 6,
   },
   searchIcon: {

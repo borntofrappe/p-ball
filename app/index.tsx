@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { palette } from "@/lib/styles";
 import { Link } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
@@ -32,7 +32,7 @@ export default index;
 const styles = StyleSheet.create({
   parentContainer: {
     flex: 1,
-    backgroundColor: Colors.primary,
+    backgroundColor: palette.primary,
   },
   optionContainer: {
     flex: 1,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     height: 2,
-    backgroundColor: Colors.icon.color,
+    backgroundColor: palette.icon.color,
     position: "absolute",
     left: "0%",
     top: "50%",

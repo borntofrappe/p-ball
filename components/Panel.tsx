@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/Colors";
+import { palette } from "@/lib/styles";
 import React, { PropsWithChildren } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -12,8 +12,8 @@ const Panel = ({
   theme = "Yellow",
   children,
 }: PropsWithChildren<Props>) => {
-  const colorsPanel = Colors.panel[theme];
-  const colorsLabel = Colors.label[theme];
+  const colorsPanel = palette.panel[theme];
+  const colorsLabel = palette.label[theme];
   return (
     <View
       style={[
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     paddingVertical: 36,
     paddingHorizontal: 24,
     borderWidth: 3,
-    backgroundColor: Colors.backgroundColor,
-    borderColor: Colors.color,
+    backgroundColor: palette.backgroundColor,
+    borderColor: palette.color,
     marginTop: 12,
   },
   label: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         translateY: "-50%",
       },
     ],
-    color: Colors.backgroundColor,
-    backgroundColor: Colors.color,
+    color: palette.backgroundColor,
+    backgroundColor: palette.color,
   },
 });

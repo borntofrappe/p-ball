@@ -3,7 +3,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import StepAnimation from "@/components/StepAnimation";
-import { animationNotFound } from "@/constants/Animations";
+import { animationNotFound } from "@/lib/animations";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
