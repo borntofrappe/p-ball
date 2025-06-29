@@ -5,7 +5,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { Colors } from "@/constants/Colors";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Image,
   Pressable,
@@ -40,6 +40,8 @@ const Catch = () => {
       }),
   });
 
+  const textInput = useRef<TextInput>(null);
+  const [reveal, setReveal] = useState<boolean>(false);
   const [guess, setGuess] = useState<Guess>({
     no: " ",
     name: " ",
@@ -47,8 +49,22 @@ const Catch = () => {
     uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAeCAMAAABkHdyoAAAASFBMVEWoqKj4+vj6+Pj4+fj4+Pv5+Pj4+Pr4+Pn4+Piqqqqoq6ipqqmoqqqoqqirqKipqaiqqKqoqaqqqKioqaipqKmpqKioqKqoqKkc5p6VAAABI0lEQVR42qWUjVbDIAyFr8VtqYo6YuD931Sh/KSpdMfjd3bWQG+TNCEFGHs8DkT8Ce1E8JBwFptBBS3m/BvSVIN4D1BHBWfssolf2LgSuWs26OYcPcqwObV2YsTh/a1sFQU629Lwruyn/W0pet9qz+pOWSn1Z/MvOHL/LbbULdt46amqnoy9CUQL2NRkyz7AJxg4S+orrCuRcf/Ra1r/qLP+kK+OMpMuUWFRcjLykZH0sJNkYA6PJyXRZgkdBGIiEMUxPrIdXJt65FSfiNRrkw6nJuHIhdrIhBw6ZPkWqO7btj7b5y+Qs7FbRk8SHNHZWEe24+ExgYeGhiHZR0td7Ll8abqliG3KehkZob+hoxs0upYcMCNEf9QH4FV9DLlYd/ybb9YCDv4mNKpOAAAAAElFTkSuQmCC",
   });
 
-  const onChangeText = (text: string) => {
-    //
+  const catchEntry = () => {
+    if (entry === undefined) return;
+
+    const name = textInput.current?.value;
+    if (name.toLowerCase() === entry.name.toLowerCase()) {
+      setReveal(true);
+      setGuess(entry);
+    }
+  };
+  const peekEntry = () => {
+    if (entry === undefined) return;
+
+    setGuess({
+      ...guess,
+      uri: entry.uri,
+    });
   };
 
   if (error) {
@@ -98,28 +114,62 @@ const Catch = () => {
             weight={entry.weight}
             description={entry.description}
             uri={guess.uri}
+            imageStyles={{
+              filter: [{ grayscale: 1 }, { brightness: 0.15 }],
+            }}
           />
 
           <View style={[styles.guessContainer]}>
-            <TextInput
-              style={[styles.guessInput]}
-              onChangeText={onChangeText}
-            />
+            <TextInput ref={textInput} style={[styles.guessInput]} />
             <View style={[styles.actionsContainer]}>
-              <Image style={[styles.actionsImage, {
-                transform: [
+              <Image
+                style={[
+                  styles.actionsImage,
                   {
-                    rotateZ: "20deg"
-                  }
-                ]
-              }]} source={imagePaddle} />
+                    transform: [
+                      {
+                        rotateZ: "20deg",
+                      },
+                    ],
+                  },
+                ]}
+                source={imagePaddle}
+              />
               <View style={[styles.optionsContainer]}>
-                <Pressable style={[styles.optionButton]}>
-                  <Text style={[styles.optionText, styles.catch]}>Catch</Text>
-                </Pressable>
-                <Pressable style={[styles.optionButton]}>
+                <Pressable
+                  onPress={catchEntry}
+                  style={[
+                    styles.optionButton,
+                    {
+                      cursor: guess.name === entry.name ? "auto" : "pointer",
+                    },
+                  ]}
+                >
                   <Text
-                    style={[styles.optionText, styles.see, styles.inactive]}
+                    style={[
+                      styles.optionText,
+                      styles.catch,
+                      guess.name === entry.name && styles.inactive,
+                    ]}
+                  >
+                    Catch
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={peekEntry}
+                  style={[
+                    styles.optionButton,
+                    {
+                      cursor: reveal ? "auto" : "pointer",
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.optionText,
+                      styles.see,
+                      reveal && styles.inactive,
+                    ]}
                   >
                     Peek
                   </Text>
@@ -136,13 +186,19 @@ const Catch = () => {
                   },
                 ]}
               >
-                <Image style={[styles.actionsImage, {
-                  transform: [
+                <Image
+                  style={[
+                    styles.actionsImage,
                     {
-                      rotateZ: "20deg"
-                    }
-                  ]
-                }]} source={imagePaddle} />
+                      transform: [
+                        {
+                          rotateZ: "20deg",
+                        },
+                      ],
+                    },
+                  ]}
+                  source={imagePaddle}
+                />
               </View>
             </View>
           </View>

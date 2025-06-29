@@ -1,8 +1,11 @@
 import PixelatedImage from "@/components/PixelatedImage";
 import { Colors } from "@/constants/Colors";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
+type Props = Entry & {
+  imageStyles?: StyleProp<ViewStyle>;
+};
 const Entry = ({
   no,
   name,
@@ -11,7 +14,8 @@ const Entry = ({
   weight,
   description,
   uri,
-}: Entry) => {
+  imageStyles = {},
+}: Props) => {
   const imageScale = 3;
   const imageWidth = 46 * imageScale;
   const imageHeight = 30 * imageScale;
@@ -23,9 +27,12 @@ const Entry = ({
       </Text>
       <View style={[styles.imageTextContainer]}>
         <PixelatedImage
-          style={{
-            backgroundColor: Colors.white,
-          }}
+          style={[
+            {
+              backgroundColor: Colors.white,
+            },
+            imageStyles,
+          ]}
           width={imageWidth}
           height={imageHeight}
           uri={uri}
