@@ -3,6 +3,10 @@ import { Colors } from "@/constants/Colors";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
+type Props = Entry & {
+  seen?: boolean;
+};
+
 const Entry = ({
   no,
   name,
@@ -11,7 +15,8 @@ const Entry = ({
   weight,
   description,
   uri,
-}: Entry) => {
+  seen = false,
+}: Props) => {
   const imageScale = 3;
   const imageWidth = 46 * imageScale;
   const imageHeight = 30 * imageScale;
@@ -23,7 +28,23 @@ const Entry = ({
       </Text>
       <View style={[styles.imageTextContainer]}>
         <View style={[styles.imageContainer]}>
-          <PixelatedImage width={imageWidth} height={imageHeight} uri={uri} />
+          {seen ? (
+            <View
+              style={[
+                {
+                  filter: [{ grayscale: 1 }, { brightness: 0 }],
+                },
+              ]}
+            >
+              <PixelatedImage
+                width={imageWidth}
+                height={imageHeight}
+                uri={uri}
+              />
+            </View>
+          ) : (
+            <PixelatedImage width={imageWidth} height={imageHeight} uri={uri} />
+          )}
         </View>
         <View style={[styles.textContainer]}>
           <Text style={[styles.text, styles.textLarge, styles.textUppercase]}>
