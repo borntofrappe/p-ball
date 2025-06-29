@@ -14,11 +14,11 @@ import { useSQLiteContext } from "expo-sqlite";
 import React, { useRef } from "react";
 import {
   Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  TouchableOpacity,
+  View
 } from "react-native";
 
 const EntryByName = () => {
@@ -121,7 +121,7 @@ const EntryByName = () => {
               .map(([version, areas]) => (
                 <Panel label={version} theme={version as Version} key={version}>
                   {areas.map((area) => (
-                    <Pressable
+                    <TouchableOpacity
                       onPress={() => {
                         selectAreaByName(area.name);
                       }}
@@ -146,7 +146,7 @@ const EntryByName = () => {
                           {area.name}
                         </Text>
                       </View>
-                    </Pressable>
+                    </TouchableOpacity>
                   ))}
                 </Panel>
               ))}
@@ -154,7 +154,7 @@ const EntryByName = () => {
           {connections && connections.length > 1 && (
             <Panel label="EVO" theme="Yellow">
               {connections.map((connection) => (
-                <Pressable
+                <TouchableOpacity
                   onPress={() => {
                     selectEntryByName(connection.name);
                   }}
@@ -179,7 +179,7 @@ const EntryByName = () => {
                       {connection.name}
                     </Text>
                   </View>
-                </Pressable>
+                </TouchableOpacity>
               ))}
             </Panel>
           )}

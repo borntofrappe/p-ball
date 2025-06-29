@@ -10,11 +10,11 @@ import { useSQLiteContext } from "expo-sqlite";
 import React from "react";
 import {
   Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  TouchableOpacity,
+  View
 } from "react-native";
 
 const AreaByName = () => {
@@ -98,7 +98,7 @@ const AreaByName = () => {
               .map(([version, entries]) => (
                 <Panel label={version} theme={version as Version} key={version}>
                   {entries.map((entry) => (
-                    <Pressable
+                    <TouchableOpacity
                       onPress={() => {
                         selectEntryByName(entry.name);
                       }}
@@ -123,7 +123,7 @@ const AreaByName = () => {
                           {entry.name}
                         </Text>
                       </View>
-                    </Pressable>
+                    </TouchableOpacity>
                   ))}
                 </Panel>
               ))}
