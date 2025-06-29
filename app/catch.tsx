@@ -25,8 +25,6 @@ type Guess = {
 const Catch = () => {
   const db = useSQLiteContext();
 
-  const STORAGE_KEY = "catch-counter";
-
   const {
     data: entry,
     error,
@@ -36,7 +34,7 @@ const Catch = () => {
     queryFn: () =>
       getEntryByCatchCounter({
         db,
-        catchCounter: localStorage.getItem(STORAGE_KEY) || "0",
+        catchCounter: "0",
       }),
   });
 
