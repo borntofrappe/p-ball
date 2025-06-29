@@ -49,4 +49,17 @@ export const Colors = {
       backgroundColor: "#2d1e67",
     },
   },
+  option: {
+    inactive: {
+      color: "#ffffff",
+    },
+    catch: {
+      color: "#1d82a5",
+      backgroundColor: "#cee1e8",
+    },
+    see: {
+      color: "#a2384a",
+      backgroundColor: "#edd2c1",
+    },
+  },
 };
