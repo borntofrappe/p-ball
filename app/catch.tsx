@@ -115,7 +115,12 @@ const Catch = () => {
           />
 
           <View style={[styles.guessContainer]}>
-            <TextInput ref={textInput} style={[styles.guessInput]} />
+            <TextInput
+              ref={textInput}
+              style={[styles.guessInput]}
+              spellCheck={false}
+              maxLength={30}
+            />
             <View style={[styles.actionsContainer]}>
               <Image
                 style={[
@@ -220,6 +225,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   guessInput: {
+    minWidth: 140,
     paddingTop: 4,
     paddingBottom: 1,
     borderBottomColor: Colors.color,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, StyleProp, View, ViewStyle } from "react-native";
+import { Platform, View } from "react-native";
 import Svg, { Image as SvgImage } from "react-native-svg";
 
 import { WebView } from "react-native-webview";
@@ -8,17 +8,11 @@ type Props = {
   uri: string;
   width: number;
   height: number;
-  style?: StyleProp<ViewStyle>;
 };
 
-const PixelatedImage = ({ width, height, uri, style = {} }: Props) => {
+const PixelatedImage = ({ width, height, uri }: Props) => {
   return Platform.OS === "web" ? (
-    <Svg
-      style={[style]}
-      width={width}
-      height={height}
-      image-rendering="pixelated"
-    >
+    <Svg width={width} height={height} image-rendering="pixelated">
       <SvgImage width={width} height={height} href={{ uri }} />
     </Svg>
   ) : (
@@ -28,7 +22,6 @@ const PixelatedImage = ({ width, height, uri, style = {} }: Props) => {
           width: width,
           height: height,
         },
-        style,
       ]}
     >
       <WebView
