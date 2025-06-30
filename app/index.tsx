@@ -1,13 +1,17 @@
+import { useSpin } from "@/lib/hooks";
 import { palette } from "@/lib/styles";
 import { Link } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
+import Animated from "react-native-reanimated";
 
 const imageIcon = require("@/assets/images/nav-icon.png");
 const imageSearch = require("@/assets/images/nav-search.png");
 const imageCatch = require("@/assets/images/nav-catch.png");
 
 const index = () => {
+  const animatedStyle = useSpin({ duration: 1000, repeatCount: 2, delay: 1000 });
+
   return (
     <View style={[styles.parentContainer]}>
       <View style={[styles.optionContainer]}>
@@ -17,7 +21,10 @@ const index = () => {
       </View>
       <View>
         <View style={[styles.imageBackground]}></View>
-        <Image source={imageIcon} style={[styles.image]} />
+        <Animated.Image
+          source={imageIcon}
+          style={[styles.image, animatedStyle]}
+        />
       </View>
       <View style={[styles.optionContainer]}>
         <Link href="/catch" aria-label="Catch">
@@ -61,6 +68,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: 64,
     height: 64,
-    transform: [],
   },
 });

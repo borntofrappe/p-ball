@@ -11,9 +11,14 @@ import {
 type Props = {
   duration?: number;
   repeatCount?: number;
+  delay?: number;
 };
 
-export function useSpin({ duration = 1000, repeatCount = 1 }: Props) {
+export function useSpin({
+  duration = 1000,
+  repeatCount = 1,
+  delay = 0,
+}: Props) {
   const easing = Easing.bezier(0.25, -0.5, 0.25, 1);
 
   const spin = useSharedValue<number>(0);
@@ -28,15 +33,18 @@ export function useSpin({ duration = 1000, repeatCount = 1 }: Props) {
   });
 
   useEffect(() => {
-    spin.value = withRepeat(
-      withTiming(1, {
-        duration,
-        easing,
-      }),
-      repeatCount
-    );
+    const timeoutID = setTimeout(() => {
+      spin.value = withRepeat(
+        withTiming(1, {
+          duration,
+          easing,
+        }),
+        repeatCount
+      );
+    }, delay);
 
     return () => {
+      clearTimeout(timeoutID);
       cancelAnimation(spin);
     };
   }, []);
