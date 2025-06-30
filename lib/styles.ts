@@ -1,3 +1,5 @@
+import { ImageStyle, StyleProp, ViewStyle } from "react-native";
+
 export const palette = {
   color: "#150c03",
   backgroundColor: "#fbf7f2",
@@ -63,4 +65,26 @@ export const palette = {
       backgroundColor: "#edd2c1",
     },
   },
+};
+
+export const pageContainer: StyleProp<ViewStyle> = {
+  maxWidth: 500,
+  width: "100%",
+  marginInline: "auto",
+  paddingHorizontal: 16,
+  paddingVertical: 16,
+};
+
+export const defaultImage: StyleProp<ImageStyle> = {
+  width: 46,
+  height: 30,
+};
+
+export const panelsContainer: StyleProp<ViewStyle> = {
+  gap: 16,
+};
+
+export const singleContainer: StyleProp<ViewStyle> = {
+  marginTop: 16,
+  alignSelf: "center",
 };
