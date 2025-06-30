@@ -17,7 +17,7 @@ const Panel = ({
   return (
     <View
       style={[
-        styles.container,
+        styles.panelContainer,
         {
           ...colorsPanel,
         },
@@ -25,7 +25,7 @@ const Panel = ({
     >
       <Text
         style={[
-          styles.label,
+          styles.panelLabel,
           {
             ...colorsLabel,
           },
@@ -41,7 +41,7 @@ const Panel = ({
 export default Panel;
 
 const styles = StyleSheet.create({
-  container: {
+  panelContainer: {
     justifyContent: "center",
     flexWrap: "wrap",
     flexDirection: "row",
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     borderColor: palette.color,
     marginTop: 12,
   },
-  label: {
+  panelLabel: {
     fontFamily: "ComicNeue-Bold",
     position: "absolute",
     fontSize: 20,

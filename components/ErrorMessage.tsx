@@ -6,6 +6,7 @@ import StepAnimation from "./StepAnimation";
 type Props = {
   error: Error;
 };
+
 const ErrorMessage = ({ error }: Props) => {
   return (
     <View>

@@ -1,15 +1,20 @@
 import { getAreaByName, getCatchesByName } from "@/api/queries";
 import ErrorMessage from "@/components/ErrorMessage";
+import Item from "@/components/Item";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Panel from "@/components/Panel";
 import PixelatedImage from "@/components/PixelatedImage";
-import { palette } from "@/lib/styles";
+import {
+  pageContainer,
+  palette,
+  panelsContainer,
+  singleContainer,
+} from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React from "react";
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -41,7 +46,7 @@ const AreaByName = () => {
     queryFn: () => getCatchesByName({ db, name }),
   });
 
-  const selectEntryByName = async (name: string) => {
+  const selectEntryByName = (name: string) => {
     router.replace({
       pathname: "/entry/[name]",
       params: {
@@ -52,12 +57,7 @@ const AreaByName = () => {
 
   if (error) {
     return (
-      <View
-        style={{
-          marginTop: 16,
-          alignSelf: "center",
-        }}
-      >
+      <View style={[singleContainer]}>
         <ErrorMessage error={error} />
       </View>
     );
@@ -65,12 +65,7 @@ const AreaByName = () => {
 
   if (isLoading) {
     return (
-      <View
-        style={{
-          marginTop: 16,
-          alignSelf: "center",
-        }}
-      >
+      <View style={[singleContainer]}>
         <LoadingSpinner />
       </View>
     );
@@ -78,19 +73,19 @@ const AreaByName = () => {
 
   return (
     <>
-      <ScrollView contentContainerStyle={[styles.pageContainer]}>
+      <ScrollView contentContainerStyle={[pageContainer]}>
         {area && (
-          <View style={[styles.itemsContainer]}>
+          <View style={[styles.titleContainer]}>
             <PixelatedImage
               width={imageWidth}
               height={imageHeight}
               uri={area.uri}
             />
-            <Text style={styles.title}>{area.name}</Text>
+            <Text style={styles.titleText}>{area.name}</Text>
           </View>
         )}
 
-        <View style={[styles.panelsContainer]}>
+        <View style={[panelsContainer]}>
           {catches &&
             (catches.Red.length > 0 || catches.Blue.length > 0) &&
             Object.entries(catches)
@@ -104,25 +99,13 @@ const AreaByName = () => {
                       }}
                       key={`${version}-${entry.name}`}
                     >
-                      <View style={[styles.itemsContainer]}>
-                        <Image
-                          style={{
-                            width: 46,
-                            height: 30,
-                          }}
-                          source={{ uri: entry.uri }}
-                        />
-                        <Text
-                          style={[
-                            styles.itemsText,
-                            {
-                              color: palette.panel[version as Version].color,
-                            },
-                          ]}
-                        >
-                          {entry.name}
-                        </Text>
-                      </View>
+                      <Item
+                        name={entry.name}
+                        uri={entry.uri}
+                        textStyle={{
+                          color: palette.panel[version as Version].color,
+                        }}
+                      />
                     </TouchableOpacity>
                   ))}
                 </Panel>
@@ -136,29 +119,12 @@ const AreaByName = () => {
 export default AreaByName;
 
 const styles = StyleSheet.create({
-  pageContainer: {
-    maxWidth: 500,
-    width: "100%",
-    marginInline: "auto",
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    gap: 20,
-  },
-  title: {
-    fontFamily: "ComicNeue-Bold",
-    fontSize: 22,
-  },
-  panelsContainer: {
-    gap: 16,
-  },
-  itemsContainer: {
+  titleContainer: {
     gap: 6,
     alignItems: "center",
   },
-  itemsText: {
+  titleText: {
     fontFamily: "ComicNeue-Bold",
-    fontSize: 16,
-    maxWidth: 80,
-    textAlign: "center",
+    fontSize: 22,
   },
 });

@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+
 const imageIcon = require("@/assets/images/search-icon.png");
 
 type Props = {

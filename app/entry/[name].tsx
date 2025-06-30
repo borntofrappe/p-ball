@@ -5,26 +5,26 @@ import {
 } from "@/api/queries";
 import Entry from "@/components/Entry";
 import ErrorMessage from "@/components/ErrorMessage";
+import Item from "@/components/Item";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Panel from "@/components/Panel";
-import { palette } from "@/lib/styles";
+import {
+  pageContainer,
+  palette,
+  panelsContainer,
+  singleContainer,
+} from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useRef } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 
 const EntryByName = () => {
   const db = useSQLiteContext();
   const router = useRouter();
-  const page = useRef<ScrollView>(null);
+
+  const pageStart = useRef<ScrollView>(null);
 
   const { name } = useLocalSearchParams<{ name: string }>();
 
@@ -47,9 +47,9 @@ const EntryByName = () => {
     queryFn: () => getConnectionsByName({ db, name }),
   });
 
-  const selectEntryByName = async (name: string) => {
+  const selectEntryByName = (name: string) => {
     if (entry && entry.name === name) {
-      return page.current?.scrollTo({
+      return pageStart.current?.scrollTo({
         y: 0,
         animated: true,
       });
@@ -63,7 +63,7 @@ const EntryByName = () => {
     });
   };
 
-  const selectAreaByName = async (name: string) => {
+  const selectAreaByName = (name: string) => {
     router.replace({
       pathname: "/area/[name]",
       params: {
@@ -74,12 +74,7 @@ const EntryByName = () => {
 
   if (error) {
     return (
-      <View
-        style={{
-          marginTop: 16,
-          alignSelf: "center",
-        }}
-      >
+      <View style={[singleContainer]}>
         <ErrorMessage error={error} />
       </View>
     );
@@ -87,12 +82,7 @@ const EntryByName = () => {
 
   if (isLoading) {
     return (
-      <View
-        style={{
-          marginTop: 16,
-          alignSelf: "center",
-        }}
-      >
+      <View style={[singleContainer]}>
         <LoadingSpinner />
       </View>
     );
@@ -100,7 +90,7 @@ const EntryByName = () => {
 
   return (
     <>
-      <ScrollView ref={page} contentContainerStyle={[styles.pageContainer]}>
+      <ScrollView ref={pageStart} contentContainerStyle={[pageContainer]}>
         {entry && (
           <Entry
             no={entry.no}
@@ -113,7 +103,7 @@ const EntryByName = () => {
           />
         )}
 
-        <View style={[styles.panelsContainer]}>
+        <View style={[panelsContainer]}>
           {locations &&
             (locations.Red.length > 0 || locations.Blue.length > 0) &&
             Object.entries(locations)
@@ -127,25 +117,13 @@ const EntryByName = () => {
                       }}
                       key={`${version}-${area.name}`}
                     >
-                      <View style={[styles.itemsContainer]}>
-                        <Image
-                          style={{
-                            width: 46,
-                            height: 30,
-                          }}
-                          source={{ uri: area.uri }}
-                        />
-                        <Text
-                          style={[
-                            styles.itemsText,
-                            {
-                              color: palette.panel[version as Version].color,
-                            },
-                          ]}
-                        >
-                          {area.name}
-                        </Text>
-                      </View>
+                      <Item
+                        name={area.name}
+                        uri={area.uri}
+                        textStyle={{
+                          color: palette.panel[version as Version].color,
+                        }}
+                      />
                     </TouchableOpacity>
                   ))}
                 </Panel>
@@ -160,25 +138,13 @@ const EntryByName = () => {
                   }}
                   key={`${connection.name}`}
                 >
-                  <View style={[styles.itemsContainer]}>
-                    <Image
-                      style={{
-                        width: 46,
-                        height: 30,
-                      }}
-                      source={{ uri: connection.uri }}
-                    />
-                    <Text
-                      style={[
-                        styles.itemsText,
-                        {
-                          color: palette.panel.Yellow.color,
-                        },
-                      ]}
-                    >
-                      {connection.name}
-                    </Text>
-                  </View>
+                  <Item
+                    name={connection.name}
+                    uri={connection.uri}
+                    textStyle={{
+                      color: palette.panel.Yellow.color,
+                    }}
+                  />
                 </TouchableOpacity>
               ))}
             </Panel>
@@ -190,27 +156,3 @@ const EntryByName = () => {
 };
 
 export default EntryByName;
-
-const styles = StyleSheet.create({
-  pageContainer: {
-    maxWidth: 500,
-    width: "100%",
-    marginInline: "auto",
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    gap: 20,
-  },
-  panelsContainer: {
-    gap: 16,
-  },
-  itemsContainer: {
-    gap: 6,
-    alignItems: "center",
-  },
-  itemsText: {
-    fontFamily: "ComicNeue-Bold",
-    fontSize: 16,
-    maxWidth: 80,
-    textAlign: "center",
-  },
-});

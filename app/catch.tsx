@@ -2,19 +2,49 @@ import { getEntryByCatchCounter } from "@/api/queries";
 import Entry from "@/components/Entry";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { palette } from "@/lib/styles";
+import { pageContainer, palette, singleContainer } from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { useRef, useState } from "react";
 import {
   Image,
+  ImageStyle,
   Pressable,
+  StyleProp,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+
 const imagePaddle = require("@/assets/images/catch-paddle.png");
+
+type PaddleProps = {
+  angle: number;
+  imageStyles?: StyleProp<ImageStyle>;
+};
+
+const Paddle = ({ angle, imageStyles = {} }: PaddleProps) => {
+  return (
+    <Image
+      style={[
+        {
+          width: 60,
+          height: 30,
+        },
+        imageStyles,
+        {
+          transform: [
+            {
+              rotateZ: `${angle}deg`,
+            },
+          ],
+        },
+      ]}
+      source={imagePaddle}
+    />
+  );
+};
 
 const Catch = () => {
   const db = useSQLiteContext();
@@ -70,12 +100,7 @@ const Catch = () => {
 
   if (error) {
     return (
-      <View
-        style={{
-          marginTop: 16,
-          alignSelf: "center",
-        }}
-      >
+      <View style={[singleContainer]}>
         <ErrorMessage error={error} />
       </View>
     );
@@ -83,28 +108,14 @@ const Catch = () => {
 
   if (isLoading) {
     return (
-      <View
-        style={{
-          marginTop: 16,
-          alignSelf: "center",
-        }}
-      >
+      <View style={[singleContainer]}>
         <LoadingSpinner />
       </View>
     );
   }
 
   return (
-    <View
-      style={{
-        maxWidth: 500,
-        width: "100%",
-        marginInline: "auto",
-        paddingHorizontal: 16,
-        paddingVertical: 16,
-        gap: 24,
-      }}
-    >
+    <View style={[pageContainer]}>
       {entry && (
         <>
           <Entry
@@ -127,24 +138,11 @@ const Catch = () => {
               maxLength={30}
             />
             <View style={[styles.actionsContainer]}>
-              <Image
-                style={[
-                  styles.actionsImage,
-                  {
-                    transform: [
-                      {
-                        rotateZ: "20deg",
-                      },
-                    ],
-                  },
-                ]}
-                source={imagePaddle}
-              />
+              <Paddle angle={20} imageStyles={[styles.actionsImage]} />
               <View style={[styles.optionsContainer]}>
                 <Pressable
                   onPress={catchEntry}
                   style={[
-                    styles.optionButton,
                     {
                       cursor: caught ? "auto" : "pointer",
                     },
@@ -163,7 +161,6 @@ const Catch = () => {
                 <Pressable
                   onPress={seeEntry}
                   style={[
-                    styles.optionButton,
                     {
                       cursor: guess.uri === entry.uri ? "auto" : "pointer",
                     },
@@ -191,19 +188,7 @@ const Catch = () => {
                   },
                 ]}
               >
-                <Image
-                  style={[
-                    styles.actionsImage,
-                    {
-                      transform: [
-                        {
-                          rotateZ: "20deg",
-                        },
-                      ],
-                    },
-                  ]}
-                  source={imagePaddle}
-                />
+                <Paddle angle={20} imageStyles={[styles.actionsImage]} />
               </View>
             </View>
           </View>
@@ -242,9 +227,6 @@ const styles = StyleSheet.create({
   actionsImage: {
     width: 70,
     height: 35,
-  },
-  optionButton: {
-    display: "flex",
   },
   optionText: {
     textAlign: "center",

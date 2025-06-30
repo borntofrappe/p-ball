@@ -2,6 +2,7 @@ import { palette } from "@/lib/styles";
 import { Link } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
+
 const imageIcon = require("@/assets/images/nav-icon.png");
 const imageSearch = require("@/assets/images/nav-search.png");
 const imageCatch = require("@/assets/images/nav-catch.png");
@@ -58,8 +59,8 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    width: 56,
-    height: 56,
+    width: 64,
+    height: 64,
     transform: [],
   },
 });

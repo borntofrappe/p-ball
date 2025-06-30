@@ -4,17 +4,19 @@ import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import StepAnimation from "@/components/StepAnimation";
 import { animationNotFound } from "@/lib/animations";
+import { pageContainer, singleContainer } from "@/lib/styles";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 type SearchState = undefined | "search" | "find";
+
 const Search = () => {
   const queryClient = useQueryClient();
-
   const db = useSQLiteContext();
+
   const router = useRouter();
 
   const [input, setInput] = useState("");
@@ -49,7 +51,7 @@ const Search = () => {
     setInput(text);
   };
 
-  const selectEntryByName = async (name: string) => {
+  const selectEntryByName = (name: string) => {
     router.push({
       pathname: "/entry/[name]",
       params: {
@@ -60,23 +62,10 @@ const Search = () => {
 
   return (
     <>
-      <View
-        style={{
-          maxWidth: 500,
-          width: "100%",
-          marginInline: "auto",
-          paddingHorizontal: 16,
-          paddingVertical: 16,
-        }}
-      >
+      <View style={[pageContainer]}>
         <SearchBox title="Pokemon" onChangeText={search} />
         {searchState === "search" ? (
-          <View
-            style={{
-              marginTop: 16,
-              alignSelf: "center",
-            }}
-          >
+          <View style={[singleContainer]}>
             <LoadingSpinner duration={searchDelay / 2.1} />
           </View>
         ) : (
@@ -86,21 +75,9 @@ const Search = () => {
               onSelect={selectEntryByName}
             />
             {searchItems && searchItems.length === 0 && input && (
-              <View
-                style={{
-                  alignItems: "center",
-                  gap: 16,
-                }}
-              >
+              <View style={[styles.notFoundContainer]}>
                 <StepAnimation {...animationNotFound} />
-                <Text
-                  style={{
-                    fontFamily: "ComicNeue-Bold",
-                    fontSize: 24,
-                  }}
-                >
-                  Entry not found
-                </Text>
+                <Text style={[styles.notFoundText]}>Entry not found</Text>
               </View>
             )}
           </>
@@ -111,3 +88,14 @@ const Search = () => {
 };
 
 export default Search;
+
+const styles = StyleSheet.create({
+  notFoundContainer: {
+    alignItems: "center",
+    gap: 16,
+  },
+  notFoundText: {
+    fontFamily: "ComicNeue-Bold",
+    fontSize: 24,
+  },
+});

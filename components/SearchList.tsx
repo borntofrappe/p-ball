@@ -27,12 +27,12 @@ const SearchList = ({ items, onSelect }: Props) => {
             onSelect(item.name);
           }}
         >
-          <View style={styles.itemContainer} key={index}>
-            <Text style={styles.itemName}>{item.name}</Text>
+          <View style={styles.listItemContainer} key={index}>
+            <Text style={styles.listItemText}>{item.name}</Text>
             <Image
               width={46}
               height={30}
-              style={styles.itemImage}
+              style={styles.listItemImage}
               source={{ uri: item.uri }}
             />
           </View>
@@ -50,22 +50,22 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 16,
     width: "100%",
-    maxWidth: 280,
+    maxWidth: 300,
     marginInline: "auto",
   },
-  itemContainer: {
+  listItemContainer: {
     flexDirection: "row",
     gap: 8,
     alignItems: "center",
     justifyContent: "space-between",
   },
-  itemImage: {
+  listItemText: {
+    fontFamily: "ComicNeue-Bold",
+    fontSize: 18,
+  },
+  listItemImage: {
     width: 46,
     height: 30,
     filter: [{ grayscale: 1 }, { brightness: 0.15 }],
-  },
-  itemName: {
-    fontFamily: "ComicNeue-Bold",
-    fontSize: 18,
   },
 });
