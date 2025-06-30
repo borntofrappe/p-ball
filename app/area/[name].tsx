@@ -85,7 +85,14 @@ const AreaByName = () => {
           </View>
         )}
 
-        <View style={[panelsContainer]}>
+        <View
+          style={[
+            panelsContainer,
+            {
+              marginTop: 16,
+            },
+          ]}
+        >
           {catches &&
             (catches.Red.length > 0 || catches.Blue.length > 0) &&
             Object.entries(catches)

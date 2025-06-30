@@ -103,7 +103,14 @@ const EntryByName = () => {
           />
         )}
 
-        <View style={[panelsContainer]}>
+        <View
+          style={[
+            panelsContainer,
+            {
+              marginTop: 16,
+            },
+          ]}
+        >
           {locations &&
             (locations.Red.length > 0 || locations.Blue.length > 0) &&
             Object.entries(locations)
