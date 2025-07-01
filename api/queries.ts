@@ -329,3 +329,27 @@ export const getEntryByCatchCounter = async ({
     };
   }
 };
+
+export const getRandomMatch = async ({
+  db,
+  excludeName = "",
+}: {
+  db: SQLiteDatabase;
+  excludeName?: string;
+}): Promise<Match | undefined> => {
+  const entriesDB: EntryDB[] = await db.getAllAsync(
+    "SELECT * FROM entry WHERE name != ?",
+    [excludeName]
+  );
+
+  if (entriesDB) {
+    const entry = entriesDB[Math.floor(Math.random() * entriesDB.length)];
+    const { name, img } = entry;
+    const base64Data = btoa(String.fromCharCode.apply(null, img));
+    const uri = "data:image/png;base64," + base64Data;
+    return {
+      name,
+      uri,
+    };
+  }
+};
