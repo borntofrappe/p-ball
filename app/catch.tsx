@@ -67,8 +67,6 @@ const Catch = () => {
     queryFn: () => getRandomMatch({ db, excludeName: name }),
   });
 
-  console.log(match);
-
   const guessName = () => {
     if (caught || match === undefined) return;
 
