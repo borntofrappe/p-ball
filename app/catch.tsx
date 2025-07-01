@@ -1,6 +1,7 @@
 import { getRandomMatch } from "@/api/queries";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import PixelatedImage from "@/components/PixelatedImage";
 import { pageContainer, palette, singleContainer } from "@/lib/styles";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
@@ -49,6 +50,10 @@ const Catch = () => {
   const db = useSQLiteContext();
   const queryClient = useQueryClient();
 
+  const imageScale = 3;
+  const imageWidth = 46 * imageScale;
+  const imageHeight = 30 * imageScale;
+
   const textInput = useRef<TextInput>(null);
   const [caught, setCaught] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
@@ -61,6 +66,8 @@ const Catch = () => {
     queryKey: ["catch"],
     queryFn: () => getRandomMatch({ db, excludeName: name }),
   });
+
+  console.log(match);
 
   const guessName = () => {
     if (caught || match === undefined) return;
@@ -113,8 +120,31 @@ const Catch = () => {
     <View style={[pageContainer]}>
       {match && (
         <>
-          <View>
-            <Text>{match.name}</Text>
+          <View
+            style={[
+              styles.catchContainer,
+              {
+                width: imageWidth,
+                marginInline: "auto",
+              },
+            ]}
+          >
+            <View style={[styles.catchImageContainer]}>
+              <View
+                style={[
+                  !caught && {
+                    filter: [{ grayscale: 1 }, { brightness: 0 }],
+                  },
+                ]}
+              >
+                <PixelatedImage
+                  width={imageWidth}
+                  height={imageHeight}
+                  uri={match.uri}
+                />
+              </View>
+            </View>
+            <Text style={[styles.catchText]}>Catch</Text>
           </View>
 
           <View style={[styles.guessContainer]}>
@@ -175,9 +205,27 @@ const Catch = () => {
 export default Catch;
 
 const styles = StyleSheet.create({
+  catchContainer: {
+    alignItems: "stretch",
+  },
+  catchImageContainer: {
+    borderColor: palette.color,
+    borderWidth: 2,
+    backgroundColor: palette.white,
+  },
+  catchText: {
+    textAlign: "center",
+    textTransform: "uppercase",
+    paddingHorizontal: 6,
+    fontSize: 28,
+    fontFamily: "Poppins-Bold",
+    letterSpacing: 1,
+    ...palette.option.primary,
+  },
   guessContainer: {
+    marginTop: 20,
     alignItems: "center",
-    gap: 20,
+    gap: 30,
   },
   actionsContainer: {
     flexDirection: "row",
@@ -195,7 +243,7 @@ const styles = StyleSheet.create({
     borderBottomColor: palette.color,
     borderBottomWidth: 1,
     textAlign: "center",
-    fontSize: 24,
+    fontSize: 28,
     fontFamily: "ComicNeue-Bold",
   },
   actionsImage: {
@@ -207,7 +255,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     paddingHorizontal: 14,
     paddingVertical: 2,
-    fontSize: 18,
+    fontSize: 24,
     fontFamily: "Poppins-Bold",
     letterSpacing: 1,
   },
