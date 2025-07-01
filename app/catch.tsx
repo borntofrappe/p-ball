@@ -241,9 +241,9 @@ const styles = StyleSheet.create({
     ...palette.option.inactive,
   },
   catch: {
-    ...palette.option.catch,
+    ...palette.option.primary,
   },
   see: {
-    ...palette.option.see,
+    ...palette.option.secondary,
   },
 });

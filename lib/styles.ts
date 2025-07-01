@@ -56,11 +56,11 @@ export const palette = {
     inactive: {
       color: "#ffffff",
     },
-    catch: {
+    primary: {
       color: "#1d82a5",
       backgroundColor: "#cee1e8",
     },
-    see: {
+    secondary: {
       color: "#a2384a",
       backgroundColor: "#edd2c1",
     },
