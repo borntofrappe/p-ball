@@ -131,7 +131,7 @@ const Catch = () => {
               <View
                 style={[
                   !caught && {
-                    filter: [{ grayscale: 1 }, { brightness: 0 }],
+                    filter: "grayscale(1) brightness(0)"
                   },
                 ]}
               >

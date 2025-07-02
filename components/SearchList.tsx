@@ -66,6 +66,6 @@ const styles = StyleSheet.create({
   listItemImage: {
     width: 46,
     height: 30,
-    filter: [{ grayscale: 1 }, { brightness: 0.15 }],
+    filter: "grayscale(1) brightness(0.1)"
   },
 });
