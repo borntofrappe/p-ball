@@ -30,8 +30,6 @@ const SearchList = ({ items, onSelect }: Props) => {
           <View style={styles.listItemContainer} key={index}>
             <Text style={styles.listItemText}>{item.name}</Text>
             <Image
-              width={46}
-              height={30}
               style={styles.listItemImage}
               source={{ uri: item.uri }}
             />
@@ -58,10 +56,11 @@ const styles = StyleSheet.create({
     gap: 8,
     alignItems: "center",
     justifyContent: "space-between",
+    paddingVertical: 4,
   },
   listItemText: {
     fontFamily: "ComicNeue-Bold",
-    fontSize: 18,
+    fontSize: 20,
   },
   listItemImage: {
     width: 46,

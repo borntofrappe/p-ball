@@ -92,10 +92,10 @@ export default Search;
 const styles = StyleSheet.create({
   notFoundContainer: {
     alignItems: "center",
-    gap: 16,
+    gap: 8,
   },
   notFoundText: {
     fontFamily: "ComicNeue-Bold",
-    fontSize: 24,
+    fontSize: 28,
   },
 });

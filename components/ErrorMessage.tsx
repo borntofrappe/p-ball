@@ -25,7 +25,7 @@ const ErrorMessage = ({ error }: Props) => {
       <Text
         style={{
           fontFamily: "ComicNeue-Bold",
-          fontSize: 20,
+          fontSize: 28,
           maxWidth: 360,
           textAlign: "center",
         }}

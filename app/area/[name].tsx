@@ -127,11 +127,11 @@ export default AreaByName;
 
 const styles = StyleSheet.create({
   titleContainer: {
-    gap: 6,
+    gap: 8,
     alignItems: "center",
   },
   titleText: {
     fontFamily: "ComicNeue-Bold",
-    fontSize: 22,
+    fontSize: 26,
   },
 });

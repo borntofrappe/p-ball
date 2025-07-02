@@ -1,12 +1,12 @@
 import { defaultImage } from "@/lib/styles";
 import React from "react";
 import {
-    Image,
-    StyleProp,
-    StyleSheet,
-    Text,
-    TextStyle,
-    View,
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
 } from "react-native";
 
 type Props = {
@@ -28,13 +28,13 @@ export default Item;
 
 const styles = StyleSheet.create({
   itemContainer: {
-    gap: 6,
+    gap: 4,
     alignItems: "center",
   },
   itemText: {
     fontFamily: "ComicNeue-Bold",
-    fontSize: 16,
-    maxWidth: 80,
+    fontSize: 20,
+    maxWidth: 100,
     textAlign: "center",
   },
 });
