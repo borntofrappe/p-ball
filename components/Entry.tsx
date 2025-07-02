@@ -3,10 +3,6 @@ import { palette } from "@/lib/styles";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-type Props = Entry & {
-  seen?: boolean;
-};
-
 const Entry = ({
   no,
   name,
@@ -15,8 +11,7 @@ const Entry = ({
   weight,
   description,
   uri,
-  seen = false,
-}: Props) => {
+}: Entry) => {
   const imageScale = 3;
   const imageWidth = 46 * imageScale;
   const imageHeight = 30 * imageScale;
@@ -27,21 +22,9 @@ const Entry = ({
         No. {no}
       </Text>
       <View style={[styles.imageTextContainer]}>
-        {seen ? (
-          <View style={[styles.imageContainer, styles.imageContainerSeen]}>
-            <View style={[styles.imageSeen]}>
-              <PixelatedImage
-                width={imageWidth}
-                height={imageHeight}
-                uri={uri}
-              />
-            </View>
-          </View>
-        ) : (
-          <View style={[styles.imageContainer]}>
-            <PixelatedImage width={imageWidth} height={imageHeight} uri={uri} />
-          </View>
-        )}
+        <View style={[styles.imageContainer]}>
+          <PixelatedImage width={imageWidth} height={imageHeight} uri={uri} />
+        </View>
         <View style={[styles.textContainer]}>
           <Text style={[styles.text, styles.textLarge, styles.textUppercase]}>
             {name}
@@ -67,13 +50,13 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     marginInline: "auto",
     backgroundColor: palette.black,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 12,
     gap: 12,
   },
   imageTextContainer: {
     flexDirection: "row",
-    gap: 12,
+    gap: 14,
   },
   imageContainer: {
     backgroundColor: palette.white,
@@ -87,16 +70,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 8,
-    paddingInlineEnd: 8,
-  },
-  imageContainerSeen: {
-    backgroundColor: palette.grey,
-  },
-  imageSeen: {
-    filter: [{ grayscale: 1 }, { brightness: 0 }],
   },
   text: {
-    fontSize: 22,
+    fontSize: 24,
     fontFamily: "PixelEntry",
     color: palette.white,
     letterSpacing: 0.75,
@@ -105,16 +81,16 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   textSmall: {
-    fontSize: 20,
+    fontSize: 22,
   },
   textLarge: {
-    fontSize: 24,
+    fontSize: 26,
   },
   textDescription: {
     color: palette.black,
     backgroundColor: palette.white,
     padding: 8,
-    lineHeight: 24,
-    letterSpacing: 0.3,
+    lineHeight: 26,
+    letterSpacing: 0.2,
   },
 });
