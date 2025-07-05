@@ -73,6 +73,7 @@ const Search = () => {
             <SearchList
               items={searchItems || []}
               onSelect={selectEntryByName}
+              highlight={input}
             />
             {searchItems && searchItems.length === 0 && input && (
               <View style={[styles.notFoundContainer]}>
