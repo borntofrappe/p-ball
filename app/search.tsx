@@ -35,6 +35,7 @@ const Search = () => {
   };
 
   const search = (text: string) => {
+    setInput(text);
     clearTimeout(timeoutID);
     if (text === "") {
       searchEntryByName(text);
@@ -47,8 +48,6 @@ const Search = () => {
       setSearchState("search");
       setTimeoutID(id);
     }
-
-    setInput(text);
   };
 
   const selectEntryByName = (name: string) => {
@@ -58,12 +57,13 @@ const Search = () => {
         name,
       },
     });
+    setInput("");
   };
 
   return (
     <>
       <View style={[pageContainer]}>
-        <SearchBox title="Pokemon" onChangeText={search} />
+        <SearchBox title="Pokemon" value={input} onChangeText={search} />
         {searchState === "search" ? (
           <View style={[singleContainer]}>
             <LoadingSpinner duration={searchDelay / 2.1} />

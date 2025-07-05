@@ -13,10 +13,11 @@ const imageIcon = require("@/assets/images/search-icon.png");
 
 type Props = {
   title: string;
+  value: string;
   onChangeText: (text: string) => void;
 };
 
-const SearchBox = ({ title, onChangeText }: Props) => {
+const SearchBox = ({ title, value, onChangeText }: Props) => {
   const textInput = useRef<TextInput>(null);
 
   return (
@@ -24,6 +25,7 @@ const SearchBox = ({ title, onChangeText }: Props) => {
       <Text style={styles.searchTitle}>{title}</Text>
       <View style={styles.searchRow}>
         <TextInput
+          value={value}
           spellCheck={false}
           ref={textInput}
           style={styles.searchInput}
