@@ -131,7 +131,7 @@ const Catch = () => {
               <View
                 style={[
                   !caught && {
-                    filter: "grayscale(1) brightness(0)"
+                    filter: "grayscale(1) brightness(0)",
                   },
                 ]}
               >
@@ -153,6 +153,7 @@ const Catch = () => {
               style={[styles.guessInput]}
               spellCheck={false}
               maxLength={30}
+              onSubmitEditing={guessName}
             />
             <View style={[styles.actionsContainer]}>
               <Paddle angle={20} imageStyles={[styles.actionsImage]} />
