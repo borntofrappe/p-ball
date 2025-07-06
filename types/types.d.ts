@@ -3,16 +3,6 @@ type SearchEntry = {
   uri: string;
 };
 
-type Item = {
-  name: string;
-  uri: string;
-};
-
-type Match = {
-  name: string;
-  uri: string;
-};
-
 type Entry = {
   no: string;
   name: string;
@@ -23,31 +13,14 @@ type Entry = {
   uri: string;
 };
 
-type EntryDB = {
-  id: string;
-  no: string;
-  name: string;
-  category: string;
-  height: number;
-  weight: number;
-  description: string;
-  img: number[];
-};
-
 type Area = {
   name: string;
   uri: string;
 };
 
-type AreaDB = {
-  id: string;
+type Item = {
   name: string;
-  img: number[];
+  uri: string;
 };
 
 type Version = "Red" | "Blue";
-
-type VersionDB = {
-  id: string;
-  name: Version;
-};

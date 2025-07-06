@@ -24,37 +24,6 @@ export const getSearchEntries = async ({
   return [];
 };
 
-export const getMatchesByName = async ({
-  db,
-  name,
-}: {
-  db: SQLiteDatabase;
-  name: string;
-}): Promise<Match[]> => {
-  if (name === "") {
-    return [];
-  }
-
-  const entriesDB: EntryDB[] = await db.getAllAsync(
-    "SELECT * FROM entry WHERE name LIKE ?",
-    [`%${name}%`]
-  );
-
-  if (entriesDB) {
-    return entriesDB.map(({ name, img }) => {
-      const base64Data = btoa(String.fromCharCode.apply(null, img));
-      const uri = "data:image/png;base64," + base64Data;
-
-      return {
-        name,
-        uri,
-      };
-    });
-  }
-
-  return [];
-};
-
 export const getEntryByName = async ({
   db,
   name,
@@ -162,7 +131,7 @@ export const getConnectionsByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<Match[]> => {
+}): Promise<Item[]> => {
   const result = await db.getAllAsync<{ name: string; img: number[] }>(
     `
       SELECT name, img
@@ -284,7 +253,7 @@ export const getCatchesByName = async ({
           uri,
         };
       })
-      .reduce<{ Red: Match[]; Blue: Match[] }>(
+      .reduce<{ Red: Item[]; Blue: Item[] }>(
         (acc, curr) => {
           const { name, version, uri } = curr;
           acc[version].push({
