@@ -1,4 +1,4 @@
-import { getRandomMatch } from "@/api/queries";
+import { getRandomSearchEntry } from "@/api/queries";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PixelatedImage from "@/components/PixelatedImage";
@@ -59,18 +59,18 @@ const Catch = () => {
   const [name, setName] = useState<string>("");
 
   let {
-    data: match,
+    data: seachEntry,
     error,
     isLoading,
   } = useQuery({
     queryKey: ["catch"],
-    queryFn: () => getRandomMatch({ db, excludeName: name }),
+    queryFn: () => getRandomSearchEntry({ db, excludeName: name }),
   });
 
   const guessName = () => {
-    if (caught || match === undefined) return;
+    if (caught || seachEntry === undefined) return;
 
-    if (name.toLowerCase() === match.name.toLowerCase()) {
+    if (name.toLowerCase() === seachEntry.name.toLowerCase()) {
       textInput.current?.blur();
       setCaught(true);
     } else {
@@ -79,7 +79,7 @@ const Catch = () => {
   };
 
   const nextName = async () => {
-    if (match === undefined) return;
+    if (seachEntry === undefined) return;
 
     await queryClient.invalidateQueries({ queryKey: ["catch"] });
 
@@ -116,7 +116,7 @@ const Catch = () => {
 
   return (
     <View style={[pageContainer]}>
-      {match && (
+      {seachEntry && (
         <>
           <View
             style={[
@@ -138,7 +138,7 @@ const Catch = () => {
                 <PixelatedImage
                   width={imageWidth}
                   height={imageHeight}
-                  uri={match.uri}
+                  uri={seachEntry.uri}
                 />
               </View>
             </View>

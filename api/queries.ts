@@ -305,21 +305,20 @@ export const getCatchesByName = async ({
   };
 };
 
-export const getRandomMatch = async ({
+export const getRandomSearchEntry = async ({
   db,
   excludeName = "",
 }: {
   db: SQLiteDatabase;
   excludeName?: string;
-}): Promise<Match | undefined> => {
-  const entriesDB: EntryDB[] = await db.getAllAsync(
-    "SELECT * FROM entry WHERE name != ?",
+}): Promise<SearchEntry | undefined> => {
+  const result: { name: string; img: number[] }[] = await db.getAllAsync(
+    "SELECT name, img FROM entry WHERE name != ?",
     [excludeName]
   );
 
-  if (entriesDB) {
-    const entry = entriesDB[Math.floor(Math.random() * entriesDB.length)];
-    const { name, img } = entry;
+  if (result) {
+    const { name, img } = result[Math.floor(Math.random() * result.length)];
     const base64Data = btoa(String.fromCharCode.apply(null, img));
     const uri = "data:image/png;base64," + base64Data;
     return {
