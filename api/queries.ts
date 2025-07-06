@@ -62,23 +62,31 @@ export const getEntryByName = async ({
   db: SQLiteDatabase;
   name: string;
 }): Promise<Entry | undefined> => {
-  const entryDB = await db.getFirstAsync<EntryDB>(
+  const result = await db.getFirstAsync<{
+    no: string;
+    name: string;
+    category: string;
+    height: number;
+    weight: number;
+    description: string;
+    img: number[];
+  }>(
     `
-      SELECT *
+      SELECT no, name, category, height, weight, description, img
       FROM entry 
       WHERE name = ?
       `,
     [name]
   );
 
-  if (entryDB === null) {
+  if (result === null) {
     throw new Error(
-      `"${name}" does not match the name of any entry from the Kanto dex`
+      `"${name}" does not match the name of any entry in the Kanto dex`
     );
   }
 
-  if (entryDB) {
-    const { no, name, category, height, weight, description, img } = entryDB;
+  if (result) {
+    const { no, name, category, height, weight, description, img } = result;
     const base64Data = btoa(String.fromCharCode.apply(null, img));
     const uri = "data:image/png;base64," + base64Data;
 
