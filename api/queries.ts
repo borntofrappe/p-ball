@@ -108,8 +108,8 @@ export const getLocationsByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<{ Red: Match[]; Blue: Match[] }> => {
-  const locationsDB = await db.getAllAsync<{
+}): Promise<{ Red: Item[]; Blue: Item[] }> => {
+  const result = await db.getAllAsync<{
     name: string;
     version: Version;
     img: number[];
@@ -123,10 +123,10 @@ export const getLocationsByName = async ({
     [name]
   );
 
-  if (locationsDB) {
-    const locations = locationsDB
-      .map((locationDB) => {
-        const { name, version, img } = locationDB;
+  if (result) {
+    const locations = result
+      .map((d) => {
+        const { name, version, img } = d;
         const base64Data = btoa(String.fromCharCode.apply(null, img));
         const uri = "data:image/png;base64," + base64Data;
         return {
@@ -163,7 +163,7 @@ export const getConnectionsByName = async ({
   db: SQLiteDatabase;
   name: string;
 }): Promise<Match[]> => {
-  const connectionsDB = await db.getAllAsync<{ name: string; img: number[] }>(
+  const result = await db.getAllAsync<{ name: string; img: number[] }>(
     `
       SELECT name, img
       FROM entry
@@ -199,9 +199,9 @@ export const getConnectionsByName = async ({
     }
   );
 
-  if (connectionsDB) {
-    const connections = connectionsDB.map((connectionDB) => {
-      const { name, img } = connectionDB;
+  if (result) {
+    const connections = result.map((d) => {
+      const { name, img } = d;
       const base64Data = btoa(String.fromCharCode.apply(null, img));
       const uri = "data:image/png;base64," + base64Data;
 
@@ -224,23 +224,23 @@ export const getAreaByName = async ({
   db: SQLiteDatabase;
   name: string;
 }): Promise<Area | undefined> => {
-  const areaDB = await db.getFirstAsync<AreaDB>(
+  const result = await db.getFirstAsync<{ name: string; img: number[] }>(
     `
-      SELECT *
+      SELECT name, img
       FROM area 
       WHERE name = ?
       `,
     [name]
   );
 
-  if (areaDB === null) {
+  if (result === null) {
     throw new Error(
-      `"${name}" does not match the name of an area from the Kanto region`
+      `"${name}" does not match the name of an area in the Kanto region`
     );
   }
 
-  if (areaDB) {
-    const { name, img } = areaDB;
+  if (result) {
+    const { name, img } = result;
     const base64Data = btoa(String.fromCharCode.apply(null, img));
     const uri = "data:image/png;base64," + base64Data;
 
@@ -257,8 +257,8 @@ export const getCatchesByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<{ Red: Match[]; Blue: Match[] }> => {
-  const catchesDB = await db.getAllAsync<{
+}): Promise<{ Red: Item[]; Blue: Item[] }> => {
+  const result = await db.getAllAsync<{
     name: string;
     version: Version;
     img: number[];
@@ -272,10 +272,10 @@ export const getCatchesByName = async ({
     [name]
   );
 
-  if (catchesDB) {
-    const catches = catchesDB
-      .map((catchDB) => {
-        const { name, version, img } = catchDB;
+  if (result) {
+    const catches = result
+      .map((d) => {
+        const { name, version, img } = d;
         const base64Data = btoa(String.fromCharCode.apply(null, img));
         const uri = "data:image/png;base64," + base64Data;
         return {

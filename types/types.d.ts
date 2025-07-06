@@ -3,6 +3,11 @@ type SearchEntry = {
   uri: string;
 };
 
+type Item = {
+  name: string;
+  uri: string;
+};
+
 type Match = {
   name: string;
   uri: string;
