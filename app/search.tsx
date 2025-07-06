@@ -1,51 +1,48 @@
-import { getMatchesByName } from "@/api/queries";
+import { getSearchEntries } from "@/api/queries";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import StepAnimation from "@/components/StepAnimation";
 import { animationNotFound } from "@/lib/animations";
 import { pageContainer, singleContainer } from "@/lib/styles";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-type SearchState = undefined | "search" | "find";
+type status = undefined | "pending" | "resolve";
 
 const Search = () => {
-  const queryClient = useQueryClient();
   const db = useSQLiteContext();
 
-  const router = useRouter();
-
-  const [input, setInput] = useState("");
-  const { data: searchItems } = useQuery({
-    queryKey: ["input", { db, name: input }],
-    queryFn: () => getMatchesByName({ db, name: input }),
+  const { data: searchEntries } = useQuery({
+    queryKey: ["fetch", { db }],
+    queryFn: () => getSearchEntries({ db }),
   });
 
-  const [searchState, setSearchState] = useState<SearchState>();
+  const router = useRouter();
+  const [filter, setFilter] = useState(new RegExp(""));
+
+  const [value, setValue] = useState("");
+  const [status, setStatus] = useState<status>();
   let [timeoutID, setTimeoutID] = useState<number>();
-  const searchDelay = 1600;
+  const timeout = 1200;
 
-  const searchEntryByName = async (name: string) => {
-    await queryClient.invalidateQueries({ queryKey: ["input"] });
-    setSearchState("find");
-  };
+  const processValue = (text: string) => {
+    setValue(text);
 
-  const search = (text: string) => {
-    setInput(text);
     clearTimeout(timeoutID);
     if (text === "") {
-      searchEntryByName(text);
+      setFilter(new RegExp(""));
+      setStatus("resolve");
     } else {
-      let id = setTimeout(() => {
-        searchEntryByName(text);
-        clearTimeout(id);
-      }, searchDelay);
+      const id = setTimeout(() => {
+        setFilter(new RegExp(text, "i"));
+        setStatus("resolve");
+      }, timeout);
 
-      setSearchState("search");
+      setStatus("pending");
       setTimeoutID(id);
     }
   };
@@ -57,30 +54,36 @@ const Search = () => {
         name,
       },
     });
-    setInput("");
+    setValue("");
   };
 
   return (
     <>
       <View style={[pageContainer]}>
-        <SearchBox title="Pokemon" value={input} onChangeText={search} />
-        {searchState === "search" ? (
+        <SearchBox title="Pokemon" value={value} onChangeText={processValue} />
+        {status === "pending" ? (
           <View style={[singleContainer]}>
-            <LoadingSpinner duration={searchDelay / 2.1} />
+            <LoadingSpinner duration={timeout / 1.5} />
           </View>
         ) : (
           <>
             <SearchList
-              items={searchItems || []}
+              items={
+                searchEntries
+                  ? searchEntries.filter((d) => filter.test(d.name))
+                  : []
+              }
               onSelect={selectEntryByName}
-              highlight={input}
+              highlight={value}
             />
-            {searchItems && searchItems.length === 0 && input && (
-              <View style={[styles.notFoundContainer]}>
-                <StepAnimation {...animationNotFound} />
-                <Text style={[styles.notFoundText]}>Entry not found</Text>
-              </View>
-            )}
+            {searchEntries &&
+              searchEntries.filter((d) => filter.test(d.name)).length === 0 &&
+              value !== "" && (
+                <View style={[styles.notFoundContainer]}>
+                  <StepAnimation {...animationNotFound} />
+                  <Text style={[styles.notFoundText]}>Entry not found</Text>
+                </View>
+              )}
           </>
         )}
       </View>
