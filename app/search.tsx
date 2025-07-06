@@ -57,6 +57,9 @@ const Search = () => {
     setValue("");
   };
 
+  const entries =
+    searchEntries && searchEntries.filter((d) => filter.test(d.name));
+
   return (
     <>
       <View style={[pageContainer]}>
@@ -67,23 +70,20 @@ const Search = () => {
           </View>
         ) : (
           <>
-            <SearchList
-              items={
-                searchEntries
-                  ? searchEntries.filter((d) => filter.test(d.name))
-                  : []
-              }
-              onSelect={selectEntryByName}
-              highlight={value}
-            />
-            {searchEntries &&
-              searchEntries.filter((d) => filter.test(d.name)).length === 0 &&
-              value !== "" && (
+            {entries && entries.length > 0 ? (
+              <SearchList
+                items={entries}
+                onSelect={selectEntryByName}
+                highlight={value}
+              />
+            ) : (
+              <View style={[singleContainer]}>
                 <View style={[styles.notFoundContainer]}>
                   <StepAnimation {...animationNotFound} />
-                  <Text style={[styles.notFoundText]}>Entry not found</Text>
+                  <Text style={[styles.notFoundText]}>Not even a nibble</Text>
                 </View>
-              )}
+              </View>
+            )}
           </>
         )}
       </View>
