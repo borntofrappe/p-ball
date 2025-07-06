@@ -17,7 +17,7 @@ const Search = () => {
   const db = useSQLiteContext();
 
   const { data: searchEntries } = useQuery({
-    queryKey: ["fetch", { db }],
+    queryKey: ["search", { db }],
     queryFn: () => getSearchEntries({ db }),
   });
 
