@@ -1,5 +1,29 @@
 import { SQLiteDatabase } from "expo-sqlite";
 
+export const getSearchEntries = async ({
+  db,
+}: {
+  db: SQLiteDatabase;
+}): Promise<SearchEntry[]> => {
+  const result: { name: string; img: number[] }[] = await db.getAllAsync(
+    "SELECT name, img FROM entry"
+  );
+
+  if (result) {
+    return result.map(({ name, img }) => {
+      const base64Data = btoa(String.fromCharCode.apply(null, img));
+      const uri = "data:image/png;base64," + base64Data;
+
+      return {
+        name,
+        uri,
+      };
+    });
+  }
+
+  return [];
+};
+
 export const getMatchesByName = async ({
   db,
   name,
