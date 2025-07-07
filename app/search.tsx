@@ -106,6 +106,7 @@ export default Search;
 
 const styles = StyleSheet.create({
   entriesContainer: {
+    flex: 1,
     marginTop: 12,
     marginHorizontal: 8,
   },

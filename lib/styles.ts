@@ -73,6 +73,7 @@ export const palette = {
 
 export const pageContainer: StyleProp<ViewStyle> = {
   maxWidth: 500,
+  flex: 1,
   width: "100%",
   marginInline: "auto",
   paddingHorizontal: 16,
