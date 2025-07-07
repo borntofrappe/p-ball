@@ -29,6 +29,12 @@ const Search = () => {
   let [timeoutID, setTimeoutID] = useState<number>();
   const timeout = 1200;
 
+  const resetValue = () => {
+    setValue("");
+    setFilter(new RegExp(""));
+    setStatus("resolve");
+  };
+
   const processValue = (text: string) => {
     setValue(text);
 
@@ -62,7 +68,11 @@ const Search = () => {
   return (
     <>
       <View style={[pageContainer]}>
-        <SearchBox value={value} onChangeText={processValue} />
+        <SearchBox
+          value={value}
+          onChangeText={processValue}
+          onClearText={resetValue}
+        />
         {status === "pending" ? (
           <View style={[singleContainer]}>
             <LoadingSpinner duration={timeout / 1.5} />

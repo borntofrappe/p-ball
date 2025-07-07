@@ -2,33 +2,46 @@ import { palette } from "@/lib/styles";
 import React, { useRef } from "react";
 import { Image, Pressable, StyleSheet, TextInput, View } from "react-native";
 
-const imageIcon = require("@/assets/images/search-icon.png");
+const imageFocus = require("@/assets/images/search-icon-focus.png");
+const imageClear = require("@/assets/images/search-icon-clear.png");
 
 type Props = {
   value: string;
   onChangeText: (text: string) => void;
+  onClearText: () => void;
 };
 
-const SearchBox = ({ value, onChangeText }: Props) => {
+const SearchBox = ({ value, onChangeText, onClearText }: Props) => {
   const textInput = useRef<TextInput>(null);
 
   return (
-    <View style={styles.searchContainer}>
+    <View style={[styles.container]}>
       <TextInput
         value={value}
         spellCheck={false}
         ref={textInput}
-        style={styles.searchInput}
+        style={[styles.input]}
         onChangeText={onChangeText}
       />
-      <Pressable
-        style={styles.searchButton}
-        onPress={() => {
-          textInput.current?.focus();
-        }}
-      >
-        <Image source={imageIcon} style={styles.searchIcon} />
-      </Pressable>
+      {value === "" ? (
+        <Pressable
+          style={[styles.button]}
+          onPress={() => {
+            textInput.current?.focus();
+          }}
+        >
+          <Image source={imageFocus} style={[styles.buttonIcon]} />
+        </Pressable>
+      ) : (
+        <Pressable
+          style={[styles.button]}
+          onPress={() => {
+            onClearText();
+          }}
+        >
+          <Image source={imageClear} style={[styles.buttonIcon]} />
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -36,7 +49,7 @@ const SearchBox = ({ value, onChangeText }: Props) => {
 export default SearchBox;
 
 const styles = StyleSheet.create({
-  searchContainer: {
+  container: {
     paddingHorizontal: 24,
     paddingVertical: 32,
     borderColor: palette.green,
@@ -47,7 +60,7 @@ const styles = StyleSheet.create({
     gap: 12,
     alignItems: "center",
   },
-  searchInput: {
+  input: {
     flex: 1,
     paddingHorizontal: 8,
     paddingTop: 8,
@@ -60,12 +73,12 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: palette.input.backgroundColor,
   },
-  searchButton: {
+  button: {
     padding: 12,
     backgroundColor: palette.primary,
     borderRadius: 6,
   },
-  searchIcon: {
+  buttonIcon: {
     width: 20,
     height: 20,
   },
