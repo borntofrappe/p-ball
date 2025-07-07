@@ -15,14 +15,15 @@ type Props = {
   highlight?: string;
 };
 
+const ITEM_HEIGHT = 60;
+
 const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
   const regex = new RegExp(highlight, "i");
   const { length } = highlight;
   return (
     <FlatList
-      contentContainerStyle={styles.listContainer}
       data={items}
-      renderItem={({ item, index }) => {
+      renderItem={({ item }) => {
         const text = item.name;
         const from = text.search(regex);
         const to = from + length;
@@ -38,7 +39,20 @@ const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
               onSelect(item.name);
             }}
           >
-            <View style={[styles.listItemContainer]} key={index}>
+            <View
+              style={[
+                styles.listItemContainer,
+                {
+                  height: ITEM_HEIGHT,
+                  flexDirection: "row",
+                  gap: 8,
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingVertical: 12,
+                  paddingHorizontal: 12,
+                },
+              ]}
+            >
               <Text style={[styles.listItemText]}>
                 {start}
                 <Text style={[styles.listItemHighlight]}>{match}</Text>
@@ -54,6 +68,17 @@ const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
           </Pressable>
         );
       }}
+      contentContainerStyle={styles.listContainer}
+      keyExtractor={(item) => item.name}
+      getItemLayout={(_, index) => {
+        return {
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        };
+      }}
+      removeClippedSubviews={true}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
@@ -67,12 +92,6 @@ const styles = StyleSheet.create({
   listItemContainer: {
     backgroundColor: palette.black,
     borderRadius: 8,
-    flexDirection: "row",
-    gap: 8,
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    paddingHorizontal: 12,
   },
   listItemText: {
     fontFamily: "PixelEntry",
