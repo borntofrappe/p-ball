@@ -12,7 +12,16 @@ type Props = {
 
 const PixelatedImage = ({ width, height, uri }: Props) => {
   return Platform.OS === "web" ? (
-    <Svg width={width} height={height} image-rendering="pixelated">
+    <Svg
+      style={[
+        {
+          display: "flex",
+        },
+      ]}
+      width={width}
+      height={height}
+      image-rendering="pixelated"
+    >
       <SvgImage width={width} height={height} href={{ uri }} />
     </Svg>
   ) : (

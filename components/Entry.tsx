@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   imageTextContainer: {
     flexDirection: "row",
     gap: 14,
+    alignItems: "center",
   },
   imageContainer: {
     backgroundColor: palette.white,
