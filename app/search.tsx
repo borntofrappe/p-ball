@@ -22,8 +22,8 @@ const Search = () => {
   });
 
   const router = useRouter();
-  const [filter, setFilter] = useState(new RegExp(""));
 
+  const [filter, setFilter] = useState(new RegExp(""));
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<status>();
   let [timeoutID, setTimeoutID] = useState<number>();
@@ -54,7 +54,6 @@ const Search = () => {
         name,
       },
     });
-    setValue("");
   };
 
   const entries =
@@ -98,7 +97,7 @@ export default Search;
 const styles = StyleSheet.create({
   entriesContainer: {
     marginTop: 12,
-    marginHorizontal: 8
+    marginHorizontal: 8,
   },
   notFoundContainer: {
     alignItems: "center",
