@@ -4,7 +4,6 @@ export const palette = {
   color: "#150c03",
   backgroundColor: "#fbf7f2",
   primary: "#f9b422",
-  highlight: "#f9b422",
   white: "#ffffff",
   black: "#000000",
   red: "#e9270d",
@@ -17,6 +16,10 @@ export const palette = {
   pill: {
     color: "#fbf7f2",
     backgroundColor: "#150a06",
+  },
+  highlight: {
+    color: "#ffffff",
+    backgroundColor: "#555555",
   },
   input: {
     color: "#150a06",

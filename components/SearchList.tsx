@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 type Props = {
-  items: Match[];
+  items: Item[];
   onSelect: (text: string) => void;
   highlight?: string;
 };
@@ -38,13 +38,18 @@ const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
               onSelect(item.name);
             }}
           >
-            <View style={styles.listItemContainer} key={index}>
-              <Text style={styles.listItemText}>
+            <View style={[styles.listItemContainer]} key={index}>
+              <Text style={[styles.listItemText]}>
                 {start}
-                <Text style={styles.listItemHighlight}>{match}</Text>
+                <Text style={[styles.listItemHighlight]}>{match}</Text>
                 {end}
               </Text>
-              <Image style={styles.listItemImage} source={{ uri: item.uri }} />
+              <View style={[styles.listItemImageContainer]}>
+                <Image
+                  style={[styles.listItemImage]}
+                  source={{ uri: item.uri }}
+                />
+              </View>
             </View>
           </Pressable>
         );
@@ -57,26 +62,29 @@ export default SearchList;
 
 const styles = StyleSheet.create({
   listContainer: {
-    gap: 16,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    width: "100%",
-    maxWidth: 300,
-    marginInline: "auto",
+    gap: 8,
   },
   listItemContainer: {
+    backgroundColor: palette.black,
+    borderRadius: 8,
     flexDirection: "row",
     gap: 8,
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 4,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
   },
   listItemText: {
-    fontFamily: "ComicNeue-Bold",
-    fontSize: 20,
+    fontFamily: "PixelEntry",
+    fontSize: 22,
+    letterSpacing: 0.2,
+    color: palette.white,
   },
   listItemHighlight: {
-    backgroundColor: palette.highlight,
+    ...palette.highlight,
+  },
+  listItemImageContainer: {
+    backgroundColor: palette.white,
   },
   listItemImage: {
     width: 46,

@@ -71,11 +71,13 @@ const Search = () => {
         ) : (
           <>
             {entries && entries.length > 0 ? (
-              <SearchList
-                items={entries}
-                onSelect={selectEntryByName}
-                highlight={value}
-              />
+              <View style={[styles.entriesContainer]}>
+                <SearchList
+                  items={entries}
+                  onSelect={selectEntryByName}
+                  highlight={value}
+                />
+              </View>
             ) : (
               <View style={[singleContainer]}>
                 <View style={[styles.notFoundContainer]}>
@@ -94,6 +96,10 @@ const Search = () => {
 export default Search;
 
 const styles = StyleSheet.create({
+  entriesContainer: {
+    marginTop: 8,
+    marginHorizontal: 8
+  },
   notFoundContainer: {
     alignItems: "center",
     gap: 8,
