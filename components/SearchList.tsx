@@ -28,7 +28,7 @@ const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
         const to = from + length;
         const start = text.slice(0, from);
         const match = text.slice(from, to);
-        const end = text.slice(from + to);
+        const end = text.slice(to);
         return (
           <Pressable
             style={({ pressed }) => ({
