@@ -30,6 +30,7 @@ const PixelatedImage = ({ width, height, uri }: Props) => {
         {
           width: width,
           height: height,
+          overflow: "hidden",
         },
       ]}
     >
@@ -37,6 +38,7 @@ const PixelatedImage = ({ width, height, uri }: Props) => {
         domStorageEnabled={false}
         javaScriptEnabled={false}
         scalesPageToFit={false}
+        showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         style={{
           backgroundColor: "transparent",
