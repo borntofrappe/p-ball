@@ -1,45 +1,34 @@
 import { palette } from "@/lib/styles";
 import React, { useRef } from "react";
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Image, Pressable, StyleSheet, TextInput, View } from "react-native";
 
 const imageIcon = require("@/assets/images/search-icon.png");
 
 type Props = {
-  title: string;
   value: string;
   onChangeText: (text: string) => void;
 };
 
-const SearchBox = ({ title, value, onChangeText }: Props) => {
+const SearchBox = ({ value, onChangeText }: Props) => {
   const textInput = useRef<TextInput>(null);
 
   return (
     <View style={styles.searchContainer}>
-      <Text style={styles.searchTitle}>{title}</Text>
-      <View style={styles.searchRow}>
-        <TextInput
-          value={value}
-          spellCheck={false}
-          ref={textInput}
-          style={styles.searchInput}
-          onChangeText={onChangeText}
-        />
-        <Pressable
-          style={styles.searchButton}
-          onPress={() => {
-            textInput.current?.focus();
-          }}
-        >
-          <Image source={imageIcon} style={styles.searchIcon} />
-        </Pressable>
-      </View>
+      <TextInput
+        value={value}
+        spellCheck={false}
+        ref={textInput}
+        style={styles.searchInput}
+        onChangeText={onChangeText}
+      />
+      <Pressable
+        style={styles.searchButton}
+        onPress={() => {
+          textInput.current?.focus();
+        }}
+      >
+        <Image source={imageIcon} style={styles.searchIcon} />
+      </Pressable>
     </View>
   );
 };
@@ -48,27 +37,12 @@ export default SearchBox;
 
 const styles = StyleSheet.create({
   searchContainer: {
-    gap: 28,
     paddingHorizontal: 24,
     paddingVertical: 32,
     borderColor: palette.green,
     borderWidth: 6,
     borderRadius: 16,
     backgroundColor: palette.backgroundColor,
-  },
-  searchTitle: {
-    fontFamily: "ComicNeue-Bold",
-    letterSpacing: 0.5,
-    alignSelf: "center",
-    paddingHorizontal: 24,
-    paddingVertical: 8,
-    color: palette.pill.color,
-    backgroundColor: palette.pill.backgroundColor,
-    borderRadius: 1e5,
-    fontSize: 22,
-    textTransform: "uppercase",
-  },
-  searchRow: {
     flexDirection: "row",
     gap: 12,
     alignItems: "center",

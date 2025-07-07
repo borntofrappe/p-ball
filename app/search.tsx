@@ -63,7 +63,7 @@ const Search = () => {
   return (
     <>
       <View style={[pageContainer]}>
-        <SearchBox title="Pokemon" value={value} onChangeText={processValue} />
+        <SearchBox value={value} onChangeText={processValue} />
         {status === "pending" ? (
           <View style={[singleContainer]}>
             <LoadingSpinner duration={timeout / 1.5} />
@@ -97,7 +97,7 @@ export default Search;
 
 const styles = StyleSheet.create({
   entriesContainer: {
-    marginTop: 8,
+    marginTop: 12,
     marginHorizontal: 8
   },
   notFoundContainer: {
