@@ -6,7 +6,7 @@ const animationErrorStart =
   100 / ((animationErrorDuration + animationErrorDelay) / animationErrorDelay);
 
 export const animationError = {
-  image: require("@/assets/images/error.png"),
+  image: require("@/assets/images/app-error.png"),
   size: 200,
   steps: 3,
   keyframe: new Keyframe(
@@ -34,7 +34,7 @@ export const animationError = {
 };
 
 export const animationNotFound = {
-  image: require("@/assets/images/not-found.png"),
+  image: require("@/assets/images/app-not-found.png"),
   size: 150,
   steps: 3,
   keyframe: new Keyframe({

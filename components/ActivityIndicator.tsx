@@ -1,7 +1,7 @@
 import { useSpin } from "@/lib/hooks";
 import Animated from "react-native-reanimated";
 
-const imageActivity = require("@/assets/images/activity-indicator.png");
+const image = require("@/assets/images/app-loading.png");
 
 type Props = {
   width: number;
@@ -21,7 +21,7 @@ const ActivityIndicator = ({ width, height, duration }: Props) => {
         },
         animatedStyle,
       ]}
-      source={imageActivity}
+      source={image}
     ></Animated.Image>
   );
 };
