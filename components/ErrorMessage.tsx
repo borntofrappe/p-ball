@@ -1,6 +1,7 @@
 import { animationError } from "@/lib/animations";
+import { palette } from "@/lib/styles";
 import React from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import StepAnimation from "./StepAnimation";
 
 type Props = {
@@ -11,29 +12,38 @@ const ErrorMessage = ({ error }: Props) => {
   return (
     <View>
       <View
-        style={{
-          width: animationError.size,
-          height: animationError.size,
-          alignSelf: "center",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={[
+          styles.container,
+          {
+            width: animationError.size,
+            height: animationError.size,
+            alignSelf: "center",
+          },
+        ]}
       >
         <StepAnimation {...animationError} />
       </View>
 
-      <Text
-        style={{
-          fontFamily: "ComicNeue-Bold",
-          fontSize: 28,
-          maxWidth: 360,
-          textAlign: "center",
-        }}
-      >
-        {error.message}
-      </Text>
+      <Text style={[styles.text]}>{error.message}</Text>
     </View>
   );
 };
 
 export default ErrorMessage;
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontFamily: "PixelEntry",
+    fontSize: 22,
+    maxWidth: 360,
+    textAlign: "center",
+    color: palette.white,
+    backgroundColor: palette.black,
+    paddingHorizontal: 2,
+    paddingVertical: 1,
+  },
+});
