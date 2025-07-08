@@ -49,8 +49,6 @@ const styles = StyleSheet.create({
     paddingVertical: 38,
     paddingHorizontal: 22,
     borderWidth: 3,
-    backgroundColor: palette.backgroundColor,
-    borderColor: palette.color,
     marginTop: 12,
   },
   label: {
@@ -67,7 +65,5 @@ const styles = StyleSheet.create({
         translateY: "-50%",
       },
     ],
-    color: palette.backgroundColor,
-    backgroundColor: palette.color,
   },
 });

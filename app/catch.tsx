@@ -208,9 +208,9 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
   },
   catchImageContainer: {
-    borderColor: palette.color,
+    borderColor: palette.form.color,
     borderWidth: 2,
-    backgroundColor: palette.white,
+    backgroundColor: palette.form.backgroundColor,
   },
   catchText: {
     textAlign: "center",
@@ -239,7 +239,8 @@ const styles = StyleSheet.create({
     minWidth: 140,
     paddingTop: 4,
     paddingBottom: 1,
-    borderBottomColor: palette.color,
+    color: palette.input.color,
+    borderBottomColor: palette.input.color,
     borderBottomWidth: 1,
     textAlign: "center",
     fontSize: 28,

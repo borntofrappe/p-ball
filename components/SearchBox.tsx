@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     borderColor: palette.green,
     borderWidth: 6,
     borderRadius: 16,
-    backgroundColor: palette.backgroundColor,
+    backgroundColor: palette.form.backgroundColor,
     flexDirection: "row",
     gap: 12,
     alignItems: "center",

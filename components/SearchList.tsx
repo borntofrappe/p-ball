@@ -92,17 +92,17 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   listItemContainer: {
-    backgroundColor: palette.black,
+    backgroundColor: palette.searchItem.backgroundColor,
     borderRadius: 8,
   },
   listItemText: {
     fontFamily: "PixelEntry",
     fontSize: 22,
     letterSpacing: 0.2,
-    color: palette.white,
+    color: palette.searchItem.color,
   },
   listItemHighlight: {
-    ...palette.highlight,
+    color: palette.searchItem.highlight,
   },
   listItemImageContainer: {
     backgroundColor: palette.white,
