@@ -1,4 +1,5 @@
 import { getRandomSearchEntry } from "@/api/queries";
+import Background from "@/components/Background";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PixelatedImage from "@/components/PixelatedImage";
@@ -115,89 +116,92 @@ const Catch = () => {
   }
 
   return (
-    <View style={[pageContainer]}>
-      {seachEntry && (
-        <>
-          <View
-            style={[
-              styles.catchContainer,
-              {
-                width: imageWidth,
-                marginInline: "auto",
-              },
-            ]}
-          >
-            <View style={[styles.catchImageContainer]}>
-              <View
-                style={[
-                  !caught && {
-                    filter: "grayscale(1) brightness(0)",
-                  },
-                ]}
-              >
-                <PixelatedImage
-                  width={imageWidth}
-                  height={imageHeight}
-                  uri={seachEntry.uri}
-                />
-              </View>
-            </View>
-            <Text style={[styles.catchText]}>Catch</Text>
-          </View>
-
-          <View style={[styles.guessContainer]}>
-            <TextInput
-              value={name}
-              ref={textInput}
-              onChangeText={onChangeText}
-              style={[styles.guessInput]}
-              spellCheck={false}
-              maxLength={30}
-              onSubmitEditing={guessName}
-            />
-            <View style={[styles.actionsContainer]}>
-              <Paddle angle={20} imageStyles={[styles.actionsImage]} />
-              <View style={[styles.optionsContainer]}>
-                <Pressable
-                  onPress={guessName}
+    <>
+      <Background />
+      <View style={[pageContainer]}>
+        {seachEntry && (
+          <>
+            <View
+              style={[
+                styles.catchContainer,
+                {
+                  width: imageWidth,
+                  marginInline: "auto",
+                },
+              ]}
+            >
+              <View style={[styles.catchImageContainer]}>
+                <View
                   style={[
-                    {
-                      cursor: caught ? "auto" : "pointer",
+                    !caught && {
+                      filter: "grayscale(1) brightness(0)",
                     },
                   ]}
                 >
-                  <Text
+                  <PixelatedImage
+                    width={imageWidth}
+                    height={imageHeight}
+                    uri={seachEntry.uri}
+                  />
+                </View>
+              </View>
+              <Text style={[styles.catchText]}>Catch</Text>
+            </View>
+
+            <View style={[styles.guessContainer]}>
+              <TextInput
+                value={name}
+                ref={textInput}
+                onChangeText={onChangeText}
+                style={[styles.guessInput]}
+                spellCheck={false}
+                maxLength={30}
+                onSubmitEditing={guessName}
+              />
+              <View style={[styles.actionsContainer]}>
+                <Paddle angle={20} imageStyles={[styles.actionsImage]} />
+                <View style={[styles.optionsContainer]}>
+                  <Pressable
+                    onPress={guessName}
                     style={[
-                      styles.optionText,
-                      styles.guess,
-                      caught && styles.inactive,
+                      {
+                        cursor: caught ? "auto" : "pointer",
+                      },
                     ]}
                   >
-                    Guess
-                  </Text>
-                </Pressable>
-                <Pressable onPress={nextName}>
-                  <Text style={[styles.optionText, styles.next]}>Next</Text>
-                </Pressable>
-              </View>
-              <View
-                style={[
-                  {
-                    transform: [
-                      {
-                        scaleX: -1,
-                      },
-                    ],
-                  },
-                ]}
-              >
-                <Paddle angle={20} imageStyles={[styles.actionsImage]} />
+                    <Text
+                      style={[
+                        styles.optionText,
+                        styles.guess,
+                        caught && styles.inactive,
+                      ]}
+                    >
+                      Guess
+                    </Text>
+                  </Pressable>
+                  <Pressable onPress={nextName}>
+                    <Text style={[styles.optionText, styles.next]}>Next</Text>
+                  </Pressable>
+                </View>
+                <View
+                  style={[
+                    {
+                      transform: [
+                        {
+                          scaleX: -1,
+                        },
+                      ],
+                    },
+                  ]}
+                >
+                  <Paddle angle={20} imageStyles={[styles.actionsImage]} />
+                </View>
               </View>
             </View>
-          </View>
-        </>
-      )}
-    </View>
+          </>
+        )}
+      </View>
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import { getAreaByName, getCatchesByName } from "@/api/queries";
+import Background from "@/components/Background";
 import ErrorMessage from "@/components/ErrorMessage";
 import Item from "@/components/Item";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -73,6 +74,7 @@ const AreaByName = () => {
 
   return (
     <>
+      <Background />
       <ScrollView contentContainerStyle={[pageContainer]}>
         {area && (
           <View style={[styles.titleContainer]}>

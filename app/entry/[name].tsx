@@ -3,6 +3,7 @@ import {
   getEntryByName,
   getLocationsByName,
 } from "@/api/queries";
+import Background from "@/components/Background";
 import Entry from "@/components/Entry";
 import ErrorMessage from "@/components/ErrorMessage";
 import Item from "@/components/Item";
@@ -90,6 +91,7 @@ const EntryByName = () => {
 
   return (
     <>
+      <Background />
       <ScrollView ref={pageStart} contentContainerStyle={[pageContainer]}>
         {entry && (
           <Entry

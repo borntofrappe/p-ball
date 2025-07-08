@@ -1,4 +1,5 @@
 import { getSearchEntries } from "@/api/queries";
+import Background from "@/components/Background";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
@@ -66,51 +67,54 @@ const Search = () => {
     searchEntries && searchEntries.filter((d) => filter.test(d.name));
 
   return (
-    <View
-      style={[
-        pageContainer,
-        {
-          flex: 1, // scroll FlatList
-        },
-      ]}
-    >
-      <SearchBox
-        value={value}
-        onChangeText={processValue}
-        onClearText={resetValue}
-      />
-      {status === "pending" ? (
-        <View style={[singleContainer]}>
-          <LoadingSpinner duration={timeout / 1.5} />
-        </View>
-      ) : (
-        <>
-          {entries && entries.length > 0 ? (
-            <View
-              style={[
-                styles.entriesContainer,
-                {
-                  flex: 1, // scroll FlatList
-                },
-              ]}
-            >
-              <SearchList
-                items={entries}
-                onSelect={selectEntryByName}
-                highlight={value}
-              />
-            </View>
-          ) : (
-            <View style={[singleContainer]}>
-              <View style={[styles.notFoundContainer]}>
-                <StepAnimation {...animationNotFound} />
-                <Text style={[styles.notFoundText]}>Not even a nibble</Text>
+    <>
+      <Background />
+      <View
+        style={[
+          pageContainer,
+          {
+            flex: 1, // scroll FlatList
+          },
+        ]}
+      >
+        <SearchBox
+          value={value}
+          onChangeText={processValue}
+          onClearText={resetValue}
+        />
+        {status === "pending" ? (
+          <View style={[singleContainer]}>
+            <LoadingSpinner duration={timeout / 1.5} />
+          </View>
+        ) : (
+          <>
+            {entries && entries.length > 0 ? (
+              <View
+                style={[
+                  styles.entriesContainer,
+                  {
+                    flex: 1, // scroll FlatList
+                  },
+                ]}
+              >
+                <SearchList
+                  items={entries}
+                  onSelect={selectEntryByName}
+                  highlight={value}
+                />
               </View>
-            </View>
-          )}
-        </>
-      )}
-    </View>
+            ) : (
+              <View style={[singleContainer]}>
+                <View style={[styles.notFoundContainer]}>
+                  <StepAnimation {...animationNotFound} />
+                  <Text style={[styles.notFoundText]}>Not even a nibble</Text>
+                </View>
+              </View>
+            )}
+          </>
+        )}
+      </View>
+    </>
   );
 };
 
