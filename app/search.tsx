@@ -66,39 +66,51 @@ const Search = () => {
     searchEntries && searchEntries.filter((d) => filter.test(d.name));
 
   return (
-    <>
-      <View style={[pageContainer]}>
-        <SearchBox
-          value={value}
-          onChangeText={processValue}
-          onClearText={resetValue}
-        />
-        {status === "pending" ? (
-          <View style={[singleContainer]}>
-            <LoadingSpinner duration={timeout / 1.5} />
-          </View>
-        ) : (
-          <>
-            {entries && entries.length > 0 ? (
-              <View style={[styles.entriesContainer]}>
-                <SearchList
-                  items={entries}
-                  onSelect={selectEntryByName}
-                  highlight={value}
-                />
+    <View
+      style={[
+        pageContainer,
+        {
+          flex: 1, // scroll FlatList
+        },
+      ]}
+    >
+      <SearchBox
+        value={value}
+        onChangeText={processValue}
+        onClearText={resetValue}
+      />
+      {status === "pending" ? (
+        <View style={[singleContainer]}>
+          <LoadingSpinner duration={timeout / 1.5} />
+        </View>
+      ) : (
+        <>
+          {entries && entries.length > 0 ? (
+            <View
+              style={[
+                styles.entriesContainer,
+                {
+                  flex: 1, // scroll FlatList
+                },
+              ]}
+            >
+              <SearchList
+                items={entries}
+                onSelect={selectEntryByName}
+                highlight={value}
+              />
+            </View>
+          ) : (
+            <View style={[singleContainer]}>
+              <View style={[styles.notFoundContainer]}>
+                <StepAnimation {...animationNotFound} />
+                <Text style={[styles.notFoundText]}>Not even a nibble</Text>
               </View>
-            ) : (
-              <View style={[singleContainer]}>
-                <View style={[styles.notFoundContainer]}>
-                  <StepAnimation {...animationNotFound} />
-                  <Text style={[styles.notFoundText]}>Not even a nibble</Text>
-                </View>
-              </View>
-            )}
-          </>
-        )}
-      </View>
-    </>
+            </View>
+          )}
+        </>
+      )}
+    </View>
   );
 };
 
@@ -106,7 +118,6 @@ export default Search;
 
 const styles = StyleSheet.create({
   entriesContainer: {
-    flex: 1,
     marginTop: 12,
     marginHorizontal: 8,
   },

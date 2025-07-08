@@ -36,6 +36,7 @@ export default function RootLayout() {
         assetSource={{ assetId: require("@/assets/data/p-ball.sqlite3") }}
       >
         <Ribbon />
+        {/* flex: 1 to scroll FlatList */}
         <View style={[{ flex: 1 }]}>
           <Stack
             screenOptions={{
