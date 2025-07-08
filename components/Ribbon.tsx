@@ -1,7 +1,7 @@
 import { palette } from "@/lib/styles";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
-const imagePattern = require("@/assets/images/app-pattern.png");
+const imagePattern = require("@/assets/images/app-pattern-overlay.png");
 
 const Ribbon = () => {
   const windowWidth = Dimensions.get("window").width;
