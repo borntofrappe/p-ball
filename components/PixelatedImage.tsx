@@ -40,9 +40,11 @@ const PixelatedImage = ({ width, height, uri }: Props) => {
         scalesPageToFit={false}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        style={{
-          backgroundColor: "transparent",
-        }}
+        style={[
+          {
+            backgroundColor: "transparent",
+          },
+        ]}
         originWhitelist={["*"]}
         source={{
           html: `<body style="margin: 0;">

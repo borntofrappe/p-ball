@@ -1,6 +1,6 @@
 import { palette } from "@/lib/styles";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Image, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 const imagePattern = require("@/assets/images/app-pattern.png");
 
 const Ribbon = () => {
@@ -16,10 +16,12 @@ const Ribbon = () => {
 
   return (
     <View
-      style={{
-        alignItems: "center",
-        backgroundColor: palette.primary,
-      }}
+      style={[
+        styles.container,
+        {
+          alignItems: "center",
+        },
+      ]}
     >
       <Image
         source={imagePattern}
@@ -34,3 +36,9 @@ const Ribbon = () => {
 };
 
 export default Ribbon;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: palette.primary,
+  },
+});

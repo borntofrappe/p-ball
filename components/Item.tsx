@@ -17,9 +17,9 @@ type Props = {
 
 const Item = ({ name, uri, textStyle = {} }: Props) => {
   return (
-    <View style={[styles.itemContainer]}>
+    <View style={[styles.container]}>
       <Image style={[defaultImage]} source={{ uri: uri }} />
-      <Text style={[styles.itemText, textStyle]}>{name}</Text>
+      <Text style={[styles.text, textStyle]}>{name}</Text>
     </View>
   );
 };
@@ -27,11 +27,11 @@ const Item = ({ name, uri, textStyle = {} }: Props) => {
 export default Item;
 
 const styles = StyleSheet.create({
-  itemContainer: {
+  container: {
     gap: 4,
     alignItems: "center",
   },
-  itemText: {
+  text: {
     fontFamily: "ComicNeue-Bold",
     fontSize: 20,
     maxWidth: 100,

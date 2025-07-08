@@ -13,18 +13,22 @@ type Props = {
 const StepAnimation = ({ image, size, steps, keyframe, duration }: Props) => {
   return (
     <View
-      style={{
-        width: size,
-        height: size,
-        overflow: "hidden",
-      }}
+      style={[
+        {
+          width: size,
+          height: size,
+          overflow: "hidden",
+        },
+      ]}
     >
       <Animated.View entering={keyframe.duration(duration)}>
         <ImageBackground
-          style={{
-            width: size * steps,
-            height: size,
-          }}
+          style={[
+            {
+              width: size * steps,
+              height: size,
+            },
+          ]}
           source={image}
         ></ImageBackground>
       </Animated.View>

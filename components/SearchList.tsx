@@ -32,9 +32,11 @@ const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
         const end = text.slice(to);
         return (
           <Pressable
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.5 : 1,
-            })}
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.5 : 1,
+              },
+            ]}
             onPress={() => {
               onSelect(item.name);
             }}
@@ -68,7 +70,7 @@ const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
           </Pressable>
         );
       }}
-      contentContainerStyle={styles.listContainer}
+      contentContainerStyle={[styles.listContainer]}
       keyExtractor={(item) => item.name}
       getItemLayout={(_, index) => {
         return {
