@@ -8,7 +8,7 @@ type Entry = {
   uri: string;
 };
 
-type EntryLookup = Pick<Entry, "name", "uri">;
+type EntryLookup = Pick<Entry, "name" | "uri">;
 
 type Area = {
   name: string;
