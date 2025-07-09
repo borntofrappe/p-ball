@@ -22,9 +22,22 @@ const Catch = () => {
     queryFn: async () => getEntriesData({ db }),
   });
 
+  const textInput = useRef<TextInput>(null);
+  const [caught, setCaught] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [entry, setEntry] = useState<EntryLookup>();
+  const [record, setRecord] = useState<Record<string, number>>({});
+  const [hasInitialized, setHasInitialized] = useState(false);
+
   useEffect(() => {
     if (entries && !hasInitialized) {
-      setEntry(entries[0]);
+      setEntry(entries[Math.floor(Math.random() * entries.length)]);
+      setRecord(
+        entries.reduce((acc, curr) => {
+          acc[curr.name] = 0;
+          return acc;
+        }, {} as Record<string, number>)
+      );
       setHasInitialized(true);
     }
   }, [entries]);
@@ -33,18 +46,20 @@ const Catch = () => {
   const imageWidth = 46 * imageScale;
   const imageHeight = 30 * imageScale;
 
-  const textInput = useRef<TextInput>(null);
-  const [caught, setCaught] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-  const [entry, setEntry] = useState<EntryLookup>();
-  const [hasInitialized, setHasInitialized] = useState(false);
-
   const guessName = () => {
     if (caught || entries === undefined || entry === undefined) return;
 
-    if (name.toLowerCase() === entry.name.toLowerCase()) {
-      textInput.current?.blur();
+    if (name.toLowerCase().trim() === entry.name.toLowerCase()) {
+      const name = entry.name;
+
       setCaught(true);
+      setRecord((prevRecord) => {
+        const newRecord = { ...prevRecord };
+        newRecord[name] += 1;
+        return newRecord;
+      });
+
+      textInput.current?.blur();
     } else {
       textInput.current?.focus();
     }
@@ -53,13 +68,49 @@ const Catch = () => {
   const nextName = async () => {
     if (entries === undefined || entry === undefined) return;
 
-    setEntry(entries[1]);
+    const { name: previousName } = entry;
+    let newName: string | undefined
 
+    const weights = [];
+    let totalWeight = 0;
+    let frequencyPairs = Object.entries(record);
+    const randomFrequencyPairs: [string, number][] = [];
+
+    while (frequencyPairs.length > 0) {
+      const i = Math.floor(Math.random() * frequencyPairs.length);
+      randomFrequencyPairs.push(frequencyPairs.splice(i, 1)[0]);
+    }
+
+    const sortedFrequencyPairs = randomFrequencyPairs.sort((a, b) => a[1] - b[1]);
+
+    for (const [, value] of sortedFrequencyPairs) {
+      const weight = 1 / (value + 1);
+      weights.push(weight);
+      totalWeight += weight;
+    }
+
+    while (newName === undefined) {
+      let randomWeight = Math.random() * totalWeight;
+
+      for (let i = 0; i < sortedFrequencyPairs.length; i++) {
+        randomWeight -= weights[i];
+        const name = sortedFrequencyPairs[i][0];
+        if (randomWeight <= 0 && name !== previousName) {
+          newName = name
+          break;
+        }
+      }
+    }
+
+    console.log(sortedFrequencyPairs)
+    console.log(weights)
+    const newEntry = entries.find(d => d.name === newName)
+    setEntry(newEntry || entries[99]);
+    setName("");
     if (caught) {
       setCaught(false);
     }
 
-    setName("");
     textInput.current?.focus();
   };
 
@@ -111,6 +162,7 @@ const Catch = () => {
                     height={imageHeight}
                     uri={entry.uri}
                   />
+                  <Text>{entry.name}</Text>
                 </View>
               </View>
               <Text style={[styles.catchText]}>Catch</Text>
