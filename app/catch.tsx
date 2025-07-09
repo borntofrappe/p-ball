@@ -69,7 +69,7 @@ const Catch = () => {
     if (entries === undefined || entry === undefined) return;
 
     const { name: previousName } = entry;
-    let newName: string | undefined
+    let newName: string | undefined;
 
     const weights = [];
     let totalWeight = 0;
@@ -81,7 +81,9 @@ const Catch = () => {
       randomFrequencyPairs.push(frequencyPairs.splice(i, 1)[0]);
     }
 
-    const sortedFrequencyPairs = randomFrequencyPairs.sort((a, b) => a[1] - b[1]);
+    const sortedFrequencyPairs = randomFrequencyPairs.sort(
+      (a, b) => a[1] - b[1]
+    );
 
     for (const [, value] of sortedFrequencyPairs) {
       const weight = 1 / (value + 1);
@@ -96,13 +98,13 @@ const Catch = () => {
         randomWeight -= weights[i];
         const name = sortedFrequencyPairs[i][0];
         if (randomWeight <= 0 && name !== previousName) {
-          newName = name
+          newName = name;
           break;
         }
       }
     }
 
-    const newEntry = entries.find(d => d.name === newName)
+    const newEntry = entries.find((d) => d.name === newName);
     setEntry(newEntry || entries[99]);
     setName("");
     if (caught) {
@@ -137,10 +139,9 @@ const Catch = () => {
       <Background />
       <View style={[pageContainer]}>
         {entry && (
-          <>
+          <View style={[styles.entryContainer]}>
             <View
               style={[
-                styles.catchContainer,
                 {
                   width: imageWidth,
                   marginInline: "auto",
@@ -160,7 +161,6 @@ const Catch = () => {
                     height={imageHeight}
                     uri={entry.uri}
                   />
-                  <Text>{entry.name}</Text>
                 </View>
               </View>
               <Text style={[styles.catchText]}>Catch</Text>
@@ -216,7 +216,7 @@ const Catch = () => {
                 </View>
               </View>
             </View>
-          </>
+          </View>
         )}
       </View>
     </>
@@ -226,8 +226,9 @@ const Catch = () => {
 export default Catch;
 
 const styles = StyleSheet.create({
-  catchContainer: {
-    alignItems: "stretch",
+  entryContainer: {
+    paddingVertical: 16,
+    gap: 16,
   },
   catchImageContainer: {
     borderColor: palette.form.color,
@@ -235,16 +236,17 @@ const styles = StyleSheet.create({
     backgroundColor: palette.form.backgroundColor,
   },
   catchText: {
+    lineHeight: 30,
+    fontSize: 30,
+    paddingTop: 2,
+    paddingBottom: 3,
+    letterSpacing: 1,
     textAlign: "center",
     textTransform: "uppercase",
-    paddingHorizontal: 6,
-    fontSize: 28,
     fontFamily: "Poppins-Bold",
-    letterSpacing: 1,
     ...palette.option.primary,
   },
   guessContainer: {
-    marginTop: 20,
     alignItems: "center",
     gap: 30,
   },
@@ -276,8 +278,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textTransform: "uppercase",
     paddingHorizontal: 14,
-    paddingVertical: 2,
-    fontSize: 24,
+    paddingVertical: 8,
+    fontSize: 26,
+    lineHeight: 26,
     fontFamily: "Poppins-Bold",
     letterSpacing: 1,
   },
