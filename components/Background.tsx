@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet } from "react-native";
 import Svg, { Defs, Pattern, Rect, Image as SvgImage } from "react-native-svg";
 

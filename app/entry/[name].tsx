@@ -18,7 +18,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 
 const EntryByName = () => {

@@ -1,5 +1,5 @@
 import { palette } from "@/lib/styles";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Image, Pressable, StyleSheet, TextInput, View } from "react-native";
 
 const imageFocus = require("@/assets/images/search-icon-focus.png");

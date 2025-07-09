@@ -14,7 +14,6 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import React from "react";
 import {
   ScrollView,
   StyleSheet,

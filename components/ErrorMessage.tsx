@@ -1,6 +1,5 @@
 import { animationError } from "@/lib/animations";
 import { palette } from "@/lib/styles";
-import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import StepAnimation from "./StepAnimation";
 

@@ -1,5 +1,5 @@
 import { palette } from "@/lib/styles";
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 type Props = {

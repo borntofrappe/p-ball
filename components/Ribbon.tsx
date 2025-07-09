@@ -1,5 +1,5 @@
 import { palette } from "@/lib/styles";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 const imagePattern = require("@/assets/images/app-pattern-overlay.png");
 

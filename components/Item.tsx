@@ -1,5 +1,4 @@
 import { defaultImage } from "@/lib/styles";
-import React from "react";
 import {
   Image,
   StyleProp,

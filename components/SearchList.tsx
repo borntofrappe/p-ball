@@ -1,5 +1,4 @@
 import { palette } from "@/lib/styles";
-import React from "react";
 import {
   FlatList,
   Image,

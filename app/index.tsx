@@ -1,7 +1,6 @@
 import { useSpin } from "@/lib/hooks";
 import { palette } from "@/lib/styles";
 import { Link } from "expo-router";
-import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
 
