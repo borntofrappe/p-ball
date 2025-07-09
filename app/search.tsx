@@ -1,4 +1,4 @@
-import { getSearchEntries } from "@/api/queries";
+import { getEntriesData } from "@/api/queries";
 import Background from "@/components/Background";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchBox from "@/components/SearchBox";
@@ -17,9 +17,9 @@ type status = undefined | "pending" | "resolve";
 const Search = () => {
   const db = useSQLiteContext();
 
-  const { data: searchEntries } = useQuery({
+  const { data: entries } = useQuery({
     queryKey: ["search", { db }],
-    queryFn: () => getSearchEntries({ db }),
+    queryFn: () => getEntriesData({ db }),
   });
 
   const router = useRouter();
@@ -63,8 +63,7 @@ const Search = () => {
     });
   };
 
-  const entries =
-    searchEntries && searchEntries.filter((d) => filter.test(d.name));
+  const searchEntries = entries && entries.filter((d) => filter.test(d.name));
 
   return (
     <>
@@ -88,7 +87,7 @@ const Search = () => {
           </View>
         ) : (
           <>
-            {entries && entries.length > 0 ? (
+            {searchEntries && searchEntries.length > 0 ? (
               <View
                 style={[
                   styles.entriesContainer,
@@ -98,7 +97,7 @@ const Search = () => {
                 ]}
               >
                 <SearchList
-                  items={entries}
+                  items={searchEntries}
                   onSelect={selectEntryByName}
                   highlight={value}
                 />

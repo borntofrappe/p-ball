@@ -1,10 +1,10 @@
 import { SQLiteDatabase } from "expo-sqlite";
 
-export const getSearchEntries = async ({
+export const getEntriesData = async ({
   db,
 }: {
   db: SQLiteDatabase;
-}): Promise<SearchEntry[]> => {
+}): Promise<EntryLookup[]> => {
   const result: { name: string; img: number[] }[] = await db.getAllAsync(
     "SELECT name, img FROM entry"
   );
@@ -272,27 +272,4 @@ export const getCatchesByName = async ({
     Red: [],
     Blue: [],
   };
-};
-
-export const getRandomSearchEntry = async ({
-  db,
-  excludeName = "",
-}: {
-  db: SQLiteDatabase;
-  excludeName?: string;
-}): Promise<SearchEntry | undefined> => {
-  const result: { name: string; img: number[] }[] = await db.getAllAsync(
-    "SELECT name, img FROM entry WHERE name != ?",
-    [excludeName]
-  );
-
-  if (result) {
-    const { name, img } = result[Math.floor(Math.random() * result.length)];
-    const base64Data = btoa(String.fromCharCode.apply(null, img));
-    const uri = "data:image/png;base64," + base64Data;
-    return {
-      name,
-      uri,
-    };
-  }
 };

@@ -1,8 +1,3 @@
-type SearchEntry = {
-  name: string;
-  uri: string;
-};
-
 type Entry = {
   no: string;
   name: string;
@@ -12,6 +7,8 @@ type Entry = {
   description: string;
   uri: string;
 };
+
+type EntryLookup = Pick<Entry, "name" | "uri">;
 
 type Area = {
   name: string;

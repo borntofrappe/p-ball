@@ -1,95 +1,114 @@
-import { getRandomSearchEntry } from "@/api/queries";
+import { getEntriesData } from "@/api/queries";
 import Background from "@/components/Background";
+import CatchPaddle from "@/components/CatchPaddle";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PixelatedImage from "@/components/PixelatedImage";
 import { pageContainer, palette, singleContainer } from "@/lib/styles";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { useRef, useState } from "react";
-import {
-  Image,
-  ImageStyle,
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-
-const imagePaddle = require("@/assets/images/catch-paddle.png");
-
-type PaddleProps = {
-  angle: number;
-  imageStyles?: StyleProp<ImageStyle>;
-};
-
-const Paddle = ({ angle, imageStyles = {} }: PaddleProps) => {
-  return (
-    <Image
-      style={[
-        {
-          width: 60,
-          height: 30,
-        },
-        imageStyles,
-        {
-          transform: [
-            {
-              rotateZ: `${angle}deg`,
-            },
-          ],
-        },
-      ]}
-      source={imagePaddle}
-    />
-  );
-};
+import { useEffect, useRef, useState } from "react";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 const Catch = () => {
   const db = useSQLiteContext();
-  const queryClient = useQueryClient();
+
+  const {
+    data: entries,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["catch", { db }],
+    queryFn: async () => getEntriesData({ db }),
+  });
+
+  const textInput = useRef<TextInput>(null);
+  const [caught, setCaught] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [entry, setEntry] = useState<EntryLookup>();
+  const [record, setRecord] = useState<Record<string, number>>({});
+  const [hasInitialized, setHasInitialized] = useState(false);
+
+  useEffect(() => {
+    if (entries && !hasInitialized) {
+      setEntry(entries[Math.floor(Math.random() * entries.length)]);
+      setRecord(
+        entries.reduce((acc, curr) => {
+          acc[curr.name] = 0;
+          return acc;
+        }, {} as Record<string, number>)
+      );
+      setHasInitialized(true);
+    }
+  }, [entries]);
 
   const imageScale = 3;
   const imageWidth = 46 * imageScale;
   const imageHeight = 30 * imageScale;
 
-  const textInput = useRef<TextInput>(null);
-  const [caught, setCaught] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-
-  let {
-    data: seachEntry,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["catch"],
-    queryFn: () => getRandomSearchEntry({ db, excludeName: name }),
-  });
-
   const guessName = () => {
-    if (caught || seachEntry === undefined) return;
+    if (caught || entries === undefined || entry === undefined) return;
 
-    if (name.toLowerCase() === seachEntry.name.toLowerCase()) {
-      textInput.current?.blur();
+    if (name.toLowerCase().trim() === entry.name.toLowerCase()) {
+      const name = entry.name;
+
       setCaught(true);
+      setRecord((prevRecord) => {
+        const newRecord = { ...prevRecord };
+        newRecord[name] += 1;
+        return newRecord;
+      });
+
+      textInput.current?.blur();
     } else {
       textInput.current?.focus();
     }
   };
 
   const nextName = async () => {
-    if (seachEntry === undefined) return;
+    if (entries === undefined || entry === undefined) return;
 
-    await queryClient.invalidateQueries({ queryKey: ["catch"] });
+    const { name: previousName } = entry;
+    let newName: string | undefined;
 
-    if (caught) {
-      setCaught(false);
+    const weights = [];
+    let totalWeight = 0;
+    let frequencyPairs = Object.entries(record);
+    const randomFrequencyPairs: [string, number][] = [];
+
+    while (frequencyPairs.length > 0) {
+      const i = Math.floor(Math.random() * frequencyPairs.length);
+      randomFrequencyPairs.push(frequencyPairs.splice(i, 1)[0]);
     }
 
-    if (name !== "") {
-      setName("");
+    const sortedFrequencyPairs = randomFrequencyPairs.sort(
+      (a, b) => a[1] - b[1]
+    );
+
+    for (const [, value] of sortedFrequencyPairs) {
+      const weight = 1 / (value + 1);
+      weights.push(weight);
+      totalWeight += weight;
+    }
+
+    while (newName === undefined) {
+      let randomWeight = Math.random() * totalWeight;
+
+      for (let i = 0; i < sortedFrequencyPairs.length; i++) {
+        randomWeight -= weights[i];
+        const name = sortedFrequencyPairs[i][0];
+        if (randomWeight <= 0 && name !== previousName) {
+          newName = name;
+          break;
+        }
+      }
+    }
+
+    const newEntry = entries.find((d) => d.name === newName);
+    setEntry(newEntry || entries[99]);
+    setName("");
+    if (caught) {
+      setCaught(false);
     }
 
     textInput.current?.focus();
@@ -119,11 +138,10 @@ const Catch = () => {
     <>
       <Background />
       <View style={[pageContainer]}>
-        {seachEntry && (
-          <>
+        {entry && (
+          <View style={[styles.entryContainer]}>
             <View
               style={[
-                styles.catchContainer,
                 {
                   width: imageWidth,
                   marginInline: "auto",
@@ -141,7 +159,7 @@ const Catch = () => {
                   <PixelatedImage
                     width={imageWidth}
                     height={imageHeight}
-                    uri={seachEntry.uri}
+                    uri={entry.uri}
                   />
                 </View>
               </View>
@@ -159,7 +177,7 @@ const Catch = () => {
                 onSubmitEditing={guessName}
               />
               <View style={[styles.actionsContainer]}>
-                <Paddle angle={20} imageStyles={[styles.actionsImage]} />
+                <CatchPaddle angle={20} imageStyles={[styles.actionsImage]} />
                 <View style={[styles.optionsContainer]}>
                   <Pressable
                     onPress={guessName}
@@ -194,11 +212,11 @@ const Catch = () => {
                     },
                   ]}
                 >
-                  <Paddle angle={20} imageStyles={[styles.actionsImage]} />
+                  <CatchPaddle angle={20} imageStyles={[styles.actionsImage]} />
                 </View>
               </View>
             </View>
-          </>
+          </View>
         )}
       </View>
     </>
@@ -208,8 +226,9 @@ const Catch = () => {
 export default Catch;
 
 const styles = StyleSheet.create({
-  catchContainer: {
-    alignItems: "stretch",
+  entryContainer: {
+    paddingVertical: 16,
+    gap: 16,
   },
   catchImageContainer: {
     borderColor: palette.form.color,
@@ -217,16 +236,17 @@ const styles = StyleSheet.create({
     backgroundColor: palette.form.backgroundColor,
   },
   catchText: {
+    lineHeight: 30,
+    fontSize: 30,
+    paddingTop: 2,
+    paddingBottom: 3,
+    letterSpacing: 1,
     textAlign: "center",
     textTransform: "uppercase",
-    paddingHorizontal: 6,
-    fontSize: 28,
     fontFamily: "Poppins-Bold",
-    letterSpacing: 1,
     ...palette.option.primary,
   },
   guessContainer: {
-    marginTop: 20,
     alignItems: "center",
     gap: 30,
   },
@@ -258,8 +278,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textTransform: "uppercase",
     paddingHorizontal: 14,
-    paddingVertical: 2,
-    fontSize: 24,
+    paddingVertical: 8,
+    fontSize: 26,
+    lineHeight: 26,
     fontFamily: "Poppins-Bold",
     letterSpacing: 1,
   },
