@@ -102,8 +102,6 @@ const Catch = () => {
       }
     }
 
-    console.log(sortedFrequencyPairs)
-    console.log(weights)
     const newEntry = entries.find(d => d.name === newName)
     setEntry(newEntry || entries[99]);
     setName("");
