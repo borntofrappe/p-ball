@@ -1,4 +1,4 @@
-type SearchEntry = {
+type BaseEntry = {
   name: string;
   uri: string;
 };

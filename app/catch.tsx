@@ -1,4 +1,4 @@
-import { getSearchEntries } from "@/api/queries";
+import { getBaseEntries } from "@/api/queries";
 import Background from "@/components/Background";
 import CatchPaddle from "@/components/CatchPaddle";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -19,7 +19,7 @@ const Catch = () => {
     isLoading,
   } = useQuery({
     queryKey: ["catch", { db }],
-    queryFn: async () => getSearchEntries({ db }),
+    queryFn: async () => getBaseEntries({ db }),
   });
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Catch = () => {
   const textInput = useRef<TextInput>(null);
   const [caught, setCaught] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
-  const [baseEntry, setBaseEntry] = useState<SearchEntry>();
+  const [baseEntry, setBaseEntry] = useState<BaseEntry>();
   const [hasInitialized, setHasInitialized] = useState(false);
 
   const guessName = () => {

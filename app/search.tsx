@@ -1,4 +1,4 @@
-import { getSearchEntries } from "@/api/queries";
+import { getBaseEntries } from "@/api/queries";
 import Background from "@/components/Background";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchBox from "@/components/SearchBox";
@@ -17,9 +17,9 @@ type status = undefined | "pending" | "resolve";
 const Search = () => {
   const db = useSQLiteContext();
 
-  const { data: searchEntries } = useQuery({
+  const { data: baseEntries } = useQuery({
     queryKey: ["search", { db }],
-    queryFn: () => getSearchEntries({ db }),
+    queryFn: () => getBaseEntries({ db }),
   });
 
   const router = useRouter();
@@ -63,8 +63,7 @@ const Search = () => {
     });
   };
 
-  const entries =
-    searchEntries && searchEntries.filter((d) => filter.test(d.name));
+  const entries = baseEntries && baseEntries.filter((d) => filter.test(d.name));
 
   return (
     <>
