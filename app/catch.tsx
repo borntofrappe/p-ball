@@ -1,4 +1,4 @@
-import { getBaseEntries } from "@/api/queries";
+import { getEntriesData } from "@/api/queries";
 import Background from "@/components/Background";
 import CatchPaddle from "@/components/CatchPaddle";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -14,20 +14,20 @@ const Catch = () => {
   const db = useSQLiteContext();
 
   const {
-    data: baseEntries,
+    data: entries,
     error,
     isLoading,
   } = useQuery({
     queryKey: ["catch", { db }],
-    queryFn: async () => getBaseEntries({ db }),
+    queryFn: async () => getEntriesData({ db }),
   });
 
   useEffect(() => {
-    if (baseEntries && !hasInitialized) {
-      setBaseEntry(baseEntries[0]);
+    if (entries && !hasInitialized) {
+      setEntry(entries[0]);
       setHasInitialized(true);
     }
-  }, [baseEntries]);
+  }, [entries]);
 
   const imageScale = 3;
   const imageWidth = 46 * imageScale;
@@ -36,13 +36,13 @@ const Catch = () => {
   const textInput = useRef<TextInput>(null);
   const [caught, setCaught] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
-  const [baseEntry, setBaseEntry] = useState<BaseEntry>();
+  const [entry, setEntry] = useState<EntryLookup>();
   const [hasInitialized, setHasInitialized] = useState(false);
 
   const guessName = () => {
-    if (caught || baseEntries === undefined || baseEntry === undefined) return;
+    if (caught || entries === undefined || entry === undefined) return;
 
-    if (name.toLowerCase() === baseEntry.name.toLowerCase()) {
+    if (name.toLowerCase() === entry.name.toLowerCase()) {
       textInput.current?.blur();
       setCaught(true);
     } else {
@@ -51,9 +51,9 @@ const Catch = () => {
   };
 
   const nextName = async () => {
-    if (baseEntries === undefined || baseEntry === undefined) return;
+    if (entries === undefined || entry === undefined) return;
 
-    setBaseEntry(baseEntries[1]);
+    setEntry(entries[1]);
 
     if (caught) {
       setCaught(false);
@@ -87,7 +87,7 @@ const Catch = () => {
     <>
       <Background />
       <View style={[pageContainer]}>
-        {baseEntry && (
+        {entry && (
           <>
             <View
               style={[
@@ -109,7 +109,7 @@ const Catch = () => {
                   <PixelatedImage
                     width={imageWidth}
                     height={imageHeight}
-                    uri={baseEntry.uri}
+                    uri={entry.uri}
                   />
                 </View>
               </View>

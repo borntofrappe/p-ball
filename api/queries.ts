@@ -1,10 +1,10 @@
 import { SQLiteDatabase } from "expo-sqlite";
 
-export const getBaseEntries = async ({
+export const getEntriesData = async ({
   db,
 }: {
   db: SQLiteDatabase;
-}): Promise<BaseEntry[]> => {
+}): Promise<EntryLookup[]> => {
   const result: { name: string; img: number[] }[] = await db.getAllAsync(
     "SELECT name, img FROM entry"
   );
