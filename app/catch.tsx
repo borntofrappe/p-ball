@@ -1,24 +1,33 @@
-import { getRandomSearchEntry } from "@/api/queries";
+import { getSearchEntries } from "@/api/queries";
 import Background from "@/components/Background";
 import CatchPaddle from "@/components/CatchPaddle";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PixelatedImage from "@/components/PixelatedImage";
 import { pageContainer, palette, singleContainer } from "@/lib/styles";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { useRef, useState } from "react";
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View
-} from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 const Catch = () => {
   const db = useSQLiteContext();
-  const queryClient = useQueryClient();
+
+  const {
+    data: baseEntries,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["catch", { db }],
+    queryFn: async () => getSearchEntries({ db }),
+  });
+
+  useEffect(() => {
+    if (baseEntries && !hasInitialized) {
+      setBaseEntry(baseEntries[0]);
+      setHasInitialized(true);
+    }
+  }, [baseEntries]);
 
   const imageScale = 3;
   const imageWidth = 46 * imageScale;
@@ -27,20 +36,13 @@ const Catch = () => {
   const textInput = useRef<TextInput>(null);
   const [caught, setCaught] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
-
-  let {
-    data: seachEntry,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["catch"],
-    queryFn: () => getRandomSearchEntry({ db, excludeName: name }),
-  });
+  const [baseEntry, setBaseEntry] = useState<SearchEntry>();
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   const guessName = () => {
-    if (caught || seachEntry === undefined) return;
+    if (caught || baseEntries === undefined || baseEntry === undefined) return;
 
-    if (name.toLowerCase() === seachEntry.name.toLowerCase()) {
+    if (name.toLowerCase() === baseEntry.name.toLowerCase()) {
       textInput.current?.blur();
       setCaught(true);
     } else {
@@ -49,18 +51,15 @@ const Catch = () => {
   };
 
   const nextName = async () => {
-    if (seachEntry === undefined) return;
+    if (baseEntries === undefined || baseEntry === undefined) return;
 
-    await queryClient.invalidateQueries({ queryKey: ["catch"] });
+    setBaseEntry(baseEntries[1]);
 
     if (caught) {
       setCaught(false);
     }
 
-    if (name !== "") {
-      setName("");
-    }
-
+    setName("");
     textInput.current?.focus();
   };
 
@@ -88,7 +87,7 @@ const Catch = () => {
     <>
       <Background />
       <View style={[pageContainer]}>
-        {seachEntry && (
+        {baseEntry && (
           <>
             <View
               style={[
@@ -110,7 +109,7 @@ const Catch = () => {
                   <PixelatedImage
                     width={imageWidth}
                     height={imageHeight}
-                    uri={seachEntry.uri}
+                    uri={baseEntry.uri}
                   />
                 </View>
               </View>
