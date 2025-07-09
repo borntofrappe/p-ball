@@ -1,5 +1,6 @@
 import { getRandomSearchEntry } from "@/api/queries";
 import Background from "@/components/Background";
+import CatchPaddle from "@/components/CatchPaddle";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PixelatedImage from "@/components/PixelatedImage";
@@ -8,44 +9,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { useRef, useState } from "react";
 import {
-  Image,
-  ImageStyle,
   Pressable,
-  StyleProp,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
-
-const imagePaddle = require("@/assets/images/catch-paddle.png");
-
-type PaddleProps = {
-  angle: number;
-  imageStyles?: StyleProp<ImageStyle>;
-};
-
-const Paddle = ({ angle, imageStyles = {} }: PaddleProps) => {
-  return (
-    <Image
-      style={[
-        {
-          width: 60,
-          height: 30,
-        },
-        imageStyles,
-        {
-          transform: [
-            {
-              rotateZ: `${angle}deg`,
-            },
-          ],
-        },
-      ]}
-      source={imagePaddle}
-    />
-  );
-};
 
 const Catch = () => {
   const db = useSQLiteContext();
@@ -159,7 +128,7 @@ const Catch = () => {
                 onSubmitEditing={guessName}
               />
               <View style={[styles.actionsContainer]}>
-                <Paddle angle={20} imageStyles={[styles.actionsImage]} />
+                <CatchPaddle angle={20} imageStyles={[styles.actionsImage]} />
                 <View style={[styles.optionsContainer]}>
                   <Pressable
                     onPress={guessName}
@@ -194,7 +163,7 @@ const Catch = () => {
                     },
                   ]}
                 >
-                  <Paddle angle={20} imageStyles={[styles.actionsImage]} />
+                  <CatchPaddle angle={20} imageStyles={[styles.actionsImage]} />
                 </View>
               </View>
             </View>
