@@ -26,19 +26,19 @@ const Catch = () => {
   const [caught, setCaught] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [entry, setEntry] = useState<EntryLookup>();
-  const [record, setRecord] = useState<Record<string, number>>({});
-  const [hasInitialized, setHasInitialized] = useState(false);
+  const recordRef = useRef<Record<string, number>>({});
+  const isRecordInitialized = useRef(false);
 
   useEffect(() => {
-    if (entries && !hasInitialized) {
+    if (entries && !isRecordInitialized.current) {
       setEntry(entries[Math.floor(Math.random() * entries.length)]);
-      setRecord(
-        entries.reduce((acc, curr) => {
-          acc[curr.name] = 0;
-          return acc;
-        }, {} as Record<string, number>)
-      );
-      setHasInitialized(true);
+      const initialRecord = entries.reduce((acc, curr) => {
+        acc[curr.name] = 0;
+        return acc;
+      }, {} as Record<string, number>);
+
+      recordRef.current = initialRecord;
+      isRecordInitialized.current = true;
     }
   }, [entries]);
 
@@ -53,12 +53,7 @@ const Catch = () => {
       const name = entry.name;
 
       setCaught(true);
-      setRecord((prevRecord) => {
-        const newRecord = { ...prevRecord };
-        newRecord[name] += 1;
-        return newRecord;
-      });
-
+      recordRef.current[name] += 1;
       textInput.current?.blur();
     } else {
       textInput.current?.focus();
@@ -73,7 +68,7 @@ const Catch = () => {
 
     const weights = [];
     let totalWeight = 0;
-    let frequencyPairs = Object.entries(record);
+    let frequencyPairs = Object.entries(recordRef.current);
     const randomFrequencyPairs: [string, number][] = [];
 
     while (frequencyPairs.length > 0) {
