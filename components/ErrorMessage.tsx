@@ -1,5 +1,5 @@
 import { animationError } from "@/lib/animations";
-import { palette } from "@/lib/styles";
+import { fontFamily, palette } from "@/lib/styles";
 import { StyleSheet, Text, View } from "react-native";
 import StepAnimation from "./StepAnimation";
 
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontFamily: "PixelEntry",
+    fontFamily: fontFamily.pixelEntry,
     fontSize: 22,
     maxWidth: 360,
     textAlign: "center",

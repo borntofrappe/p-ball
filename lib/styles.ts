@@ -70,6 +70,12 @@ export const palette = {
   },
 };
 
+export const fontFamily = {
+  comicBold: "ComicNeue-Bold",
+  pixelEntry: "PixelEntry",
+  poppinsBold: "PoppinsBold",
+};
+
 export const pageContainer: StyleProp<ViewStyle> = {
   maxWidth: 500,
   flex: 1,

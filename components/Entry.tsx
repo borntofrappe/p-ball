@@ -1,5 +1,5 @@
 import PixelatedImage from "@/components/PixelatedImage";
-import { palette } from "@/lib/styles";
+import { fontFamily, palette } from "@/lib/styles";
 import { StyleSheet, Text, View } from "react-native";
 
 const Entry = ({
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    fontFamily: "PixelEntry",
+    fontFamily: fontFamily.pixelEntry,
     color: palette.white,
     letterSpacing: 0.75,
   },

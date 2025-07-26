@@ -1,4 +1,4 @@
-import { palette } from "@/lib/styles";
+import { fontFamily, palette } from "@/lib/styles";
 import { useRef } from "react";
 import { Image, Pressable, StyleSheet, TextInput, View } from "react-native";
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     color: palette.input.color,
-    fontFamily: "ComicNeue-Bold",
+    fontFamily: fontFamily.comicBold,
     fontSize: 24,
     borderColor: palette.green,
     borderWidth: 2,

@@ -1,4 +1,5 @@
 import Ribbon from "@/components/Ribbon";
+import { fontFamily } from "@/lib/styles";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -12,11 +13,12 @@ const queryClient = new QueryClient();
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const { comicBold, pixelEntry, poppinsBold } = fontFamily;
+
   const [loaded, error] = useFonts({
-    "ComicNeue-Bold": require("../assets/fonts/ComicNeue-Bold.ttf"),
-    "ComicNeue-Regular": require("../assets/fonts/ComicNeue-Regular.ttf"),
-    PixelEntry: require("../assets/fonts/PixelEntry.ttf"),
-    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+    [comicBold]: require("@/assets/fonts/ComicNeue-Bold.ttf"),
+    [pixelEntry]: require("@/assets/fonts/PixelEntry.ttf"),
+    [poppinsBold]: require("@/assets/fonts/Poppins-Bold.ttf"),
   });
 
   useEffect(() => {

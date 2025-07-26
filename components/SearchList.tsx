@@ -1,4 +1,4 @@
-import { palette } from "@/lib/styles";
+import { fontFamily, palette } from "@/lib/styles";
 import {
   FlatList,
   Image,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   listItemText: {
-    fontFamily: "PixelEntry",
+    fontFamily: fontFamily.pixelEntry,
     fontSize: 22,
     letterSpacing: 0.2,
     color: palette.searchItem.color,

@@ -1,4 +1,4 @@
-import { palette } from "@/lib/styles";
+import { fontFamily, palette } from "@/lib/styles";
 import { PropsWithChildren } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   label: {
-    fontFamily: "ComicNeue-Bold",
+    fontFamily: fontFamily.comicBold,
     position: "absolute",
     fontSize: 20,
     letterSpacing: 0.5,

@@ -1,4 +1,4 @@
-import { defaultImage } from "@/lib/styles";
+import { defaultImage, fontFamily } from "@/lib/styles";
 import {
   Image,
   StyleProp,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontFamily: "ComicNeue-Bold",
+    fontFamily: fontFamily.comicBold,
     fontSize: 20,
     maxWidth: 100,
     textAlign: "center",

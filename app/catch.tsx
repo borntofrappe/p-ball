@@ -4,7 +4,12 @@ import CatchPaddle from "@/components/CatchPaddle";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PixelatedImage from "@/components/PixelatedImage";
-import { pageContainer, palette, singleContainer } from "@/lib/styles";
+import {
+  fontFamily,
+  pageContainer,
+  palette,
+  singleContainer,
+} from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { useEffect, useRef, useState } from "react";
@@ -238,7 +243,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textAlign: "center",
     textTransform: "uppercase",
-    fontFamily: "Poppins-Bold",
+    fontFamily: fontFamily.poppinsBold,
     ...palette.option.primary,
   },
   guessContainer: {
@@ -263,7 +268,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     textAlign: "center",
     fontSize: 28,
-    fontFamily: "ComicNeue-Bold",
+    fontFamily: fontFamily.comicBold,
   },
   actionsImage: {
     width: 70,
@@ -276,7 +281,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 26,
     lineHeight: 26,
-    fontFamily: "Poppins-Bold",
+    fontFamily: fontFamily.poppinsBold,
     letterSpacing: 1,
   },
   inactive: {

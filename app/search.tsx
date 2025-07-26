@@ -5,7 +5,7 @@ import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import StepAnimation from "@/components/StepAnimation";
 import { animationNotFound } from "@/lib/animations";
-import { pageContainer, singleContainer } from "@/lib/styles";
+import { fontFamily, pageContainer, singleContainer } from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   notFoundText: {
-    fontFamily: "ComicNeue-Bold",
+    fontFamily: fontFamily.poppinsBold,
     fontSize: 28,
   },
 });

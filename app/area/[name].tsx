@@ -6,6 +6,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import Panel from "@/components/Panel";
 import PixelatedImage from "@/components/PixelatedImage";
 import {
+  fontFamily,
   pageContainer,
   palette,
   panelsContainer,
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleText: {
-    fontFamily: "ComicNeue-Bold",
+    fontFamily: fontFamily.comicBold,
     fontSize: 26,
   },
 });
