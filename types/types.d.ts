@@ -1,3 +1,5 @@
+type Version = "Red" | "Blue";
+
 type Entry = {
   no: string;
   name: string;
@@ -8,16 +10,9 @@ type Entry = {
   uri: string;
 };
 
-type EntryLookup = Pick<Entry, "name" | "uri">;
-
 type Area = {
   name: string;
   uri: string;
 };
 
-type Item = {
-  name: string;
-  uri: string;
-};
-
-type Version = "Red" | "Blue";
+type EntryLookup = Pick<Entry, "name" | "uri">;

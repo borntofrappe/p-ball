@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 type Props = {
-  items: Item[];
+  items: { name: string; uri: string }[];
   onSelect: (text: string) => void;
   highlight?: string;
 };

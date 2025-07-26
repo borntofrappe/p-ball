@@ -77,7 +77,7 @@ export const getLocationsByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<{ Red: Item[]; Blue: Item[] }> => {
+}): Promise<{ Red: Area[]; Blue: Area[] }> => {
   const result = await db.getAllAsync<{
     name: string;
     version: Version;
@@ -131,7 +131,7 @@ export const getConnectionsByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<Item[]> => {
+}): Promise<EntryLookup[]> => {
   const result = await db.getAllAsync<{ name: string; img: number[] }>(
     `
       SELECT name, img
@@ -226,7 +226,7 @@ export const getCatchesByName = async ({
 }: {
   db: SQLiteDatabase;
   name: string;
-}): Promise<{ Red: Item[]; Blue: Item[] }> => {
+}): Promise<{ Red: EntryLookup[]; Blue: EntryLookup[] }> => {
   const result = await db.getAllAsync<{
     name: string;
     version: Version;
@@ -253,7 +253,7 @@ export const getCatchesByName = async ({
           uri,
         };
       })
-      .reduce<{ Red: Item[]; Blue: Item[] }>(
+      .reduce<{ Red: EntryLookup[]; Blue: EntryLookup[] }>(
         (acc, curr) => {
           const { name, version, uri } = curr;
           acc[version].push({
