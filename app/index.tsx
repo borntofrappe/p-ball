@@ -7,9 +7,12 @@ import Animated from "react-native-reanimated";
 const imageIcon = require("@/assets/images/nav-icon.png");
 const imageSearch = require("@/assets/images/nav-search.png");
 const imageCatch = require("@/assets/images/nav-catch.png");
+const OPTION_IMAGE_WIDTH = 1070 / 2
+const OPTION_IMAGE_HEIGHT = 185 / 2
+const CENTER_IMAGE_SIZE = 78
 
 const index = () => {
-  const animatedStyle = useSpin({ duration: 1000, repeatCount: 2, delay: 1000 });
+  const animatedStyle = useSpin({ duration: 1000, repeatCount: 2, delay: 1200 });
 
   return (
     <View style={[styles.parentContainer]}>
@@ -19,10 +22,10 @@ const index = () => {
         </Link>
       </View>
       <View>
-        <View style={[styles.imageBackground]}></View>
+        <View style={[styles.centerBackground]}></View>
         <Animated.Image
           source={imageIcon}
-          style={[styles.image, animatedStyle]}
+          style={[styles.centerImage, animatedStyle]}
         />
       </View>
       <View style={[styles.optionContainer]}>
@@ -47,10 +50,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   optionImage: {
-    width: 300,
-    height: 61,
+    width: OPTION_IMAGE_WIDTH,
+    height: OPTION_IMAGE_HEIGHT,
   },
-  imageBackground: {
+  centerBackground: {
     height: 2,
     backgroundColor: palette.rule,
     position: "absolute",
@@ -63,9 +66,9 @@ const styles = StyleSheet.create({
       },
     ],
   },
-  image: {
+  centerImage: {
     alignSelf: "center",
-    width: 72,
-    height: 72,
+    width: CENTER_IMAGE_SIZE,
+    height: CENTER_IMAGE_SIZE,
   },
 });
