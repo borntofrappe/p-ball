@@ -1,5 +1,5 @@
 import PixelatedImage from "@/components/PixelatedImage";
-import { fontFamily, palette } from "@/lib/styles";
+import { fontFamily, imageSize, palette } from "@/lib/styles";
 import { StyleSheet, Text, View } from "react-native";
 
 const Entry = ({
@@ -11,9 +11,10 @@ const Entry = ({
   description,
   uri,
 }: Entry) => {
+  const { width: imgWidth, height: imgHeight } = imageSize;
   const imageScale = 3;
-  const imageWidth = 46 * imageScale;
-  const imageHeight = 30 * imageScale;
+  const imageWidth = imgWidth * imageScale;
+  const imageHeight = imgHeight * imageScale;
 
   return (
     <View style={[styles.entryContainer]}>

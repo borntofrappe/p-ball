@@ -1,4 +1,11 @@
-import { fontFamily, palette } from "@/lib/styles";
+import {
+  borderRadius,
+  borderWidth,
+  fontFamily,
+  fontSize,
+  palette,
+  size,
+} from "@/lib/styles";
 import { useRef } from "react";
 import { Image, Pressable, StyleSheet, TextInput, View } from "react-native";
 
@@ -50,27 +57,26 @@ export default SearchBox;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 24,
-    paddingVertical: 32,
+    paddingHorizontal: size[3],
+    paddingVertical: size[4],
     borderColor: palette.green,
-    borderWidth: 6,
-    borderRadius: 16,
+    borderWidth: borderWidth[3],
+    borderRadius: borderRadius[3],
     backgroundColor: palette.form.backgroundColor,
     flexDirection: "row",
-    gap: 12,
+    gap: size[2],
     alignItems: "center",
   },
   input: {
     flex: 1,
-    paddingHorizontal: 8,
-    paddingTop: 8,
-    paddingBottom: 8,
+    paddingHorizontal: size[1],
+    paddingVertical: size[1],
     color: palette.input.color,
     fontFamily: fontFamily.comicBold,
-    fontSize: 24,
+    fontSize: fontSize.large,
     borderColor: palette.green,
-    borderWidth: 2,
-    borderRadius: 6,
+    borderWidth: borderWidth[2],
+    borderRadius: borderRadius[1],
     backgroundColor: palette.input.backgroundColor,
   },
   button: {

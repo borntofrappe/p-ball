@@ -6,14 +6,16 @@ type Props = {
 };
 
 const image = require("@/assets/images/catch-paddle.png");
+const IMAGE_WIDTH = 60;
+const IMAGE_HEIGHT = 30;
 
 const CatchPaddle = ({ angle, imageStyles = {} }: Props) => {
   return (
     <Image
       style={[
         {
-          width: 60,
-          height: 30,
+          width: IMAGE_WIDTH,
+          height: IMAGE_HEIGHT,
         },
         imageStyles,
         {

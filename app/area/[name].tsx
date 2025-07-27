@@ -6,11 +6,14 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import Panel from "@/components/Panel";
 import PixelatedImage from "@/components/PixelatedImage";
 import {
+  centerContainer,
   fontFamily,
+  fontSize,
+  imageSize,
   pageContainer,
   palette,
   panelsContainer,
-  singleContainer,
+  size,
 } from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -27,9 +30,10 @@ const AreaByName = () => {
   const db = useSQLiteContext();
   const router = useRouter();
 
+  const { width, height } = imageSize;
   const imageScale = 4;
-  const imageWidth = 46 * imageScale;
-  const imageHeight = 30 * imageScale;
+  const imageWidth = width * imageScale;
+  const imageHeight = height * imageScale;
 
   const { name } = useLocalSearchParams<{ name: string }>();
 
@@ -58,7 +62,7 @@ const AreaByName = () => {
 
   if (error) {
     return (
-      <View style={[singleContainer]}>
+      <View style={[centerContainer]}>
         <ErrorMessage error={error} />
       </View>
     );
@@ -66,7 +70,7 @@ const AreaByName = () => {
 
   if (isLoading) {
     return (
-      <View style={[singleContainer]}>
+      <View style={[centerContainer]}>
         <LoadingSpinner />
       </View>
     );
@@ -87,14 +91,7 @@ const AreaByName = () => {
           </View>
         )}
 
-        <View
-          style={[
-            panelsContainer,
-            {
-              marginTop: 16,
-            },
-          ]}
-        >
+        <View style={[styles.panelsContainer]}>
           {catches &&
             (catches.Red.length > 0 || catches.Blue.length > 0) &&
             Object.entries(catches)
@@ -129,11 +126,15 @@ export default AreaByName;
 
 const styles = StyleSheet.create({
   titleContainer: {
-    gap: 8,
+    gap: size[1],
     alignItems: "center",
   },
   titleText: {
     fontFamily: fontFamily.comicBold,
-    fontSize: 26,
+    fontSize: fontSize.large,
+  },
+  panelsContainer: {
+    marginTop: size[2],
+    gap: size[2],
   },
 });

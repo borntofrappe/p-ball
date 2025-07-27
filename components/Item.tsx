@@ -1,4 +1,4 @@
-import { defaultImage, fontFamily } from "@/lib/styles";
+import { fontFamily, fontSize, imageSize, size } from "@/lib/styles";
 import {
   Image,
   StyleProp,
@@ -15,9 +15,18 @@ type Props = {
 };
 
 const Item = ({ name, uri, textStyle = {} }: Props) => {
+  const { width, height } = imageSize;
   return (
     <View style={[styles.container]}>
-      <Image style={[defaultImage]} source={{ uri: uri }} />
+      <Image
+        style={[
+          {
+            width,
+            height,
+          },
+        ]}
+        source={{ uri: uri }}
+      />
       <Text style={[styles.text, textStyle]}>{name}</Text>
     </View>
   );
@@ -27,13 +36,13 @@ export default Item;
 
 const styles = StyleSheet.create({
   container: {
-    gap: 4,
+    gap: size[1],
     alignItems: "center",
   },
   text: {
     fontFamily: fontFamily.comicBold,
-    fontSize: 20,
-    maxWidth: 100,
+    fontSize: fontSize.medium,
+    maxWidth: 120,
     textAlign: "center",
   },
 });

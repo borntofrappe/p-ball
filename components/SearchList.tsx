@@ -1,4 +1,12 @@
-import { fontFamily, palette } from "@/lib/styles";
+import {
+  borderRadius,
+  fontFamily,
+  fontSize,
+  palette,
+  size,
+  imageSize,
+  grayScaleContainer,
+} from "@/lib/styles";
 import {
   FlatList,
   Image,
@@ -19,6 +27,7 @@ const ITEM_HEIGHT = 60;
 const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
   const regex = new RegExp(highlight, "i");
   const { length } = highlight;
+  const { width, height } = imageSize;
   return (
     <FlatList
       data={items}
@@ -33,7 +42,7 @@ const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
           <Pressable
             style={({ pressed }) => [
               {
-                opacity: pressed ? 0.5 : 1,
+                opacity: pressed ? 0.7 : 1,
               },
             ]}
             onPress={() => {
@@ -60,10 +69,17 @@ const SearchList = ({ items, onSelect, highlight = "" }: Props) => {
                 {end}
               </Text>
               <View style={[styles.listItemImageContainer]}>
-                <Image
-                  style={[styles.listItemImage]}
-                  source={{ uri: item.uri }}
-                />
+                <View style={[grayScaleContainer]}>
+                  <Image
+                    style={[
+                      {
+                        width,
+                        height,
+                      },
+                    ]}
+                    source={{ uri: item.uri }}
+                  />
+                </View>
               </View>
             </View>
           </Pressable>
@@ -88,15 +104,15 @@ export default SearchList;
 
 const styles = StyleSheet.create({
   listContainer: {
-    gap: 8,
+    gap: size[1],
   },
   listItemContainer: {
     backgroundColor: palette.searchItem.backgroundColor,
-    borderRadius: 8,
+    borderRadius: borderRadius[2],
   },
   listItemText: {
     fontFamily: fontFamily.pixelEntry,
-    fontSize: 22,
+    fontSize: fontSize.medium,
     letterSpacing: 0.2,
     color: palette.searchItem.color,
   },
@@ -105,10 +121,5 @@ const styles = StyleSheet.create({
   },
   listItemImageContainer: {
     backgroundColor: palette.white,
-  },
-  listItemImage: {
-    width: 46,
-    height: 30,
-    filter: "grayscale(1) brightness(0.1)",
   },
 });

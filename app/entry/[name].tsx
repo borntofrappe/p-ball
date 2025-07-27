@@ -10,16 +10,17 @@ import Item from "@/components/Item";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Panel from "@/components/Panel";
 import {
+  centerContainer,
   pageContainer,
   palette,
   panelsContainer,
-  singleContainer,
+  size,
 } from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useRef } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 const EntryByName = () => {
   const db = useSQLiteContext();
@@ -75,7 +76,7 @@ const EntryByName = () => {
 
   if (error) {
     return (
-      <View style={[singleContainer]}>
+      <View style={[centerContainer]}>
         <ErrorMessage error={error} />
       </View>
     );
@@ -83,7 +84,7 @@ const EntryByName = () => {
 
   if (isLoading) {
     return (
-      <View style={[singleContainer]}>
+      <View style={[centerContainer]}>
         <LoadingSpinner />
       </View>
     );
@@ -105,14 +106,7 @@ const EntryByName = () => {
           />
         )}
 
-        <View
-          style={[
-            panelsContainer,
-            {
-              marginTop: 16,
-            },
-          ]}
-        >
+        <View style={[styles.panelsContainer]}>
           {locations &&
             (locations.Red.length > 0 || locations.Blue.length > 0) &&
             Object.entries(locations)
@@ -165,3 +159,10 @@ const EntryByName = () => {
 };
 
 export default EntryByName;
+
+const styles = StyleSheet.create({
+  panelsContainer: {
+    marginTop: size[2],
+    gap: size[2],
+  },
+});

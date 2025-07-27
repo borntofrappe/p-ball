@@ -76,25 +76,50 @@ export const fontFamily = {
   poppinsBold: "PoppinsBold",
 };
 
-export const pageContainer: StyleProp<ViewStyle> = {
-  maxWidth: 500,
-  flex: 1,
-  width: "100%",
-  marginInline: "auto",
-  paddingHorizontal: 16,
-  paddingVertical: 16,
+export const fontSize = {
+  normal: 20,
+  medium: 22,
+  large: 28,
 };
 
-export const defaultImage: StyleProp<ImageStyle> = {
+export const borderRadius = {
+  1: 6,
+  2: 8,
+  3: 12,
+};
+
+export const borderWidth = {
+  1: 2,
+  2: 3,
+  3: 5,
+};
+
+export const size = {
+  1: 8,
+  2: 12,
+  3: 16,
+  4: 28,
+  5: 32,
+};
+
+export const imageSize = {
   width: 46,
   height: 30,
 };
 
-export const panelsContainer: StyleProp<ViewStyle> = {
-  gap: 16,
+export const pageContainer: StyleProp<ViewStyle> = {
+  maxWidth: 480,
+  flex: 1,
+  width: "100%",
+  marginInline: "auto",
+  paddingHorizontal: size[3],
+  paddingVertical: size[3],
 };
 
-export const singleContainer: StyleProp<ViewStyle> = {
-  marginTop: 16,
+export const centerContainer: StyleProp<ViewStyle> = {
   alignSelf: "center",
+};
+
+export const grayScaleContainer: StyleProp<ViewStyle> = {
+  filter: "grayscale(1) brightness(0.1)",
 };

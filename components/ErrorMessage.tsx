@@ -1,5 +1,5 @@
 import { animationError } from "@/lib/animations";
-import { fontFamily, palette } from "@/lib/styles";
+import { fontFamily, fontSize, palette, size } from "@/lib/styles";
 import { StyleSheet, Text, View } from "react-native";
 import StepAnimation from "./StepAnimation";
 
@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: fontFamily.pixelEntry,
-    fontSize: 22,
+    fontSize: fontSize.medium,
     maxWidth: 360,
     textAlign: "center",
     color: palette.white,
     backgroundColor: palette.black,
-    paddingHorizontal: 2,
-    paddingVertical: 1,
+    paddingHorizontal: size[2],
+    paddingVertical: size[1],
   },
 });

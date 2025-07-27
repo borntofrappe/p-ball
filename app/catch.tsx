@@ -5,10 +5,10 @@ import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PixelatedImage from "@/components/PixelatedImage";
 import {
+  centerContainer,
   fontFamily,
   pageContainer,
   palette,
-  singleContainer,
 } from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
@@ -120,7 +120,7 @@ const Catch = () => {
 
   if (error) {
     return (
-      <View style={[singleContainer]}>
+      <View style={[centerContainer]}>
         <ErrorMessage error={error} />
       </View>
     );
@@ -128,7 +128,7 @@ const Catch = () => {
 
   if (isLoading) {
     return (
-      <View style={[singleContainer]}>
+      <View style={[centerContainer]}>
         <LoadingSpinner />
       </View>
     );

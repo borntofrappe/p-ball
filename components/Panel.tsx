@@ -1,4 +1,4 @@
-import { fontFamily, palette } from "@/lib/styles";
+import { borderWidth, fontFamily, fontSize, palette, size } from "@/lib/styles";
 import { PropsWithChildren } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -45,20 +45,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     flexDirection: "row",
-    gap: 30,
-    paddingVertical: 38,
-    paddingHorizontal: 22,
-    borderWidth: 3,
-    marginTop: 12,
+    gap: size[4],
+    paddingVertical: size[5],
+    paddingHorizontal: size[3],
+    borderWidth: borderWidth[2],
+    marginTop: size[3],
   },
   label: {
     fontFamily: fontFamily.comicBold,
     position: "absolute",
-    fontSize: 20,
+    fontSize: fontSize.medium,
     letterSpacing: 0.5,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    left: 12,
+    paddingHorizontal: size[2],
+    paddingVertical: 2,
+    left: "5%",
     top: 0,
     transform: [
       {

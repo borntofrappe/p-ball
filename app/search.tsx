@@ -5,7 +5,13 @@ import SearchBox from "@/components/SearchBox";
 import SearchList from "@/components/SearchList";
 import StepAnimation from "@/components/StepAnimation";
 import { animationNotFound } from "@/lib/animations";
-import { fontFamily, pageContainer, singleContainer } from "@/lib/styles";
+import {
+  centerContainer,
+  fontFamily,
+  fontSize,
+  pageContainer,
+  size,
+} from "@/lib/styles";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
@@ -82,7 +88,14 @@ const Search = () => {
           onClearText={resetValue}
         />
         {status === "pending" ? (
-          <View style={[singleContainer]}>
+          <View
+            style={[
+              centerContainer,
+              {
+                marginTop: size[3],
+              },
+            ]}
+          >
             <LoadingSpinner duration={timeout / 1.5} />
           </View>
         ) : (
@@ -103,7 +116,14 @@ const Search = () => {
                 />
               </View>
             ) : (
-              <View style={[singleContainer]}>
+              <View
+                style={[
+                  centerContainer,
+                  {
+                    marginTop: size[3],
+                  },
+                ]}
+              >
                 <View style={[styles.notFoundContainer]}>
                   <StepAnimation {...animationNotFound} />
                   <Text style={[styles.notFoundText]}>Not even a nibble</Text>
@@ -121,15 +141,15 @@ export default Search;
 
 const styles = StyleSheet.create({
   entriesContainer: {
-    marginTop: 12,
-    marginHorizontal: 8,
+    marginTop: size[2],
+    marginHorizontal: size[1],
   },
   notFoundContainer: {
     alignItems: "center",
-    gap: 8,
+    gap: size[1],
   },
   notFoundText: {
     fontFamily: fontFamily.poppinsBold,
-    fontSize: 28,
+    fontSize: fontSize.large,
   },
 });
