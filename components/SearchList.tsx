@@ -117,8 +117,7 @@ const styles = StyleSheet.create({
     color: palette.searchItem.color,
   },
   listItemHighlight: {
-
-        borderBottomColor: palette.searchItem.highlight,
+    backgroundColor: palette.searchItem.highlight,
   },
   listItemImageContainer: {
     backgroundColor: palette.white,

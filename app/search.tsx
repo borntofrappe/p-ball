@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     gap: size[1],
   },
   notFoundText: {
-    fontFamily: fontFamily.poppinsBold,
+    fontFamily: fontFamily.comicBold,
     fontSize: fontSize.large,
   },
 });
