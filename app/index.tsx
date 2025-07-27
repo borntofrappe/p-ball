@@ -7,8 +7,8 @@ import Animated from "react-native-reanimated";
 const imageIcon = require("@/assets/images/nav-icon.png");
 const imageSearch = require("@/assets/images/nav-search.png");
 const imageCatch = require("@/assets/images/nav-catch.png");
-const OPTION_IMAGE_WIDTH = 1070 / 2;
-const OPTION_IMAGE_HEIGHT = 185 / 2;
+const OPTION_IMAGE_WIDTH = 1070 / 3;
+const OPTION_IMAGE_HEIGHT = 185 / 3;
 const CENTER_IMAGE_SIZE = 78;
 
 const index = () => {
