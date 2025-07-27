@@ -22,7 +22,7 @@ export const palette = {
   searchItem: {
     color: "#ffffff",
     backgroundColor: "#150c03",
-    highlight: "#555555",
+    highlight: "#82c05daa",
   },
   panel: {
     Yellow: {

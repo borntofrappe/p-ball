@@ -112,12 +112,13 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontFamily: fontFamily.pixelEntry,
-    fontSize: fontSize.medium,
+    fontSize: fontSize.medium * 1.1,
     letterSpacing: 0.2,
     color: palette.searchItem.color,
   },
   listItemHighlight: {
-    color: palette.searchItem.highlight,
+
+        borderBottomColor: palette.searchItem.highlight,
   },
   listItemImageContainer: {
     backgroundColor: palette.white,
